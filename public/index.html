@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ABCWallet</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    button {
+      display: inline-block;
+      margin: 8px;
+      padding: 8px 16px;
+      border: 1px solid #EEE;
+      border-radius: 4px;
+      background: #FFF;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    请打开控制台查看调试信息。
+  </p>
+
+  <section>
+    <h2>Webview 接口</h2>
+    <div id="webview" class="container"></div>
+  </section>
+
+  <section>
+    <h2>Private 接口</h2>
+    <div id="private" class="container"></div>
+  </section>
+
+  <section>
+    <h2>Common 接口</h2>
+    <div id="common" class="container"></div>
+  </section>
+
+  <script src="./abcwallet.umd.js"></script>
+  <script src="./jquery.min.js"></script>
+  <script>
+    console.log(ABCWallet)
+
+    // Webview API test
+    $('#webview').append([
+      $('<button>setOrientation horizontal</button>').on('click', function () {
+        ABCWallet.webview.setOrientation({ horizontal: true })
+      }),
+      $('<button>setOrientation vertical</button>').on('click', function () {
+        ABCWallet.webview.setOrientation({ horizontal: false })
+      }),
+      $('<button>setTitlebar White</button>').on('click', function () {
+        ABCWallet.webview.setTitlebar({
+          title: 'hello world',
+          ghost: false,
+          forecolor: '#FFF',
+          bgcolor: '#000',
+          left: false,
+        })
+      }),
+      $('<button>setTitlebar Black</button>').on('click', function () {
+        ABCWallet.webview.setTitlebar({
+          title: 'hello world',
+          ghost: true,
+          forecolor: '#000',
+          bgcolor: '#FFF',
+          left: true,
+        })
+      }),
+      $('<button>back</button>').on('click', function () {
+        ABCWallet.webview.back()
+      }),
+      $('<button>close</button>').on('click', function () {
+        ABCWallet.webview.close()
+      }),
+      $('<button>openUrl</button>').on('click', function () {
+        ABCWallet.webview.openUrl({ url: 'https://ip.cn/' })
+      }),
+      $('<button>invokeQRScanner</button>').on('click', async function () {
+        const ret = await ABCWallet.webview.invokeQRScanner()
+        console.log('QRCode content:', ret)
+      }),
+    ])
+
+    // Private API test
+    $('#private').append([
+      $('<button>ensureHasCard</button>').on('click', function () {
+        ABCWallet.private.ensureHasCard({ chainType: 'eth' })
+      }),
+      $('<button>buildGiftTransaction</button>').on('click', async function () {
+        const ret = await ABCWallet.private.buildGiftTransaction({
+          chainType: 'eth',
+          toAddress: '0xbA70b3269Ee6C358CfC75eA56C2C3e53c28207CE',
+          toPrivateKey: '0x20932d1966b7ddeeeb79bfb446bc2f3dcd96e963c5f0bcce7bae32d2519b244e',
+          value: '1000000000',
+          skin: 1,
+          message: 'hello world',
+        })
+        console.log('Signed transaction:', ret)
+      }),
+    ])
+
+    // Common API test
+    $('#common').append([
+      $('<button>showTransactionDetail</button>').on('click', async function () {
+        await ABCWallet.common.showTransactionDetail({
+          chainType: 'eth',
+          trxId: '0xd75ee7480c73629460bd17b7c1d1bb7967307101c2b615b297c20e8f37e23672'
+        })
+      }),
+      $('<button>showAddressBook</button>').on('click', async function () {
+        const ret = await ABCWallet.common.showAddressBook({
+          chainType: 'eth',
+        })
+        console.log('Selected account/address:', ret)
+      }),
+      $('<button>showCards</button>').on('click', async function () {
+        const ret = await ABCWallet.common.showCards({
+          chainType: 'eth',
+        })
+        console.log('Selected account/address:', ret)
+      }),
+    ])
+
+    // ABCWallet.response({ "jsonrpc": "2.0", "id": "", "namespace": "", "method": "changeCurrency", "params": { "address": "XXXXXX" } })
+    ABCWallet.on('notify:changeIdentity', function (params) {
+      console.log('Receive notify:', params)
+    })
+
+    // ABCWallet.response({ "jsonrpc": "2.0", "id": "", "namespace": "", "method": "changeCurrency", "params": { "language": "cn" } })
+    ABCWallet.on('notify:changeLanguage', function (params) {
+      console.log('Receive notify:', params)
+    })
+
+    // ABCWallet.response({ "jsonrpc": "2.0", "id": "", "namespace": "", "method": "changeCurrency", "params": { "currency": "CNY" } })
+    ABCWallet.on('notify:changeCurrency', function (params) {
+      console.log('Receive notify:', params)
+    })
+  </script>
+</body>
+</html>

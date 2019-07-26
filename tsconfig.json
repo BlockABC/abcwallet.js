@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    // "strict": true, // 如果条件允许还是要开启严格模式
+    "target": "es6", // 输出代码的版本
+    "module": "es6", // 输出代码的模块风格
+    "moduleResolution": "node", // 采用 Node 的方式解析模块
+    "resolveJsonModule": true, // 解析 JSON 模块
+    "noImplicitThis": true, // 除非人为指定，否则 this 的类型不能为 any
+    "allowSyntheticDefaultImports": true, // 即使没有 export default 的模块，也能导入 default
+    "sourceMap": true, // 生成 source map
+    "experimentalDecorators": true, // 启用装饰器语法
+    "emitDecoratorMetadata": true, // 启用类型元数据
+    "baseUrl": "./",
+    "declaration": true, // 生成类型声明
+    "declarationDir": "./types" // 声明输出到 types 目录
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "types",
+    "test"
+  ]
+}

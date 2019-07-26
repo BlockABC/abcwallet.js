@@ -1,0 +1,25 @@
+# OS
+.DS_Store
+thumbs.db
+
+# Node
+coverage
+node_modules/
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.node_repl_history
+.yarn-integrity
+
+# gitkeep
+!.gitkeep
+
+# IDE & Editor
+.idea/
+.vscode/
+
+# Application
+dist/
+types/

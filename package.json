@@ -1,0 +1,53 @@
+{
+  "name": "abcwallet",
+  "version": "0.0.1",
+  "description": "eospark-service is a package for eospark api service",
+  "scripts": {
+    "build": "webpack --mode=production --config webpack.conf.js",
+    "build:analysis": "webpack --mode=production --env.analysis --config webpack.conf.js",
+    "dev": "webpack-dev-server --mode=development --config webpack.conf.js",
+    "lint": "eslint --ext .ts --fix src/ test/",
+    "lint:nofix": "eslint --ext .ts src/ test/",
+    "test": "jest",
+    "test:coverage": "jest --collect-coverage"
+  },
+  "keywords": [
+    "eospark",
+    "api",
+    "service"
+  ],
+  "author": "BlockABC FE Team",
+  "private": true,
+  "module": "./dist/index.esm.js",
+  "browser": "./dist/index.umd.js",
+  "dependencies": {
+    "eventemitter3": "^4.0.0",
+    "lodash-es": "^4.17.15",
+    "loglevel": "^1.6.3",
+    "ts-custom-error": "^3.0.0",
+    "vconsole": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.13.4",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "chokidar": "^3.0.2",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard-with-typescript": "^7.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.0",
+    "ts-loader": "^5.0.0",
+    "typescript": "^3.0.0",
+    "webpack": "^4.29.6",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1"
+  }
+}
