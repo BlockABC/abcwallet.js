@@ -81,15 +81,17 @@ export class ABCWallet extends EventEmitter {
     else {
       // provider 中对应的 promise 取出并 resolve
       const promise = this._promises.get(msg.id)
+      if (!promise) {
+        this.log.error(`ABCWallet.response can not find promise[${msg.id}]:`, promise.path)
+      }
+
       const duration = (new Date()).getTime() - promise.createdAt.getTime()
       if (duration > 5000) {
         this.log.warn('ABCWallet.response take too long(more than 5000ms):', promise.path)
       }
 
       // 删除已处理的 promise
-      {
-        this._promises.delete(msg.id)
-      }
+      this._promises.delete(msg.id)
       this.log.debug('ABCWallet.response find and delete promise:', msg.id)
 
       if (msg.error) {

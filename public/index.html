@@ -53,6 +53,12 @@
       $('<button>setOrientation vertical</button>').on('click', function () {
         ABCWallet.webview.setOrientation({ horizontal: false })
       }),
+      $('<button>setFullscreen on</button>').on('click', function () {
+        ABCWallet.webview.setFullscreen({ fullscreen: true })
+      }),
+      $('<button>setFullscreen off</button>').on('click', function () {
+        ABCWallet.webview.setFullscreen({ fullscreen: false })
+      }),
       $('<button>setTitlebar White</button>').on('click', function () {
         ABCWallet.webview.setTitlebar({
           title: 'hello world',
@@ -82,6 +88,9 @@
           title: 'hello world',
           ghost: false,
         })
+      }),
+      $('<button>home</button>').on('click', function () {
+        ABCWallet.webview.home()
       }),
       $('<button>back</button>').on('click', function () {
         ABCWallet.webview.back()
