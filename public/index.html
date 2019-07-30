@@ -127,12 +127,12 @@
 
     // Common API test
     $('#common').append([
-      $('<button>showTransactionDetail</button>').on('click', async function () {
-        await ABCWallet.common.showTransactionDetail({
-          chainType: 'eth',
-          trxId: '0xd75ee7480c73629460bd17b7c1d1bb7967307101c2b615b297c20e8f37e23672'
-        })
-      }),
+      // $('<button>showTransactionDetail</button>').on('click', async function () {
+      //   await ABCWallet.common.showTransactionDetail({
+      //     chainType: 'eth',
+      //     trxId: '0xd75ee7480c73629460bd17b7c1d1bb7967307101c2b615b297c20e8f37e23672'
+      //   })
+      // }),
       $('<button>showAddressBook</button>').on('click', async function () {
         const ret = await ABCWallet.common.showAddressBook({
           chainType: 'eth',

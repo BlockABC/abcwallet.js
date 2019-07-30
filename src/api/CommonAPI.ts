@@ -4,14 +4,14 @@ import BaseAPI from './BaseAPI'
 export class CommonAPI extends BaseAPI {
   protected _namespace = 'common'
 
-  showTransactionDetail (params: { chainType: string; trxId: string }) {
-    verifyParams(params, ['chainType', 'trxId'])
+  // showTransactionDetail (params: { chainType: string; trxId: string }) {
+  //   verifyParams(params, ['chainType', 'trxId'])
 
-    return this._request({
-      method: 'showTransactionDetail',
-      params
-    }, true)
-  }
+  //   return this._request({
+  //     method: 'showTransactionDetail',
+  //     params
+  //   }, true)
+  // }
 
   showAddressBook (params: { chainType: string }) {
     verifyParams(params, ['chainType'])
