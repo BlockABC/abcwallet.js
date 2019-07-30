@@ -14,7 +14,6 @@ if (isIOSBrowser()) {
       this.hideSwitch()
     },
   })
-  send = window.webkit.messageHandlers.ABCWalletBridge.postMessage
 }
 else if (isAndroidBrowser()) {
   vconsole = new VConsole({
@@ -22,19 +21,15 @@ else if (isAndroidBrowser()) {
       this.hideSwitch()
     },
   })
-  send = window.ABCWalletBridge.postMessage
 }
 else if (isElectronBrowser()) {
 
 }
 else {
   log.warn('Can not find any available environment, start development environment.')
-  send = function (payload) {
-    console.log(JSON.stringify(payload))
-  }
 }
 
-const abcwallet = new ABCWallet(send, vconsole, log)
+const abcwallet = new ABCWallet(vconsole, log)
 
 // Mount ABCWallet on window
 window['ABCWallet'] = abcwallet

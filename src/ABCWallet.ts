@@ -5,7 +5,7 @@ import EventEmitter from 'eventemitter3'
 
 import { IRequest, IResponse, IPromise } from './interface'
 import { ABCWalletError } from './error'
-import { isRequest } from './helper'
+import { isRequest, isIOSBrowser, isAndroidBrowser, isElectronBrowser } from './helper'
 
 import WebviewAPI from './api/WebviewAPI'
 import PrivateAPI from './api/PrivateAPI'
@@ -18,14 +18,12 @@ export class ABCWallet extends EventEmitter {
   public private: PrivateAPI
   public common: CommonAPI
 
-  protected _send: Function
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
 
-  constructor (send: Function, vconsole: VConsoleInstance, logger: Logger) {
+  constructor (vconsole: VConsoleInstance, logger: Logger) {
     super()
 
-    this._send = send
     this.vconsole = vconsole
     this.log = logger
 
@@ -59,7 +57,19 @@ export class ABCWallet extends EventEmitter {
         })
       }
 
-      this._send(payload)
+      if (isIOSBrowser()) {
+        window.webkit.messageHandlers.ABCWalletBridge.postMessage(payload)
+      }
+      else if (isAndroidBrowser()) {
+        window.ABCWalletBridge.postMessage(JSON.stringify(payload))
+      }
+      else if (isElectronBrowser()) {
+
+      }
+      else {
+        this.log.warn('Can not find any available environment, start development environment.')
+        console.log(JSON.stringify(payload))
+      }
     })
   }
 

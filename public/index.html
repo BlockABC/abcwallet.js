@@ -57,18 +57,30 @@
         ABCWallet.webview.setTitlebar({
           title: 'hello world',
           ghost: false,
-          forecolor: '#FFF',
-          bgcolor: '#000',
+          forecolor: '#FFFFFF',
+          bgcolor: '#000000',
           left: false,
         })
       }),
       $('<button>setTitlebar Black</button>').on('click', function () {
         ABCWallet.webview.setTitlebar({
           title: 'hello world',
-          ghost: true,
-          forecolor: '#000',
-          bgcolor: '#FFF',
+          ghost: false,
+          forecolor: '#000000',
+          bgcolor: '#FFFFFF',
           left: true,
+        })
+      }),
+      $('<button>setTitlebar Ghost On</button>').on('click', function () {
+        ABCWallet.webview.setTitlebar({
+          title: 'hello world',
+          ghost: true,
+        })
+      }),
+      $('<button>setTitlebar Ghost Off</button>').on('click', function () {
+        ABCWallet.webview.setTitlebar({
+          title: 'hello world',
+          ghost: false,
         })
       }),
       $('<button>back</button>').on('click', function () {
