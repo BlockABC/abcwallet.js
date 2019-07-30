@@ -70,26 +70,6 @@ export class WebviewAPI extends BaseAPI {
       params: {}
     })
   }
-
-  /**
-   * 通知各端，用户点击返回主页的按钮
-   */
-  goHome () {
-    return this._request({
-      method: 'gotoHome',
-      param: {}
-    })
-  }
-
-  /**
-   * 用户在webview中点击领取礼品卡
-   */
-  onReceivingClick (params: { privateKey?: string;}) {
-    return this._request({
-      method: 'onReceivingClick',
-      param: {}
-    })
-  }
 }
 
 export default WebviewAPI
