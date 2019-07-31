@@ -7,16 +7,16 @@ import { IRequest, IResponse, IPromise } from './interface'
 import { ABCWalletError } from './error'
 import { isRequest, isIOSBrowser, isAndroidBrowser, isElectronBrowser } from './helper'
 
-import WebviewAPI from './api/WebviewAPI'
-import PrivateAPI from './api/PrivateAPI'
-import CommonAPI from './api/CommonAPI'
+import api, { WebviewAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
 
 export class ABCWallet extends EventEmitter {
   public vconsole: VConsoleInstance
   public log: Logger
   public webview: WebviewAPI
   public private: PrivateAPI
-  public common: CommonAPI
+  public btc: BTCAPI
+  public eth: ETHAPI
+  public eos: EOSAPI
 
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
@@ -27,9 +27,9 @@ export class ABCWallet extends EventEmitter {
     this.vconsole = vconsole
     this.log = logger
 
-    this.webview = new WebviewAPI(this)
-    this.private = new PrivateAPI(this)
-    this.common = new CommonAPI(this)
+    for (const key of Object.keys(api)) {
+      this[key] = new api[key](this)
+    }
 
     this._timer = setInterval(() => {
       const now = (new Date()).getTime()

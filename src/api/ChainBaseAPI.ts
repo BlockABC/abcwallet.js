@@ -1,9 +1,7 @@
 import { verifyParams } from '../helper'
 import BaseAPI from './BaseAPI'
 
-export class CommonAPI extends BaseAPI {
-  protected _namespace = 'common'
-
+export class ChainBaseAPI extends BaseAPI {
   // showTransactionDetail (params: { chainType: string; trxId: string }) {
   //   verifyParams(params, ['chainType', 'trxId'])
 
@@ -13,23 +11,19 @@ export class CommonAPI extends BaseAPI {
   //   }, true)
   // }
 
-  showAddressBook (params: { chainType: string }) {
-    verifyParams(params, ['chainType'])
-
+  showAddressBook () {
     return this._request({
       method: 'showAddressBook',
-      params
+      params: {}
     })
   }
 
-  showCards (params: { chainType: string }) {
-    verifyParams(params, ['chainType'])
-
+  showCards () {
     return this._request({
       method: 'showCards',
-      params
+      params: {}
     })
   }
 }
 
-export default CommonAPI
+export default ChainBaseAPI

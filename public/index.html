@@ -36,8 +36,16 @@
   </section>
 
   <section>
-    <h2>Common 接口</h2>
-    <div id="common" class="container"></div>
+    <h2>BTC 接口</h2>
+    <div id="btc" class="container"></div>
+  </section>
+  <section>
+    <h2>ETH 接口</h2>
+    <div id="eth" class="container"></div>
+  </section>
+  <section>
+    <h2>EOS 接口</h2>
+    <div id="eos" class="container"></div>
   </section>
 
   <script src="./abcwallet.umd.js"></script>
@@ -125,27 +133,25 @@
       }),
     ])
 
-    // Common API test
-    $('#common').append([
-      // $('<button>showTransactionDetail</button>').on('click', async function () {
-      //   await ABCWallet.common.showTransactionDetail({
-      //     chainType: 'eth',
-      //     trxId: '0xd75ee7480c73629460bd17b7c1d1bb7967307101c2b615b297c20e8f37e23672'
-      //   })
-      // }),
-      $('<button>showAddressBook</button>').on('click', async function () {
-        const ret = await ABCWallet.common.showAddressBook({
-          chainType: 'eth',
-        })
-        console.log('Selected account/address:', ret)
-      }),
-      $('<button>showCards</button>').on('click', async function () {
-        const ret = await ABCWallet.common.showCards({
-          chainType: 'eth',
-        })
-        console.log('Selected account/address:', ret)
-      }),
-    ])
+    // All chain common API test
+    for (const chain of ['btc', 'eth', 'eos']) {
+      $('#' + chain).append([
+        // $('<button>showTransactionDetail</button>').on('click', async function () {
+        //   await ABCWallet.common.showTransactionDetail({
+        //     chainType: 'eth',
+        //     trxId: '0xd75ee7480c73629460bd17b7c1d1bb7967307101c2b615b297c20e8f37e23672'
+        //   })
+        // }),
+        $('<button>showAddressBook</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].showAddressBook()
+          console.log('Selected account/address:', ret)
+        }),
+        $('<button>showCards</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].showCards()
+          console.log('Selected account/address:', ret)
+        }),
+      ])
+    }
 
     // ABCWallet.response({ "jsonrpc": "2.0", "id": "", "namespace": "", "method": "changeCurrency", "params": { "address": "XXXXXX" } })
     ABCWallet.on('notify:changeIdentity', function (params) {
