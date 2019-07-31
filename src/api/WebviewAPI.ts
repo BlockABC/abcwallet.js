@@ -68,7 +68,7 @@ export class WebviewAPI extends BaseAPI {
   /**
    * 用户在webview中点击领取礼品卡
    */
-  onReceivingClick (params: { privateKey?: string;}) {
+  onReceivingClick () {
     return this._request({
       method: 'onReceivingClick',
       param: {}
