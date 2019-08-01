@@ -5,33 +5,31 @@ import EventEmitter from 'eventemitter3'
 
 import { IRequest, IResponse, IPromise } from './interface'
 import { ABCWalletError } from './error'
-import { isRequest } from './helper'
+import { isRequest, isIOSBrowser, isAndroidBrowser, isElectronBrowser } from './helper'
 
-import WebviewAPI from './api/WebviewAPI'
-import PrivateAPI from './api/PrivateAPI'
-import CommonAPI from './api/CommonAPI'
+import api, { WebviewAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
 
 export class ABCWallet extends EventEmitter {
   public vconsole: VConsoleInstance
   public log: Logger
   public webview: WebviewAPI
   public private: PrivateAPI
-  public common: CommonAPI
+  public btc: BTCAPI
+  public eth: ETHAPI
+  public eos: EOSAPI
 
-  protected _send: Function
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
 
-  constructor (send: Function, vconsole: VConsoleInstance, logger: Logger) {
+  constructor (vconsole: VConsoleInstance, logger: Logger) {
     super()
 
-    this._send = send
     this.vconsole = vconsole
     this.log = logger
 
-    this.webview = new WebviewAPI(this)
-    this.private = new PrivateAPI(this)
-    this.common = new CommonAPI(this)
+    for (const key of Object.keys(api)) {
+      this[key] = new api[key](this)
+    }
 
     this._timer = setInterval(() => {
       const now = (new Date()).getTime()
@@ -59,7 +57,19 @@ export class ABCWallet extends EventEmitter {
         })
       }
 
-      this._send(payload)
+      if (isIOSBrowser()) {
+        window.webkit.messageHandlers.ABCWalletBridge.postMessage(payload)
+      }
+      else if (isAndroidBrowser()) {
+        window.ABCWalletBridge.postMessage(JSON.stringify(payload))
+      }
+      else if (isElectronBrowser()) {
+
+      }
+      else {
+        this.log.warn('Can not find any available environment, start development environment.')
+        console.log(JSON.stringify(payload))
+      }
     })
   }
 
@@ -71,15 +81,17 @@ export class ABCWallet extends EventEmitter {
     else {
       // provider 中对应的 promise 取出并 resolve
       const promise = this._promises.get(msg.id)
+      if (!promise) {
+        this.log.error(`ABCWallet.response can not find promise[${msg.id}]:`, promise.path)
+      }
+
       const duration = (new Date()).getTime() - promise.createdAt.getTime()
       if (duration > 5000) {
         this.log.warn('ABCWallet.response take too long(more than 5000ms):', promise.path)
       }
 
       // 删除已处理的 promise
-      {
-        this._promises.delete(msg.id)
-      }
+      this._promises.delete(msg.id)
       this.log.debug('ABCWallet.response find and delete promise:', msg.id)
 
       if (msg.error) {
