@@ -142,7 +142,7 @@
       $('<button>decryptDataWithPrivateKey</button>').on('click', async function () {
         const ret = await ABCWallet.private.decryptDataWithPrivateKey({
           chainType: 'eth',
-          chiper: 'hello world',
+          cipher: '09398B01BDEAFC59F87573EF761F773D',
           publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9'
         })
         console.log('Signed transaction:', ret)
