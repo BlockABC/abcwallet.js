@@ -131,6 +131,22 @@
         })
         console.log('Signed transaction:', ret)
       }),
+      $('<button>encryptDataWithPrivateKey</button>').on('click', async function () {
+        const ret = await ABCWallet.private.encryptDataWithPrivateKey({
+          chainType: 'eth',
+          data: 'hello world',
+          publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9'
+        })
+        console.log('Encrypted data:', ret)
+      }),
+      $('<button>decryptDataWithPrivateKey</button>').on('click', async function () {
+        const ret = await ABCWallet.private.decryptDataWithPrivateKey({
+          chainType: 'eth',
+          chiper: 'hello world',
+          publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9'
+        })
+        console.log('Signed transaction:', ret)
+      }),
     ])
 
     // All chain common API test
