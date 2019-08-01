@@ -13,7 +13,7 @@ export {
 }
 
 export default {
-  webivew: WebviewAPI,
+  webview: WebviewAPI,
   private: PrivateAPI,
   btc: BTCAPI,
   eth: ETHAPI,
