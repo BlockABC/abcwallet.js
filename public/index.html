@@ -167,8 +167,8 @@
           const ret = await ABCWallet[chain].showAddressBook()
           console.log('Selected account/address:', ret)
         }),
-        $('<button>showCards</button>').on('click', async function () {
-          const ret = await ABCWallet[chain].showCards()
+        $('<button>getReceivedAddr</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].getReceivedAddr()
           console.log('Selected account/address:', ret)
         }),
       ])

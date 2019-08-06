@@ -18,9 +18,9 @@ export class ChainBaseAPI extends BaseAPI {
     })
   }
 
-  showCards () {
+  getReceivedAddr () {
     return this._request({
-      method: 'showCards',
+      method: 'getReceivedAddr',
       params: {}
     })
   }
