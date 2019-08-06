@@ -55,6 +55,13 @@ export class WebviewAPI extends BaseAPI {
     }, true)
   }
 
+  share (params: {} = {}) {
+    return this._request({
+      method: 'share',
+      params,
+    }, true)
+  }
+
   openUrl (params: { url: string }) {
     verifyParams(params, ['url'])
 
