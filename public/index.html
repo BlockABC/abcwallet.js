@@ -163,12 +163,12 @@
         //     trxId: '0xd75ee7480c73629460bd17b7c1d1bb7967307101c2b615b297c20e8f37e23672'
         //   })
         // }),
-        $('<button>showAddressBook</button>').on('click', async function () {
-          const ret = await ABCWallet[chain].showAddressBook()
+        $('<button>getAddressFromAddressBook</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].getAddressFromAddressBook()
           console.log('Selected account/address:', ret)
         }),
-        $('<button>getAddress</button>').on('click', async function () {
-          const ret = await ABCWallet[chain].getAddress()
+        $('<button>getAddressFromCard</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].getAddressFromCard()
           console.log('Selected account/address:', ret)
         }),
       ])

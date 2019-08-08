@@ -11,16 +11,16 @@ export class ChainBaseAPI extends BaseAPI {
   //   }, true)
   // }
 
-  showAddressBook () {
+  getAddressFromAddressBook () {
     return this._request({
-      method: 'showAddressBook',
+      method: 'getAddressFromAddressBook',
       params: {}
     })
   }
 
-  getAddress () {
+  getAddressFromCard () {
     return this._request({
-      method: 'getAddress',
+      method: 'getAddressFromCard',
       params: {}
     })
   }
