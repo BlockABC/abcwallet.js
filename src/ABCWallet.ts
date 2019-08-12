@@ -73,7 +73,8 @@ export class ABCWallet extends EventEmitter {
     })
   }
 
-  response (msg: IRequest | IResponse) {
+  response (msg: any) {
+    msg = JSON.parse(msg)
     if (isRequest(msg)) {
       this.log.debug('ABCWallet.response trigger notify:', msg.id)
       this.emit(`notify:${msg.method}`, msg.params)

@@ -21,5 +21,6 @@ yarn-error.log*
 .vscode/
 
 # Application
-dist/
+# Project
+dist/*.map
 types/
