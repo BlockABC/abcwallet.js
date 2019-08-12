@@ -5,7 +5,8 @@ import { IRequest } from './interface'
 import { ABCWalletError } from './error'
 
 export function isIOSBrowser (): boolean {
-  if (!navigator.userAgent.toLowerCase().includes('ios')) {
+  const ua = navigator.userAgent.toLowerCase()
+  if (!(ua.includes('iphone') || ua.includes('ipad'))) {
     return false
   }
 
