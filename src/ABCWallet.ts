@@ -48,7 +48,7 @@ export class ABCWallet extends EventEmitter {
 
       // 如果不是通知，将 promise 的方法和回调都保存起来，等待响应
       if (!isNotify) {
-        this.log.debug('Add promise: ', payload.id)
+        this.log.debug('ABCWallet.request add promise: ', payload.id)
         this._promises.set(payload.id, {
           resolve,
           reject,
@@ -57,8 +57,21 @@ export class ABCWallet extends EventEmitter {
         })
       }
 
+      this.log.debug('ABCWallet.request will post message:', payload)
       if (isIOSBrowser()) {
-        window.webkit.messageHandlers.ABCWalletBridge.postMessage(payload)
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.ABCWalletScatter && window.webkit.messageHandlers.ABCWalletScatter.postMessage) {
+          window.webkit.messageHandlers.ABCWalletBridge.postMessage(payload)
+        }
+        else {
+          const iframe = document.createElement('iframe')
+          iframe.setAttribute('src', `abcwallet://ABCWalletBridge?data=${payload}`)
+          iframe.setAttribute('style', 'display: none')
+          document.body.appendChild(iframe)
+
+          setTimeout(() => {
+            document.body.removeChild(iframe)
+          }, 100)
+        }
       }
       else if (isAndroidBrowser()) {
         window.ABCWalletBridge.postMessage(JSON.stringify(payload))
@@ -67,7 +80,6 @@ export class ABCWallet extends EventEmitter {
 
       }
       else {
-        this.log.warn('Can not find any available environment, start development environment.')
         console.log(JSON.stringify(payload))
       }
     })
@@ -75,6 +87,9 @@ export class ABCWallet extends EventEmitter {
 
   response (msg: any) {
     msg = JSON.parse(msg)
+
+    this.log.debug('ABCWallet.response received message:', msg)
+
     if (isRequest(msg)) {
       this.log.debug('ABCWallet.response trigger notify:', msg.id)
       this.emit(`notify:${msg.method}`, msg.params)

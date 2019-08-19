@@ -5,6 +5,7 @@ import { isIOSBrowser, isAndroidBrowser, isElectronBrowser } from './helper'
 import { ABCWallet } from './ABCWallet'
 
 const log = loglevel.getLogger('ABCWallet')
+log.setLevel('debug')
 
 let vconsole = null
 let send
