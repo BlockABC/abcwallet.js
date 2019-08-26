@@ -5,13 +5,14 @@ import EventEmitter from 'eventemitter3'
 import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
 
-import api, { WebviewAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
+import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
 import NativeChannel from './channel/NativeChannel'
 import IframeChannel from './channel/IframeChannel'
 
 export class ABCWallet extends EventEmitter {
   public log: Logger
   public webview: WebviewAPI
+  public dapp: DappAPI
   public private: PrivateAPI
   public btc: BTCAPI
   public eth: ETHAPI
