@@ -6,7 +6,4 @@ log.setLevel('debug')
 
 const abcwallet = new ABCWallet(log)
 
-// Mount ABCWallet on window
-window['ABCWallet'] = abcwallet
-
 export default abcwallet
