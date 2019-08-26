@@ -1,31 +1,32 @@
 import uniqueId from 'lodash-es/uniqueId'
-import { VConsoleInstance } from 'vconsole'
 import { Logger } from 'loglevel'
 import EventEmitter from 'eventemitter3'
 
-import { IRequest, IResponse, IPromise } from './interface'
-import { ABCWalletError } from './error'
-import { isRequest, isIOSBrowser, isAndroidBrowser, isElectronBrowser } from './helper'
+import { IRequest, IPromise } from './interface'
+import { isRequest } from './helper'
 
 import api, { WebviewAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
+import NativeChannel, { INativeChannel } from './NativeChannel'
 
 export class ABCWallet extends EventEmitter {
-  public vconsole: VConsoleInstance
   public log: Logger
   public webview: WebviewAPI
   public private: PrivateAPI
   public btc: BTCAPI
   public eth: ETHAPI
   public eos: EOSAPI
+  nativeChannel: INativeChannel
 
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
 
-  constructor (vconsole: VConsoleInstance, logger: Logger) {
+  constructor (logger: Logger) {
     super()
 
-    this.vconsole = vconsole
     this.log = logger
+
+    // @ts-ignore ts2350，ts 不允许对非 void 的函数调用 new
+    this.nativeChannel = new NativeChannel('ABCWalletBridge')
 
     for (const key of Object.keys(api)) {
       this[key] = new api[key](this)
@@ -42,9 +43,9 @@ export class ABCWallet extends EventEmitter {
     }, 1000)
   }
 
-  request (payload, isNotify = false) {
+  request (payload: IRequest, isNotify = false) {
     return new Promise((resolve, reject) => {
-      payload = <IRequest>Object.assign(payload, { id: isNotify ? '' : uniqueId('abcwallet-'), jsonrpc: '2.0' })
+      payload = Object.assign(payload, { id: isNotify ? '' : uniqueId('abcwallet-'), jsonrpc: '2.0' })
 
       // 如果不是通知，将 promise 的方法和回调都保存起来，等待响应
       if (!isNotify) {
@@ -57,31 +58,7 @@ export class ABCWallet extends EventEmitter {
         })
       }
 
-      this.log.debug('ABCWallet.request will post message:', payload)
-      if (isIOSBrowser()) {
-        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.ABCWalletScatter && window.webkit.messageHandlers.ABCWalletScatter.postMessage) {
-          window.webkit.messageHandlers.ABCWalletBridge.postMessage(payload)
-        }
-        else {
-          const iframe = document.createElement('iframe')
-          iframe.setAttribute('src', `abcwallet://ABCWalletBridge?data=${payload}`)
-          iframe.setAttribute('style', 'display: none')
-          document.body.appendChild(iframe)
-
-          setTimeout(() => {
-            document.body.removeChild(iframe)
-          }, 100)
-        }
-      }
-      else if (isAndroidBrowser()) {
-        window.ABCWalletBridge.postMessage(JSON.stringify(payload))
-      }
-      else if (isElectronBrowser()) {
-
-      }
-      else {
-        console.log(JSON.stringify(payload))
-      }
+      this.nativeChannel.postMessage(payload)
     })
   }
 
