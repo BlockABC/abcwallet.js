@@ -12,6 +12,12 @@
     "test:coverage": "jest --collect-coverage",
     "prepublish": "npm run build"
   },
+  "files": [
+  	"src/",
+  	"dist/",
+  	"types/",
+  	"public/"
+  ],
   "keywords": [
     "eospark",
     "api",
