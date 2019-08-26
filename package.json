@@ -10,7 +10,7 @@
     "lint:nofix": "eslint --ext .ts src/ test/",
     "test": "jest",
     "test:coverage": "jest --collect-coverage",
-    "prepublish": "npm run build && git commit -a --amend --no-edit"
+    "prepublish": "npm run build"
   },
   "keywords": [
     "eospark",
@@ -18,7 +18,6 @@
     "service"
   ],
   "author": "BlockABC FE Team",
-  "private": true,
   "module": "./dist/index.esm.js",
   "browser": "./dist/index.umd.js",
   "dependencies": {
