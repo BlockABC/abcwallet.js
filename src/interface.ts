@@ -25,6 +25,10 @@ export interface IPromise {
   createdAt: Date,
 }
 
+export interface IChannel {
+  postMessage(data: string | any): void
+}
+
 export interface IDapp {
   id: string,
   category: string,

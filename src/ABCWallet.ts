@@ -2,11 +2,12 @@ import uniqueId from 'lodash-es/uniqueId'
 import { Logger } from 'loglevel'
 import EventEmitter from 'eventemitter3'
 
-import { IRequest, IPromise } from './interface'
+import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
 
 import api, { WebviewAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
-import NativeChannel, { INativeChannel } from './NativeChannel'
+import NativeChannel from './channel/NativeChannel'
+import IframeChannel from './channel/IframeChannel'
 
 export class ABCWallet extends EventEmitter {
   public log: Logger
@@ -15,8 +16,8 @@ export class ABCWallet extends EventEmitter {
   public btc: BTCAPI
   public eth: ETHAPI
   public eos: EOSAPI
-  nativeChannel: INativeChannel
 
+  protected _channel: IChannel
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
 
@@ -25,8 +26,12 @@ export class ABCWallet extends EventEmitter {
     window.ABCWallet = this
     this.log = logger
 
-    // @ts-ignore ts2350，ts 不允许对非 void 的函数调用 new
-    this.nativeChannel = new NativeChannel('ABCWalletBridge')
+    if (window.frameElement) {
+      this._channel = new IframeChannel()
+    }
+    else {
+      this._channel = new NativeChannel('ABCWalletBridge', logger)
+    }
 
     for (const key of Object.keys(api)) {
       this[key] = new api[key](this)
@@ -58,7 +63,9 @@ export class ABCWallet extends EventEmitter {
         })
       }
 
-      this.nativeChannel.postMessage(payload)
+      this.log.debug('ABCWallet.request will send message:', payload)
+
+      this._channel.postMessage(payload)
     })
   }
 
