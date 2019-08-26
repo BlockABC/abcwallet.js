@@ -32,9 +32,9 @@ export class ABCWallet extends EventEmitter {
       this[key] = new api[key](this)
     }
 
-    this._timer = setInterval(() => {
+    this._timer = setInterval((): void => {
       const now = (new Date()).getTime()
-      for (const [key, promise] of this._promises) {
+      for (const [, promise] of this._promises) {
         const duration = now - promise.createdAt.getTime()
         if (duration > 3600 * 1000) {
           this.log.warn('ABCWallet.response take too long(more than 5000ms):', promise.path)
@@ -43,8 +43,8 @@ export class ABCWallet extends EventEmitter {
     }, 1000)
   }
 
-  request (payload: any, isNotify = false) {
-    return new Promise((resolve, reject) => {
+  request (payload: any, isNotify = false): Promise<any> {
+    return new Promise((resolve, reject): void => {
       payload = Object.assign(payload, { id: isNotify ? '' : uniqueId('abcwallet-'), jsonrpc: '2.0' })
 
       // 如果不是通知，将 promise 的方法和回调都保存起来，等待响应

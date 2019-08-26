@@ -11,14 +11,14 @@ export class ChainBaseAPI extends BaseAPI {
   //   }, true)
   // }
 
-  getAddressFromAddressBook () {
+  getAddressFromAddressBook (): Promise<string> {
     return this._request({
       method: 'getAddressFromAddressBook',
       params: {}
     })
   }
 
-  getAddressFromCard () {
+  getAddressFromCard (): Promise<string> {
     return this._request({
       method: 'getAddressFromCard',
       params: {}

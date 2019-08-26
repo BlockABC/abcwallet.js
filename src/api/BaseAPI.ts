@@ -8,8 +8,8 @@ export class BaseAPI {
     this._abcwallet = abcwallet
   }
 
-  protected _request (payload, isNotify = false) {
-    payload['namespace'] = this._namespace
+  protected _request (payload, isNotify = false): Promise<any> {
+    payload.namespace = this._namespace
     return this._abcwallet.request(payload, isNotify)
   }
 }

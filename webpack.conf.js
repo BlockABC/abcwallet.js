@@ -76,7 +76,6 @@ module.exports = function (env = {}, argv) {
     // config.watch = true
     config.devServer = {
       host: '0.0.0.0',
-      port: 8082,
       contentBase: ['dist', 'public'],
       clientLogLevel: 'debug'
     }

@@ -41,7 +41,7 @@ export function isElectronBrowser (): boolean {
 
 export function isRequest (obj: any): obj is IRequest {
   const requiredKeys = ['jsonrpc', 'id', 'namespace', 'method', 'params']
-  return every(requiredKeys, key => {
+  return every(requiredKeys, (key): boolean => {
     return obj.hasOwnProperty(key)
   })
 }
