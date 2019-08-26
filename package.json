@@ -1,6 +1,6 @@
 {
   "name": "abcwallet",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "eospark-service is a package for eospark api service",
   "scripts": {
     "build": "webpack --mode=production --config webpack.conf.js",
@@ -13,10 +13,10 @@
     "prepublish": "npm run build"
   },
   "files": [
-  	"src/",
-  	"dist/",
-  	"types/",
-  	"public/"
+    "src/",
+    "dist/",
+    "types/",
+    "public/"
   ],
   "keywords": [
     "eospark",
