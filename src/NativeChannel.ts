@@ -24,7 +24,7 @@ export interface INativeChannel {
 function NativeChannel (requestChannel): INativeChannel {
   return {
     postMessage (data) {
-      console.log(requestChannel, data)
+      console.log(requestChannel, 'request', data)
 
       if (isIOS()) {
         if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers[requestChannel] && window.webkit.messageHandlers[requestChannel].postMessage) {

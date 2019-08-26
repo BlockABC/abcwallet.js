@@ -1,5 +1,4 @@
 import uniqueId from 'lodash-es/uniqueId'
-import { VConsoleInstance } from 'vconsole'
 import { Logger } from 'loglevel'
 import EventEmitter from 'eventemitter3'
 
@@ -10,7 +9,6 @@ import api, { WebviewAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
 import NativeChannel, { INativeChannel } from './NativeChannel'
 
 export class ABCWallet extends EventEmitter {
-  public vconsole: VConsoleInstance
   public log: Logger
   public webview: WebviewAPI
   public private: PrivateAPI
@@ -22,10 +20,9 @@ export class ABCWallet extends EventEmitter {
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
 
-  constructor (vconsole: VConsoleInstance, logger: Logger) {
+  constructor (logger: Logger) {
     super()
 
-    this.vconsole = vconsole
     this.log = logger
 
     // @ts-ignore ts2350，ts 不允许对非 void 的函数调用 new
@@ -61,7 +58,6 @@ export class ABCWallet extends EventEmitter {
         })
       }
 
-      this.log.debug('ABCWallet.request will post message:', payload)
       this.nativeChannel.postMessage(payload)
     })
   }
