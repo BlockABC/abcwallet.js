@@ -12,6 +12,7 @@
     "test:coverage": "jest --collect-coverage",
     "prepublish": "npm run build"
   },
+  "types": "./types/index.d.ts",
   "files": [
     "src/",
     "dist/",
@@ -24,8 +25,9 @@
     "service"
   ],
   "author": "BlockABC FE Team",
-  "module": "./dist/index.esm.js",
-  "browser": "./dist/index.umd.js",
+  "main": "./dist/abcwallet.umd.js",
+  "module": "./dist/abcwallet.umd.js",
+  "browser": "./dist/abcwallet.umd.js",
   "dependencies": {
     "eventemitter3": "^4.0.0",
     "lodash-es": "^4.17.15",
