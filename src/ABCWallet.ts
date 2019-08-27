@@ -22,7 +22,7 @@ export class ABCWallet extends EventEmitter {
 
   constructor (logger: Logger) {
     super()
-
+    window.ABCWallet = this
     this.log = logger
 
     // @ts-ignore ts2350，ts 不允许对非 void 的函数调用 new

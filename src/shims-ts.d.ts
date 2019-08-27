@@ -1,4 +1,5 @@
 interface Window {
-  webkit: any;
-  ABCWalletBridge: any;
+  webkit: any,
+  ABCWalletBridge: any,
+  ABCWallet: any,
 }
