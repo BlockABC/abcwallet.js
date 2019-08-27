@@ -43,7 +43,7 @@ export class ABCWallet extends EventEmitter {
     }, 1000)
   }
 
-  request (payload: IRequest, isNotify = false) {
+  request (payload: any, isNotify = false) {
     return new Promise((resolve, reject) => {
       payload = Object.assign(payload, { id: isNotify ? '' : uniqueId('abcwallet-'), jsonrpc: '2.0' })
 
