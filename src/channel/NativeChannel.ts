@@ -21,7 +21,7 @@ export class NativeChannel implements IChannel {
     const ua = navigator.userAgent.toLowerCase()
     this._isIOS = ua.includes('iphone')
     this._isAndroid = ua.includes('android')
-    this._isElectron = ua.includes('abcwallet')
+    this._isElectron = ua.includes('electron')
   }
 
   postMessage (data: any): void {
