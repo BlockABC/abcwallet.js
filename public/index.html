@@ -31,6 +31,11 @@
   </section>
 
   <section>
+    <h2>Dapp 接口</h2>
+    <div id="dapp" class="container"></div>
+  </section>
+
+  <section>
     <h2>Private 接口</h2>
     <div id="private" class="container"></div>
   </section>
@@ -48,7 +53,7 @@
     <div id="eos" class="container"></div>
   </section>
 
-  <script src="../dist/abcwallet.umd.js"></script>
+  <script src="./abcwallet.umd.js"></script>
   <script src="./jquery.min.js"></script>
   <script>
     console.log(ABCWallet)
@@ -120,6 +125,57 @@
       }),
     ])
 
+    // Dapp API test
+    $('#dapp').append([
+      $('<button>getDapp</button>').on('click', function () {
+        ABCWallet.dapp.getDapp()
+      }),
+      $('<button>isCardExist</button>').on('click', function () {
+        ABCWallet.dapp.isCardExist({ userId: 1 })
+      }),
+      $('<button>addCard</button>').on('click', function () {
+        ABCWallet.dapp.addCard({
+          userId: '95bbccf0-9968-4050-b106-9495fda0f5c3',
+          name: 'Test Third Party Card',
+          url: 'http://localhost:8080',
+          storage: '{"accessKey":"60fe9fda-5bc9-4e17-84c9-c025805cd5e5","secretKey":"d42bc38e-bf2b-4f20-ad8c-0a5fce6fd3ee","username":"blockabc","password":"ZbZrr*3SxdPj"}',
+          pages: [
+            {
+              name: 'balance',
+              url: 'http://localhost:8080/balance'
+            },
+          ]
+        })
+      }),
+      $('<button>updateCard</button>').on('click', function () {
+        ABCWallet.dapp.updateCard({
+          id: 'a8877c2f-0d13-407a-97df-5e730448223f',
+          dappId: 1,
+          userId: '95bbccf0-9968-4050-b106-9495fda0f5c3',
+          name: 'Test Third Party Card',
+          url: 'http://localhost:8080',
+          storage: '{"accessKey":"60fe9fda-5bc9-4e17-84c9-c025805cd5e5","secretKey":"d42bc38e-bf2b-4f20-ad8c-0a5fce6fd3ee","username":"blockabc","password":"ZbZrr*3SxdPj"}',
+          pages: [
+            {
+              name: 'balance',
+              url: 'http://localhost:8080/balance'
+            },
+          ]
+        })
+      }),
+      $('<button>getCard</button>').on('click', function () {
+        ABCWallet.dapp.getCard({
+          id: 'a8877c2f-0d13-407a-97df-5e730448223f',
+        })
+      }),
+      $('<button>updateCardBalance</button>').on('click', function () {
+        ABCWallet.dapp.updateCardBalance({
+          cardId: 'a8877c2f-0d13-407a-97df-5e730448223f',
+          balance: '1000'
+        })
+      }),
+    ])
+
     // Private API test
     $('#private').append([
       $('<button>ensureHasCard</button>').on('click', function () {
@@ -174,17 +230,17 @@
       ])
     }
 
-    // ABCWallet.response({ "jsonrpc": "2.0", "id": "", "namespace": "", "method": "changeCurrency", "params": { "address": "XXXXXX" } })
+    // ABCWallet.response('{ "jsonrpc": "2.0", "id": "", "namespace": "event", "method": "changeCurrency", "params": { "address": "XXXXXX" } }')
     ABCWallet.on('notify:changeIdentity', function (params) {
       console.log('Receive notify:', params)
     })
 
-    // ABCWallet.response({ "jsonrpc": "2.0", "id": "", "namespace": "", "method": "changeCurrency", "params": { "language": "cn" } })
+    // ABCWallet.response('{ "jsonrpc": "2.0", "id": "", "namespace": "event", "method": "changeCurrency", "params": { "language": "cn" } }')
     ABCWallet.on('notify:changeLanguage', function (params) {
       console.log('Receive notify:', params)
     })
 
-    // ABCWallet.response({ "jsonrpc": "2.0", "id": "", "namespace": "", "method": "changeCurrency", "params": { "currency": "CNY" } })
+    // ABCWallet.response('{ "jsonrpc": "2.0", "id": "", "namespace": "event", "method": "changeCurrency", "params": { "currency": "CNY" } }')
     ABCWallet.on('notify:changeCurrency', function (params) {
       console.log('Receive notify:', params)
     })

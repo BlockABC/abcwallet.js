@@ -2,39 +2,44 @@ import uniqueId from 'lodash-es/uniqueId'
 import { Logger } from 'loglevel'
 import EventEmitter from 'eventemitter3'
 
-import { IRequest, IPromise } from './interface'
+import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
 
-import api, { WebviewAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
-import NativeChannel, { INativeChannel } from './NativeChannel'
+import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
+import NativeChannel from './channel/NativeChannel'
+import IframeChannel from './channel/IframeChannel'
 
 export class ABCWallet extends EventEmitter {
   public log: Logger
   public webview: WebviewAPI
+  public dapp: DappAPI
   public private: PrivateAPI
   public btc: BTCAPI
   public eth: ETHAPI
   public eos: EOSAPI
-  nativeChannel: INativeChannel
 
+  protected _channel: IChannel
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
 
   constructor (logger: Logger) {
     super()
-    window.ABCWallet = this
     this.log = logger
 
-    // @ts-ignore ts2350，ts 不允许对非 void 的函数调用 new
-    this.nativeChannel = new NativeChannel('ABCWalletBridge')
+    if (window.frameElement) {
+      this._channel = new IframeChannel()
+    }
+    else {
+      this._channel = new NativeChannel('ABCWalletBridge', logger)
+    }
 
     for (const key of Object.keys(api)) {
       this[key] = new api[key](this)
     }
 
-    this._timer = setInterval(() => {
+    this._timer = setInterval((): void => {
       const now = (new Date()).getTime()
-      for (const [key, promise] of this._promises) {
+      for (const [, promise] of this._promises) {
         const duration = now - promise.createdAt.getTime()
         if (duration > 3600 * 1000) {
           this.log.warn('ABCWallet.response take too long(more than 5000ms):', promise.path)
@@ -43,8 +48,8 @@ export class ABCWallet extends EventEmitter {
     }, 1000)
   }
 
-  request (payload: any, isNotify = false) {
-    return new Promise((resolve, reject) => {
+  request (payload: any, isNotify = false): Promise<any> {
+    return new Promise((resolve, reject): void => {
       payload = Object.assign(payload, { id: isNotify ? '' : uniqueId('abcwallet-'), jsonrpc: '2.0' })
 
       // 如果不是通知，将 promise 的方法和回调都保存起来，等待响应
@@ -58,7 +63,9 @@ export class ABCWallet extends EventEmitter {
         })
       }
 
-      this.nativeChannel.postMessage(payload)
+      this.log.debug('ABCWallet.request will send message:', payload)
+
+      this._channel.postMessage(payload)
     })
   }
 

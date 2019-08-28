@@ -6,11 +6,15 @@ export class ABCWalletError extends CustomError {
     10: 'Params error, missing required params '
   }
 
-  public constructor (public code: number, message: string) {
+  public code: number
+
+  constructor (code: number, message: string) {
     super(message)
+
+    this.code = code
   }
 
-  public static fromCode (code: number, extendMessage = '') {
+  public static fromCode (code: number, extendMessage = ''): ABCWalletError {
     return new ABCWalletError(code, ABCWalletError.messages[code] + extendMessage)
   }
 }

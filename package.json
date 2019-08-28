@@ -2,6 +2,8 @@
   "name": "abcwallet",
   "version": "0.0.4",
   "description": "eospark-service is a package for eospark api service",
+  "repository": "https://github.com/BlockABC/abcwallet_dapp_sdk",
+  "license": "MIT",
   "scripts": {
     "build": "webpack --mode=production --config webpack.conf.js",
     "build:analysis": "webpack --mode=production --env.analysis --config webpack.conf.js",
