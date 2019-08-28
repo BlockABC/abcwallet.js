@@ -24,7 +24,6 @@ export class ABCWallet extends EventEmitter {
 
   constructor (logger: Logger) {
     super()
-    window.ABCWallet = this
     this.log = logger
 
     if (window.frameElement) {
