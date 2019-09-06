@@ -27,7 +27,7 @@ export class ABCWallet extends EventEmitter {
     window.ABCWallet = this
     this.log = logger
 
-    if (window.frameElement) {
+    if (window.self !== window.top) {
       this._channel = new IframeChannel()
     }
     else {
