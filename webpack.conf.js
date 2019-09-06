@@ -34,11 +34,12 @@ module.exports = function (env = {}, argv) {
     },
     module: {
       rules: [{
-        test: /\.(ts)$/,
+        test: /\.(js|ts)$/,
         include: [SRC],
         use: {
           loader: 'ts-loader',
           options: {
+            transpileOnly: true,
             onlyCompileBundledFiles: true
           }
         }
