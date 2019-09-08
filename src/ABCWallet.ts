@@ -4,10 +4,8 @@ import EventEmitter from 'eventemitter3'
 
 import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
-
 import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
-import NativeChannel from './channel/NativeChannel'
-import IframeChannel from './channel/IframeChannel'
+import { NativeChannel, IframeChannel } from './channel'
 
 export class ABCWallet extends EventEmitter {
   public log: Logger
@@ -29,6 +27,9 @@ export class ABCWallet extends EventEmitter {
 
     if (window.self !== window.top) {
       this._channel = new IframeChannel()
+      window.onmessage = (event): void => {
+        this.response(event.data)
+      }
     }
     else {
       this._channel = new NativeChannel('ABCWalletBridge', logger)
@@ -100,7 +101,7 @@ export class ABCWallet extends EventEmitter {
         promise.reject.call(this, msg.error)
       }
       else {
-        this.log.error('ABCWallet.response result:', msg.result)
+        this.log.debug('ABCWallet.response result:', msg.result)
         promise.resolve.call(this, msg.result)
       }
     }
