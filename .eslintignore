@@ -1,3 +1,5 @@
 dist/
+esm/
+cjs/
 node_modules/
 types/
