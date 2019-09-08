@@ -55,7 +55,7 @@ export class NativeChannel implements IChannel {
     else {
       this.log.info(`Development runtime environment, no data will be sent.
 You may create mock response like this in console:
-ABCWallet.responmse(JSON.stringify(JSON.stringify( { your expected response object } )))
+ABCWallet.response(JSON.stringify(JSON.stringify( { your expected response object } )))
 `)
     }
   }
