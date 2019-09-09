@@ -28,7 +28,9 @@ export class ABCWallet extends EventEmitter {
     if (window.self !== window.top) {
       this._channel = new IframeChannel()
       window.onmessage = (event): void => {
-        this.response(event.data)
+        if (event.data && typeof event.data === 'string' && event.data.includes('"jsonrpc":"2.0"')) {
+          this.response(event.data)
+        }
       }
     }
     else {
