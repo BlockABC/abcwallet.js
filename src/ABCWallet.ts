@@ -88,6 +88,7 @@ export class ABCWallet extends EventEmitter {
       const promise = this._promises.get(msg.id)
       if (!promise) {
         this.log.error(`ABCWallet.response can not find promise for message:`, msg.id)
+        return
       }
 
       const duration = (new Date()).getTime() - promise.createdAt.getTime()
