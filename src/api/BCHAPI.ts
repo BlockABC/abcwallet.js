@@ -2,11 +2,11 @@ import { verifyParams } from '../helper'
 import ChainBaseAPI from './ChainBaseAPI'
 
 export class BCHAPI extends ChainBaseAPI {
-  protected _namespace = 'btc'
+  protected _namespace = 'bch'
 
-  getAddressesFromCard (): Promise<string> {
+  offerIdentity (): Promise<string> {
     return this._request({
-      method: 'getAddressesFromCard',
+      method: 'offerIdentity',
       params: {}
     })
   }
@@ -20,7 +20,7 @@ export class BCHAPI extends ChainBaseAPI {
 
   sendTransaction (params: { rawTransaction: string; unspents: string }): Promise<void> {
     return this._request({
-      method: 'sign',
+      method: 'sendTransaction',
       params
     })
   }

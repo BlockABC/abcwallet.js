@@ -4,9 +4,9 @@ import ChainBaseAPI from './ChainBaseAPI'
 export class BTCAPI extends ChainBaseAPI {
   protected _namespace = 'btc'
 
-  getAddressesFromCard (): Promise<string> {
+  offerIdentity (): Promise<string> {
     return this._request({
-      method: 'getAddressesFromCard',
+      method: 'offerIdentity',
       params: {}
     })
   }
@@ -20,7 +20,7 @@ export class BTCAPI extends ChainBaseAPI {
 
   sendTransaction (params: { rawTransaction: string; unspents: string }): Promise<void> {
     return this._request({
-      method: 'sign',
+      method: 'sendTransaction',
       params
     })
   }

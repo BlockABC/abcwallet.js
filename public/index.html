@@ -238,9 +238,9 @@
     ;(() => {
       const chain = 'btc'
       $('#' + chain).append([
-        $('<button>getAddressesFromCard</button>').on('click', async function () {
-          const ret = await ABCWallet[chain].getAddressesFromCard()
-          console.log('Selected addresses:', ret)
+        $('<button>offerIdentity</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].offerIdentity()
+          console.log('Selected indentity:', ret)
         }),
         $('<button>sign</button>').on('click', async function () {
           const ret = await ABCWallet[chain].sign({
@@ -277,9 +277,9 @@
     ;(() => {
       const chain = 'bch'
       $('#' + chain).append([
-        $('<button>getAddressesFromCard</button>').on('click', async function () {
-          const ret = await ABCWallet[chain].getAddressesFromCard()
-          console.log('Selected addresses:', ret)
+        $('<button>offerIdentity</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].offerIdentity()
+          console.log('Selected indentity:', ret)
         }),
         $('<button>sign</button>').on('click', async function () {
           const ret = await ABCWallet[chain].sign({
