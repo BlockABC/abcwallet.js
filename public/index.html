@@ -238,6 +238,10 @@
     ;(() => {
       const chain = 'btc'
       $('#' + chain).append([
+        $('<button>getAddressesFromCard</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].getAddressesFromCard()
+          console.log('Selected addresses:', ret)
+        }),
         $('<button>sign</button>').on('click', async function () {
           const ret = await ABCWallet[chain].sign({
             rawTransaction: '0200000001a847cbd85dfa4c3798d5451cad58b10283bc1931c65966d73a376030c9cf58bd0000000000ffffffff0122020000000000001976a914c72abc3c3250d662fe60de5c5cd363830144108f88ac00000000',
@@ -273,6 +277,10 @@
     ;(() => {
       const chain = 'bch'
       $('#' + chain).append([
+        $('<button>getAddressesFromCard</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].getAddressesFromCard()
+          console.log('Selected addresses:', ret)
+        }),
         $('<button>sign</button>').on('click', async function () {
           const ret = await ABCWallet[chain].sign({
             rawTransaction: '010000000109e08668f0ae2e67d841731b91d83a4b51f9ce0b135dbbc161af700b5865864c0100000000ffffffff0222020000000000001976a9141e1e33f09a69b8afd067c98e9737a4afedefb9bb88ac39190000000000001976a914dace780cee9a46223e39858c5351b54a13102a3c88ac00000000',
