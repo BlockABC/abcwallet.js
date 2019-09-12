@@ -5,7 +5,10 @@
   "repository": "https://github.com/BlockABC/abcwallet_dapp_sdk",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode=production --config webpack.conf.js",
+    "build": "npm run build:esm && npm run build:cjs && npm run build:umd",
+    "build:umd": "webpack --mode=production --config webpack.conf.js",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:analysis": "webpack --mode=production --env.analysis --config webpack.conf.js",
     "dev": "webpack-dev-server --mode=development --config webpack.conf.js",
     "lint": "eslint --ext .ts --fix src/ test/",
@@ -27,9 +30,9 @@
     "service"
   ],
   "author": "BlockABC FE Team",
-  "main": "./dist/abcwallet.umd.js",
-  "module": "./dist/abcwallet.umd.js",
-  "browser": "./dist/abcwallet.umd.js",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "browser": "./dist/abcwallet.umd.min.js",
   "dependencies": {
     "eventemitter3": "^4.0.0",
     "lodash-es": "^4.17.15",

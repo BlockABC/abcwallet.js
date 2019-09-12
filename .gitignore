@@ -23,4 +23,6 @@ yarn-error.log*
 # Application
 # Project
 dist/
+esm/
+cjs/
 types/

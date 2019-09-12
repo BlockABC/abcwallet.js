@@ -4,10 +4,8 @@ import EventEmitter from 'eventemitter3'
 
 import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
-
 import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, ETHAPI, EOSAPI } from './api'
-import NativeChannel from './channel/NativeChannel'
-import IframeChannel from './channel/IframeChannel'
+import { NativeChannel, IframeChannel } from './channel'
 
 export class ABCWallet extends EventEmitter {
   public log: Logger
@@ -27,8 +25,13 @@ export class ABCWallet extends EventEmitter {
     window.ABCWallet = this
     this.log = logger
 
-    if (window.frameElement) {
+    if (window.self !== window.top) {
       this._channel = new IframeChannel()
+      window.onmessage = (event): void => {
+        if (event.data && typeof event.data === 'string' && event.data.includes('"jsonrpc":"2.0"')) {
+          this.response(event.data)
+        }
+      }
     }
     else {
       this._channel = new NativeChannel('ABCWalletBridge', logger)
@@ -83,7 +86,7 @@ export class ABCWallet extends EventEmitter {
       // provider 中对应的 promise 取出并 resolve
       const promise = this._promises.get(msg.id)
       if (!promise) {
-        this.log.error(`ABCWallet.response can not find promise[${msg.id}]:`, promise.path)
+        this.log.error(`ABCWallet.response can not find promise for message:`, msg.id)
       }
 
       const duration = (new Date()).getTime() - promise.createdAt.getTime()
@@ -100,7 +103,7 @@ export class ABCWallet extends EventEmitter {
         promise.reject.call(this, msg.error)
       }
       else {
-        this.log.error('ABCWallet.response result:', msg.result)
+        this.log.debug('ABCWallet.response result:', msg.result)
         promise.resolve.call(this, msg.result)
       }
     }
