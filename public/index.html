@@ -45,6 +45,10 @@
     <div id="btc" class="container"></div>
   </section>
   <section>
+    <h2>BCH 接口</h2>
+    <div id="bch" class="container"></div>
+  </section>
+  <section>
     <h2>ETH 接口</h2>
     <div id="eth" class="container"></div>
   </section>
@@ -211,7 +215,7 @@
     ])
 
     // All chain common API test
-    for (const chain of ['btc', 'eth', 'eos']) {
+    for (const chain of ['btc', 'bch', 'eth', 'eos']) {
       $('#' + chain).append([
         // $('<button>showTransactionDetail</button>').on('click', async function () {
         //   await ABCWallet.common.showTransactionDetail({
@@ -229,6 +233,76 @@
         }),
       ])
     }
+
+    // BTC  API test
+    ;(() => {
+      const chain = 'btc'
+      $('#' + chain).append([
+        $('<button>sign</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].sign({
+            rawTransaction: '0200000001a847cbd85dfa4c3798d5451cad58b10283bc1931c65966d73a376030c9cf58bd0000000000ffffffff0122020000000000001976a914c72abc3c3250d662fe60de5c5cd363830144108f88ac00000000',
+            unspents: [
+              {
+                "txId": "bd58cfc93060373ad76659c63119bc8302b158ad1c45d598374cfa5dd8cb47a8",
+                "address": "1AD658tBqWUGGPL7YNoQZ9iRKnYaegCRLC",
+                "vout": 0,
+                "value": 789
+              }
+            ]
+          })
+          console.log('Signed transaction:', ret)
+        }),
+        $('<button>sendTransaction</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].sendTransaction({
+            rawTransaction: '0200000001a847cbd85dfa4c3798d5451cad58b10283bc1931c65966d73a376030c9cf58bd0000000000ffffffff0122020000000000001976a914c72abc3c3250d662fe60de5c5cd363830144108f88ac00000000',
+            unspents: [
+              {
+                "txId": "bd58cfc93060373ad76659c63119bc8302b158ad1c45d598374cfa5dd8cb47a8",
+                "address": "1AD658tBqWUGGPL7YNoQZ9iRKnYaegCRLC",
+                "vout": 0,
+                "value": 789
+              }
+            ]
+          })
+          console.log('Transaction ID:', ret)
+        }),
+      ])
+    })()
+
+    // BCH  API test
+    ;(() => {
+      const chain = 'bch'
+      $('#' + chain).append([
+        $('<button>sign</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].sign({
+            rawTransaction: '010000000109e08668f0ae2e67d841731b91d83a4b51f9ce0b135dbbc161af700b5865864c0100000000ffffffff0222020000000000001976a9141e1e33f09a69b8afd067c98e9737a4afedefb9bb88ac39190000000000001976a914dace780cee9a46223e39858c5351b54a13102a3c88ac00000000',
+            unspents: [
+              {
+                "txId": "4c8665580b70af61c1bb5d130bcef9514b3ad8911b7341d8672eaef06886e009",
+                "address": "bitcoincash:qrdvu7qva6dyvg378xzcc563k49pxyp28s7j5j4le7",
+                "vout": 1,
+                "value": 7204
+              }
+            ]
+          })
+          console.log('Signed transaction:', ret)
+        }),
+        $('<button>sendTransaction</button>').on('click', async function () {
+          const ret = await ABCWallet[chain].sendTransaction({
+            rawTransaction: '010000000109e08668f0ae2e67d841731b91d83a4b51f9ce0b135dbbc161af700b5865864c0100000000ffffffff0222020000000000001976a9141e1e33f09a69b8afd067c98e9737a4afedefb9bb88ac39190000000000001976a914dace780cee9a46223e39858c5351b54a13102a3c88ac00000000',
+            unspents: [
+              {
+                "txId": "4c8665580b70af61c1bb5d130bcef9514b3ad8911b7341d8672eaef06886e009",
+                "address": "bitcoincash:qrdvu7qva6dyvg378xzcc563k49pxyp28s7j5j4le7",
+                "vout": 1,
+                "value": 7204
+              }
+            ]
+          })
+          console.log('Transaction ID:', ret)
+        }),
+      ])
+    })()
 
     // ABCWallet.response('{ "jsonrpc": "2.0", "id": "", "namespace": "event", "method": "changeCurrency", "params": { "address": "XXXXXX" } }')
     ABCWallet.on('notify:changeIdentity', function (params) {

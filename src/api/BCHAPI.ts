@@ -1,7 +1,7 @@
 import { verifyParams } from '../helper'
 import ChainBaseAPI from './ChainBaseAPI'
 
-export class BTCAPI extends ChainBaseAPI {
+export class BCHAPI extends ChainBaseAPI {
   protected _namespace = 'btc'
 
   sign (params: { rawTransaction: string; unspents: string }): Promise<void> {
@@ -19,4 +19,4 @@ export class BTCAPI extends ChainBaseAPI {
   }
 }
 
-export default BTCAPI
+export default BCHAPI
