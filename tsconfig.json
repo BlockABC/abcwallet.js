@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6", // 输出代码的版本
+    "target": "es5", // 输出代码的版本
     "moduleResolution": "node", // 采用 Node 的方式解析模块
     "resolveJsonModule": true, // 解析 JSON 模块
     "noImplicitThis": true, // 除非人为指定，否则 this 的类型不能为 any

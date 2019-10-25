@@ -1,6 +1,7 @@
 import uniqueId from 'lodash-es/uniqueId'
+import isFunction from 'lodash-es/isFunction'
 import { Logger } from 'loglevel'
-import EventEmitter from 'eventemitter3'
+import * as EventEmitter from 'eventemitter3'
 
 import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
@@ -75,19 +76,25 @@ export class ABCWallet extends EventEmitter {
   }
 
   response (msg: any) {
-    msg = JSON.parse(msg)
-
-    this.log.debug('ABCWallet.response received message:', msg)
+    try {
+      msg = JSON.parse(msg)
+      this.log.debug('ABCWallet.response received message:', msg)
+    }
+    catch (err) {
+      this.log.error('ABCWallet.call parse message JSON failed.')
+      return
+    }
+    const { id, method, params } = msg
 
     if (isRequest(msg)) {
-      this.log.debug('ABCWallet.response trigger notify:', msg.id)
-      this.emit(`notify:${msg.method}`, msg.params)
+      this.log.debug('ABCWallet.response trigger notify:', id)
+      this.emit(`notify:${method}`, params)
     }
     else {
       // provider 中对应的 promise 取出并 resolve
-      const promise = this._promises.get(msg.id)
+      const promise = this._promises.get(id)
       if (!promise) {
-        this.log.error(`ABCWallet.response can not find promise for message:`, msg.id)
+        this.log.error(`ABCWallet.response can not find promise for message:`, id)
         return
       }
 
@@ -97,8 +104,8 @@ export class ABCWallet extends EventEmitter {
       }
 
       // 删除已处理的 promise
-      this._promises.delete(msg.id)
-      this.log.debug('ABCWallet.response find and delete promise:', msg.id)
+      this._promises.delete(id)
+      this.log.debug('ABCWallet.response find and delete promise:', id)
 
       if (msg.error) {
         this.log.error('ABCWallet.response error:', msg.error)
@@ -108,6 +115,40 @@ export class ABCWallet extends EventEmitter {
         this.log.debug('ABCWallet.response result:', msg.result)
         promise.resolve.call(this, msg.result)
       }
+    }
+  }
+
+  call (msg: any) {
+    try {
+      msg = JSON.parse(msg)
+      this.log.debug('ABCWallet.call received message:', msg)
+    }
+    catch (err) {
+      this.log.error('ABCWallet.call parse message JSON failed.')
+      return
+    }
+    const { id, namespace, method, params } = msg
+
+    // 根据 namespace 从全局取对应的对象
+    const obj: any = window[namespace]
+    if (!obj) {
+      this.log.error(`ABCWallet.call can not find namespace:`, namespace)
+      return
+    }
+
+    if (!obj[method] || !isFunction(obj[method])) {
+      this.log.error(`ABCWallet.call method is not exist: ${namespace}.${method}`)
+      return
+    }
+
+    const ret = obj[method](params)
+    if (ret.then && ret.catch) {
+      ret.then(ret => {
+        this._channel.postMessage({ jsonrpc: '2.0', id, result: ret })
+      })
+    }
+    else {
+      this._channel.postMessage({ jsonrpc: '2.0', id, result: ret })
     }
   }
 }
