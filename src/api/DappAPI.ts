@@ -1,5 +1,5 @@
 import { verifyParams } from '../helper'
-import { IDapp, IDappPage, ICard } from '../interface'
+import { IDapp, IDappPage, IDappCard } from '../interface'
 import BaseAPI from './BaseAPI'
 
 export class DappAPI extends BaseAPI {
@@ -21,21 +21,21 @@ export class DappAPI extends BaseAPI {
     })
   }
 
-  addCard (params: { userId: string; name: string; url: string; storage: string; pages: IDappPage[] }): Promise<ICard> {
+  addCard (params: { userId: string; name: string; url: string; storage: string; pages: IDappPage[] }): Promise<IDappCard> {
     return this._request({
       method: 'addCard',
       params
     })
   }
 
-  updateCard (params: { id: string; dappId: string; userId: string; name: string; url: string; storage: string; pages: IDappPage[] }): Promise<ICard> {
+  updateCard (params: { id: string; dappId: string; userId: string; name: string; url: string; storage: string; pages: IDappPage[] }): Promise<IDappCard> {
     return this._request({
       method: 'updateCard',
       params
     })
   }
 
-  getCard (params: { id: string }): Promise<ICard> {
+  getCard (params: { id: string }): Promise<IDappCard> {
     return this._request({
       method: 'getCard',
       params

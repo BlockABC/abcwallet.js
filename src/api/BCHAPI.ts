@@ -1,29 +1,7 @@
-import { verifyParams } from '../helper'
-import ChainBaseAPI from './ChainBaseAPI'
+import BTCAPI from './BTCAPI'
 
-export class BCHAPI extends ChainBaseAPI {
+export class BCHAPI extends BTCAPI {
   protected _namespace = 'bch'
-
-  offerIdentity (): Promise<string> {
-    return this._request({
-      method: 'offerIdentity',
-      params: {}
-    })
-  }
-
-  sign (params: { rawTransaction: string; unspents: string }): Promise<void> {
-    return this._request({
-      method: 'sign',
-      params
-    })
-  }
-
-  sendTransaction (params: { rawTransaction: string; unspents: string }): Promise<void> {
-    return this._request({
-      method: 'sendTransaction',
-      params
-    })
-  }
 }
 
 export default BCHAPI

@@ -51,7 +51,7 @@ export interface IDappPage {
   url: string,
 }
 
-export interface ICard {
+export interface IDappCard {
   id: string,
   dappId: string,
   userId: string,

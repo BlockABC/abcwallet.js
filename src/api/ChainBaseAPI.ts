@@ -1,15 +1,12 @@
-import { verifyParams } from '../helper'
 import BaseAPI from './BaseAPI'
 
 export class ChainBaseAPI extends BaseAPI {
-  // showTransactionDetail (params: { chainType: string; trxId: string }) {
-  //   verifyParams(params, ['chainType', 'trxId'])
-
-  //   return this._request({
-  //     method: 'showTransactionDetail',
-  //     params
-  //   }, true)
-  // }
+  pushSimpleTransaction (params: { from?: string, to?: string, value?: string, memo?: string }): Promise<void> {
+    return this._request({
+      method: 'pushSimpleTransaction',
+      params: {}
+    })
+  }
 
   getAddressFromAddressBook (): Promise<string> {
     return this._request({
@@ -22,6 +19,13 @@ export class ChainBaseAPI extends BaseAPI {
     return this._request({
       method: 'getAddressFromCard',
       params: {}
+    })
+  }
+
+  sendSimpleTransaction (params: { from?: string, to?:string, value?:string, memo?: string }): Promise<void> {
+    return this._request({
+      method: 'sendSimpleTransaction',
+      params,
     })
   }
 }

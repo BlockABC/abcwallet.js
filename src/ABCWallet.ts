@@ -132,12 +132,12 @@ export class ABCWallet extends EventEmitter {
     // 根据 namespace 从全局取对应的对象
     const obj: any = window[namespace]
     if (!obj) {
-      this.log.error(`ABCWallet.call can not find namespace:`, namespace)
+      this.log.error(`ABCWallet.call can not find namespace: ${namespace}`)
       return
     }
 
     if (!obj[method] || !isFunction(obj[method])) {
-      this.log.error(`ABCWallet.call method is not exist: ${namespace}.${method}`)
+      this.log.error(`ABCWallet.call can not find method: ${namespace}.${method}`)
       return
     }
 
