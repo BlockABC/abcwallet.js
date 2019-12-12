@@ -6,8 +6,8 @@
 
 ## Installation 
 
-通过 `npm i abcwallet` 即可安装本 SDK 作为项目依赖，我们同时提供了 cjs 模块和 esm 模块两种输出，可以通过设置 
-package.json 的 main 和 browser 字段来按需引用。  
+通过 `npm i abcwallet` 即可安装本 SDK 作为项目依赖，我们同时提供了 cjs 模块， esm 模块和 umd 模块三种输出，可以通过设置 
+package.json 的 main 和 browser 字段来按需引用，也可以在 html 引入 umd 模块来直接使用。  
 
 
 ## Usage
