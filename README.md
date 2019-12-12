@@ -1,37 +1,40 @@
-# ABCWallet DApp SDK
+# abcwallet.js
 
-协议文档详见 TAPD。
+这是一个用于开发运行在 ABCWallet 的 webview 中应用准备的 SDK ，通过它你可和 ABCWallet 进行一些通常浏览器中无法提供的交互
+，比如设置 webview 的外观、对区块链交易进行签名等。
 
 
-## 使用方式
+## Installation 
 
-调用特定命名空间的接口，只要使用 `ABCWallet.{namespace}.{method}( params... )` 即可调用，比如
+通过 `npm i abcwallet` 即可安装本 SDK 作为项目依赖，我们同时提供了 cjs 模块和 esm 模块两种输出，可以通过设置 
+package.json 的 main 和 browser 字段来按需引用。  
+
+
+## Usage
+
+本项目会导出一个 abcwallet 对象，如果使用模块化开发，直接引入模块即可。如果直接引入 js ，本项目会在全局暴露一个 
+ABCWallet 对象。无论何种方式，只要通过 `ABCWallet.{namespace}.{method}( params )` 即可调用对应接口。
+
+调用接口示例：
 
 ```js
-ABCWallet.btc.getAddressFromAddressBook()
+ABCWallet.webview.setOrientation({ horizontal: e.target.value })
 ```
 
-想要接收来自钱包的通知，因为 ABCWallet 是一个 EventEmitter 的子类，所以可以通过 `ABCWallet.on('notify:{event}, function (params ...) { ... } )` 来订阅通知，其中 `notify:` 是为了区分而必须的固定前缀，比如
+想要接收来自钱包的通知，因为 ABCWallet 是一个 EventEmitter 的子类，所以可以通过 
+`ABCWallet.on('notify:{event}, function (params ...) { ... } )` 来订阅通知，其中 `notify:` 是为了区分而必须的固定前缀。
+
+接收通知示例：
 
 ```js
-ABCWallet.on('notify:changeCurrency', function (params) {
+ABCWallet.on('notify:changeIdentity', function (params) {
   console.log('Receive notify:', params)
 })
 ```
 
 
-## 钱包接入开发调试
+## More
 
-钱包端开发同学不熟悉/缺少 node 运行环境的情况下，请联系前端同学帮忙启动一下开发服务。比如前端同学的机器在 hiwifi_5G2 这个局域网的 `192.168.199.100:8080`，那么首先需要加入同一个局域网，然后尝试用浏览器打开 http://192.168.199.100:8080/ ，确保浏览器能够打开成功后，就可以通过 webview 加载 http://192.168.199.100:8080/ 进行开发调试了。
+`clone` 本项目并安装依赖，然后运行 `npm run dev` 可以看到一个调试页面，该页面包含了各种接口的调用，你可以在 ABCWallet 
+钱包中打开此页面查看各种接口、参数的调试效果。
 
-页面中的各个按钮就是模仿 DApp 发起各种接口调用的，所以点击对应的按钮就能调试对应的功能。如果需要查看 js 日志，通过拦截网络请求的方式注入 vconsole。
-
-
-## 本项目开发调试
-
-1. 运行 `npm run dev` 启动开发服务器。
-2. 访问开发服务的页面，比如 http://127.0.0.1:8080/ 。
-
-页面一切正常，那么整体代码就没有问题。点击各个按钮，通常来说，只要能够确认日子打出如同预期的信息即可认为接口实现正常。
-
-开发调试页面位于 `public/` 目录，添加、删除接口时记得更新开发调试页面的测试代码，确保页面随时工作正常。
