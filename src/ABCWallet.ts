@@ -5,7 +5,7 @@ import * as EventEmitter from 'eventemitter3'
 
 import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
-import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, BCHAPI, ETHAPI, EOSAPI } from './api'
+import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, BCHAPI, ETHAPI, EOSAPI, ABCIDAPI, PartnerAPI } from './api'
 import { NativeChannel, IframeChannel } from './channel'
 
 export class ABCWallet extends EventEmitter {
@@ -17,6 +17,8 @@ export class ABCWallet extends EventEmitter {
   public bch: BCHAPI
   public eth: ETHAPI
   public eos: EOSAPI
+  public abcid: ABCIDAPI
+  public partner: PartnerAPI
 
   protected _channel: IChannel
   protected _promises: Map<string, IPromise> = new Map()

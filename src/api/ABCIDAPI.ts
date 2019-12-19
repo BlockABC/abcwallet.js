@@ -25,6 +25,7 @@ interface IGetIDInfoReturn {
     no: string,
     front_image: string,
     back_image: string,
+    holding_card_image: string, // 手持身份证照片
   },
   passport?: { // 护照字段
     country_code: string, // 国家/地区编码
@@ -43,7 +44,7 @@ interface IGetIDInfoReturn {
 }
 
 export class ABCIDAPI extends BaseAPI {
-  protected _namespace = 'id'
+  protected _namespace = 'abcid'
 
   /**
    * 获取 ABCID
