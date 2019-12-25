@@ -8,6 +8,7 @@
 
   <link href="./static/bootstrap.min.css" rel="stylesheet">
   <script src="./static/vue.js"></script>
+  <script src="./static/v-jsoneditor.min.js"></script>
 
   <style>
     body {
@@ -32,6 +33,13 @@
 
     .form-group .btn.btn-primary {
       margin-top: 1rem;
+    }
+
+    .menu {
+      top: 0;
+      right: 0;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.3);
     }
   </style>
 </head>
@@ -221,6 +229,7 @@
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">invokeQRScanner</label>
                     <div class="col-sm-10">
+                      <span class="form-text">QR Result: {{qrresult}}</span>
                       <button class="btn btn-info" @click.prevent="invokeQRScanner">invokeQRScanner</button>
                     </div>
                   </div>
@@ -250,7 +259,8 @@
           },
           openUrl: {
             url: 'https://abcwallet.com/'
-          }
+          },
+          qrresult: ''
         }
       },
       methods: {
@@ -286,8 +296,8 @@
           ABCWallet.webview.openUrl({ url: this.openUrl.url })
         },
         async invokeQRScanner () {
-          const ret = await ABCWallet.webview.invokeQRScanner()
-          console.log('QRCode content:', ret)
+          this.qrresult = await ABCWallet.webview.invokeQRScanner()
+          console.log('QRCode content:', this.qrresult)
         }
       }
     })
@@ -464,7 +474,7 @@
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">getIDInfo</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" rows="10" v-model="getIDInfoParams"></textarea>
+                      <v-jsoneditor cache="getIDInfoParams" v-model="getIDInfoParams"></v-jsoneditor>
                       <button class="btn btn-primary" @click.prevent="getIDInfo">getIDInfo</button>
                     </div>
                   </div>
@@ -477,11 +487,11 @@
       data () {
         return {
           randomStr: '123456',
-          getIDInfoParams: JSON.stringify({
+          getIDInfoParams: {
             "phone": "required",
             "email": "required",
             "id_card": "required"
-          }, null, '  ')
+          }
         }
       },
       methods: {
@@ -489,8 +499,7 @@
           ABCWallet.abcid.getABCID({ randomStr: this.randomStr })
         },
         getIDInfo () {
-          const params = JSON.parse(this.getIDInfoParams)
-          ABCWallet.abcid.getIDInfo(params)
+          ABCWallet.abcid.getIDInfo(this.getIDInfoParams)
         }
       }
     })
@@ -512,31 +521,7 @@
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">sendSimpleTransaction</label>
           <div class="col-sm-10">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">from</span>
-              </div>
-              <input type="text" class="form-control" v-model="simpleTx.from">
-            </div>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">to</span>
-              </div>
-              <input type="text" class="form-control" v-model="simpleTx.to">
-            </div>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">value</span>
-              </div>
-              <input type="text" class="form-control" v-model="simpleTx.value">
-            </div>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">memo</span>
-              </div>
-              <input type="text" class="form-control" v-model="simpleTx.memo">
-            </div>
-
+            <v-jsoneditor :cache="chain + '-simpleTx'" v-model="simpleTx"></v-jsoneditor>
             <button class="btn btn-primary" @click.prevent="sendSimpleTransaction">sendSimpleTransaction</button>
           </div>
         </div>
@@ -599,13 +584,13 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">rawTransaction</span>
                         </div>
-                        <input type="text" class="form-control" v-model="tx.rawTransaction">
+                        <textarea class="form-control" rows="4" v-model="tx.rawTransaction"></textarea>
                       </div>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">unspents</span>
                         </div>
-                        <textarea class="form-control" rows="10" v-model="tx.unspents"></textarea>
+                        <v-jsoneditor :cache="chain + '-unspents'" v-model="tx.unspents"></v-jsoneditor>
                       </div>
 
                       <button class="btn btn-primary" @click.prevent="sign">sign</button>
@@ -620,6 +605,13 @@
       `,
       data () {
         return {
+          chain: 'btc',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '',
+            memo: '',
+          },
           tx: {
             transaction: '',
             unspents: JSON.stringify([])
@@ -635,14 +627,14 @@
         async sign () {
           const ret = await ABCWallet[this.chain].sign({
             rawTransaction: this.tx.rawTransaction,
-            unspents: JSON.parse(this.tx.unspents)
+            unspents: this.tx.unspents
           })
           console.log('Signed transaction:', ret)
         },
         async sendTransaction () {
           const ret = await ABCWallet[this.chain].sendTransaction({
             rawTransaction: this.tx.rawTransaction,
-            unspents: JSON.parse(this.tx.unspents)
+            unspents: this.tx.unspents
           })
           console.log('Transaction ID:', ret)
         }
@@ -662,14 +654,14 @@
           },
           tx: {
             rawTransaction: '0200000001a847cbd85dfa4c3798d5451cad58b10283bc1931c65966d73a376030c9cf58bd0000000000ffffffff0122020000000000001976a914c72abc3c3250d662fe60de5c5cd363830144108f88ac00000000',
-            unspents: JSON.stringify([
+            unspents: [
               {
                 "txId": "bd58cfc93060373ad76659c63119bc8302b158ad1c45d598374cfa5dd8cb47a8",
                 "address": "1AD658tBqWUGGPL7YNoQZ9iRKnYaegCRLC",
                 "vout": 0,
                 "value": 789
               }
-            ], null, '  ')
+            ]
           }
         }
       },
@@ -688,14 +680,14 @@
           },
           tx: {
             rawTransaction: '010000000109e08668f0ae2e67d841731b91d83a4b51f9ce0b135dbbc161af700b5865864c0100000000ffffffff0222020000000000001976a9141e1e33f09a69b8afd067c98e9737a4afedefb9bb88ac39190000000000001976a914dace780cee9a46223e39858c5351b54a13102a3c88ac00000000',
-            unspents: JSON.stringify([
+            unspents: [
               {
                 "txId": "4c8665580b70af61c1bb5d130bcef9514b3ad8911b7341d8672eaef06886e009",
                 "address": "bitcoincash:qrdvu7qva6dyvg378xzcc563k49pxyp28s7j5j4le7",
                 "vout": 1,
                 "value": 7204
               }
-            ], null, '  ')
+            ]
           }
         }
       },
@@ -714,7 +706,32 @@
           },
           tx: {
             rawTransaction: '01000000017bebaae08eed1aa31c1e24a87bfdf287c5a77f035a833c6363e690f8432033e70100000000ffffffff0222020000000000001976a9146e7e7a95bb5053c6a4585b49a0bff9138e568c6888ace3606300000000001976a914c8a88c31ebd5e51017232b7f5aaa27e6d765e91f88ac00000000',
-            unspents: '[{"txId":"e7332043f890e663633c835a037fa7c587f2fd7ba8241e1ca31aed8ee0aaeb7b","address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY","vout":1,"value":6513605},{"txId":"d7182e6a86b4b3ef10f6bc02bb7892f99a332ae21cd8b79f0b0905b11bdc8217","address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY","vout":0,"value":546},{"txId":"99c9ee5ad44e4f9af06717880860801cf8d3c5c218aaf1bacc24ea49262dc4ed","address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY","vout":0,"value":546},{"txId":"425ce5046689c186102bcbc56cebefcbf932d241892f7f9a92584394d9b21d10","address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY","vout":0,"value":546}]'
+            unspents: [
+              {
+                "txId":"e7332043f890e663633c835a037fa7c587f2fd7ba8241e1ca31aed8ee0aaeb7b",
+                "address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY",
+                "vout":1,
+                "value":6513605
+              },
+              {
+                "txId":"d7182e6a86b4b3ef10f6bc02bb7892f99a332ae21cd8b79f0b0905b11bdc8217",
+                "address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"99c9ee5ad44e4f9af06717880860801cf8d3c5c218aaf1bacc24ea49262dc4ed",
+                "address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"425ce5046689c186102bcbc56cebefcbf932d241892f7f9a92584394d9b21d10",
+                "address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY",
+                "vout":0,
+                "value":546
+              }
+            ]
           }
         }
       },
@@ -733,7 +750,31 @@
           },
           tx: {
             rawTransaction: '0200000002d7d74208ff509f24547609d79e56c09ca6d1360025e47f923b05c313ca9d9ff50000000000ffffffff2e4553c0cf77194054f5072deef76df0278f733cae03799de12d8ceea6152deb0000000000ffffffff0122020000000000001976a914e9dee225b19fca8964a0701bcaffbb81505aa96688ac00000000',
-            unspents: '[{"txId":"f59f9dca13c3053b927fe4250036d1a69cc0569ed7097654249f50ff0842d7d7","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"eb2d15a6ee8c2de19d7903ae3c738f27f06df7ee2d07f554401977cfc053452e","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"de3dba104a27d27c686a37dc5b06be504280ab860b7ef19f811df56999112604","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"b5e39ac107cea67fe0e3892ac0e795e1b247ad1b094adfbc37817366af5f6b8c","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"b04dc6284689d7de102622fe2865483cab2279238752cd24258aaf748bae3c39","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"192ff003f1c17b069c53c9dc5177e8fa94b1f9fc1e32f66052d60463492eaba1","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"0db7a5394bfacf5416cfcca2ccd805a3773629cbc0e346ceaa7d51001869fd3a","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546}]'
+            unspents: [
+              {
+                "txId":"f59f9dca13c3053b927fe4250036d1a69cc0569ed7097654249f50ff0842d7d7",
+                "address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"eb2d15a6ee8c2de19d7903ae3c738f27f06df7ee2d07f554401977cfc053452e",
+                "address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"de3dba104a27d27c686a37dc5b06be504280ab860b7ef19f811df56999112604",
+                "address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"b5e39ac107cea67fe0e3892ac0e795e1b247ad1b094adfbc37817366af5f6b8c",
+                "address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ",
+                "vout":0,
+                "value":546
+              },{"txId":"b04dc6284689d7de102622fe2865483cab2279238752cd24258aaf748bae3c39","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"192ff003f1c17b069c53c9dc5177e8fa94b1f9fc1e32f66052d60463492eaba1","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"0db7a5394bfacf5416cfcca2ccd805a3773629cbc0e346ceaa7d51001869fd3a","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546}]
           }
         }
       },
@@ -752,7 +793,7 @@
           },
           tx: {
             rawTransaction: '0200000002e512a577611aad427ed437acea84934c6f04997e8439502c0f4069b2bcddfaa60000000000ffffffff3864ada7f1861e5752a49f6b1f4e66f69849cfa4344ec1ecc59a5c50b44060f80000000000ffffffff0122020000000000001976a914d6ddf3bc1c434849118ae9ccd49e5c6cff732ad288ac00000000',
-            unspents: '[{"txId":"f86040b4505c9ac5ecc14e34a4cf4998f6664e1f6b9fa452571e86f1a7ad6438","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"ea8731a7ff319ef64f924c1b4d3e2a6385b48e8c24128cc85e5650a7e014c269","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"e27b1dc0ca628dbdd50b2a0416249c3e83ece0e4d9a516a2ff5806219d2767a5","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"d011de7eed16af2402e41f9d33c51dc74e4796ebe5d8d4428cd28214fb62d46e","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"cf6a7a733f35a631ffffc5813820a8e7396c4e51732321d288603eb1e598cfde","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"b937173f232f0e489e902fb800820f2d96845ca9fa2141315e5cbf12c90871d1","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"ad12efc09a9ed5b2d7cae50991530001379ac1965394a9314b66f0ba35263fb2","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"a6faddbcb269400f2c5039847e99046f4c9384eaac37d47e42ad1a6177a512e5","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"a3c054244046504018ad50c0afb79d7c79bcb8d3381186bfdaeb72eab00408b6","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"7b153cbf228efbd433a840297b6f0efcc9556dadc6b6e46d6c38b5db3a4e551e","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"703a466833e51be1cc5390f5cd2c75029766d3d67e4da54d851b79db0a47d8a6","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"5d679e6f3d7b5619ba7cad586664674a8cb985cabe768e1f9dbb628a54c01b2c","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"2ab825fd21e7de10e92e12cc333647211a031b4e1419a792f97039927a305451","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"262e983b25ade02b3e29fa9b53bba7ad46b71455bcf52c655bff9ae3554d8399","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"15e45394de5c42880c4583689d47ab30694d572221e9151dee4f0e16daeed813","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546}]'
+            unspents: [{"txId":"f86040b4505c9ac5ecc14e34a4cf4998f6664e1f6b9fa452571e86f1a7ad6438","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"ea8731a7ff319ef64f924c1b4d3e2a6385b48e8c24128cc85e5650a7e014c269","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"e27b1dc0ca628dbdd50b2a0416249c3e83ece0e4d9a516a2ff5806219d2767a5","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"d011de7eed16af2402e41f9d33c51dc74e4796ebe5d8d4428cd28214fb62d46e","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"cf6a7a733f35a631ffffc5813820a8e7396c4e51732321d288603eb1e598cfde","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"b937173f232f0e489e902fb800820f2d96845ca9fa2141315e5cbf12c90871d1","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"ad12efc09a9ed5b2d7cae50991530001379ac1965394a9314b66f0ba35263fb2","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"a6faddbcb269400f2c5039847e99046f4c9384eaac37d47e42ad1a6177a512e5","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"a3c054244046504018ad50c0afb79d7c79bcb8d3381186bfdaeb72eab00408b6","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"7b153cbf228efbd433a840297b6f0efcc9556dadc6b6e46d6c38b5db3a4e551e","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"703a466833e51be1cc5390f5cd2c75029766d3d67e4da54d851b79db0a47d8a6","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"5d679e6f3d7b5619ba7cad586664674a8cb985cabe768e1f9dbb628a54c01b2c","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"2ab825fd21e7de10e92e12cc333647211a031b4e1419a792f97039927a305451","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"262e983b25ade02b3e29fa9b53bba7ad46b71455bcf52c655bff9ae3554d8399","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"15e45394de5c42880c4583689d47ab30694d572221e9151dee4f0e16daeed813","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546}]
           }
         }
       },
@@ -898,6 +939,8 @@
                         </div>
                         <input class="form-control" type="text" v-model="giftParams.message">
                       </div>
+                      <span class="form-text">Signed transaction: {{giftResult}}</span>
+
 
                       <button class="btn btn-primary" @click.prevent="buildGiftTransaction">buildGiftTransaction</button>
                     </div>
@@ -924,6 +967,7 @@
                         </div>
                         <input class="form-control" type="text" v-model="encryptParams.publicKey">
                       </div>
+                      <span class="form-text">Encrypted data: {{encryptResult}}</span>
 
                       <button class="btn btn-primary" @click.prevent="encryptDataWithPrivateKey">encryptDataWithPrivateKey</button>
                     </div>
@@ -950,6 +994,7 @@
                         </div>
                         <input class="form-control" type="text" v-model="decryptParams.publicKey">
                       </div>
+                      <span class="form-text">Decrypted data: {{decryptResult}}</span>
 
                       <button class="btn btn-primary" @click.prevent="decryptDataWithPrivateKey">decryptDataWithPrivateKey</button>
                     </div>
@@ -971,16 +1016,19 @@
             skin: '1',
             message: 'hello world',
           },
+          giftResult: '',
           encryptParams: {
             chainType: 'etc',
             data: 'hello world',
-            publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9'
+            publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9',
           },
+          encryptResult: '',
           decryptParams: {
             chainType: 'eth',
             cipher: '09398B01BDEAFC59F87573EF761F773D',
-            publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9'
-          }
+            publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9',
+          },
+          decryptResult: '',
         }
       },
       methods: {
@@ -988,16 +1036,13 @@
           ABCWallet.private.ensureHasCard({ chainType: this.chainType.toLowerCase() })
         },
         async buildGiftTransaction () {
-          const ret = await ABCWallet.private.buildGiftTransaction(this.giftParams)
-          console.log('Signed transaction:', ret)
+          this.giftResult = await ABCWallet.private.buildGiftTransaction(this.giftParams)
         },
         async encryptDataWithPrivateKey () {
-          const ret = await ABCWallet.private.encryptDataWithPrivateKey(this.encryptParams)
-          console.log('Encrypted data:', ret)
+          this.encryptResult = await ABCWallet.private.encryptDataWithPrivateKey(this.encryptParams)
         },
         async decryptDataWithPrivateKey () {
-          const ret = await ABCWallet.private.decryptDataWithPrivateKey(this.decryptParams)
-          console.log('Decrypted data:', ret)
+          this.decryptResult = await ABCWallet.private.decryptDataWithPrivateKey(this.decryptParams)
         }
       },
     })
@@ -1007,7 +1052,7 @@
       template: `
         <div id="app" class="container-fluid">
           <div class="alert alert-primary" role="alert">
-            浏览器请打开控制台查看调试信息，移动端请打开 Safari/Chrome 的远程调试面板。
+            ⚠️ 浏览器请打开控制台查看调试信息，移动端请打开 Safari/Chrome 的远程调试面板。
           </div>
 
           <webview-test></webview-test>
@@ -1023,7 +1068,7 @@
           <eos-test></eos-test>
           <private-test></private-test>
 
-          <div class="position-fixed" style="top: 0; right: 0; background: rgba(0, 0, 0, 0.3)">
+          <div class="menu position-fixed">
             <ul>
               <li><a href="#webview-test">webview-test</a></li>
               <li><a href="#dapp-test">dapp-test</a></li>
