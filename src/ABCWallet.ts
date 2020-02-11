@@ -2,10 +2,11 @@ import uniqueId from 'lodash-es/uniqueId'
 import isFunction from 'lodash-es/isFunction'
 import { Logger } from 'loglevel'
 import * as EventEmitter from 'eventemitter3'
+import pkg from '../package.json'
 
 import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
-import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, BCHAPI, ETHAPI, EOSAPI, ABCIDAPI, PartnerAPI } from './api'
+import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, BCHAPI, ETHAPI, EOSAPI, ABCIDAPI, PartnerAPI, BrowserAPI } from './api'
 import { NativeChannel, IframeChannel } from './channel'
 
 export class ABCWallet extends EventEmitter {
@@ -19,10 +20,13 @@ export class ABCWallet extends EventEmitter {
   public eos: EOSAPI
   public abcid: ABCIDAPI
   public partner: PartnerAPI
+  public browser: BrowserAPI
 
   protected _channel: IChannel
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
+
+  version = pkg.version
 
   constructor (logger: Logger) {
     super()
@@ -96,7 +100,7 @@ export class ABCWallet extends EventEmitter {
       // provider 中对应的 promise 取出并 resolve
       const promise = this._promises.get(id)
       if (!promise) {
-        this.log.error(`ABCWallet.response can not find promise for message:`, id)
+        this.log.error('ABCWallet.response can not find promise for message:', id)
         return
       }
 
@@ -152,6 +156,38 @@ export class ABCWallet extends EventEmitter {
     else {
       this._channel.postMessage({ jsonrpc: '2.0', id, result: ret })
     }
+  }
+
+  get isABCWallet (): boolean {
+    const UA = window.navigator.userAgent
+
+    return /ABCWallet/i.test(UA)
+  }
+
+  get clientVersion (): string {
+    // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+    const matches: any = window.navigator.userAgent.match(/ABCWallet\/([a-zA-Z-_]+)/g) // 形如 Language/zh-CN
+    const splitParts: any = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
+    const version = splitParts && splitParts[1]
+
+    return version
+  }
+
+  get clientLanguage (): string {
+    // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+    const matches: any = window.navigator.userAgent.match(/Language\/([a-zA-Z-_]+)/g) // 形如 Language/zh-CN
+    const splitParts: any = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
+    const language = splitParts && splitParts[1]
+
+    return language
+  }
+
+  get clientFiat (): string {
+    // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+    const matches: any = window.navigator.userAgent.match(/Fiat\/([a-zA-Z-_]+)/g)
+    const splitParts: any = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
+    const fiat = splitParts && splitParts[1]
+    return fiat
   }
 }
 
