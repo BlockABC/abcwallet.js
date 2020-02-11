@@ -2,7 +2,6 @@ import uniqueId from 'lodash-es/uniqueId'
 import isFunction from 'lodash-es/isFunction'
 import { Logger } from 'loglevel'
 import * as EventEmitter from 'eventemitter3'
-import pkg from '../package.json'
 
 import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
@@ -26,7 +25,7 @@ export class ABCWallet extends EventEmitter {
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
 
-  version = pkg.version
+  version = '1.1.1'
 
   constructor (logger: Logger) {
     super()
