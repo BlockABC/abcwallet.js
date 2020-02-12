@@ -7,8 +7,8 @@ export class BrowserAPI extends BaseAPI {
   /**
    * invoker and open dapp in abcwallet client
    */
-  openDapp ({ url, dappId }) {
-    return invokeNative(`abcwallet://open-dapp?url=${encodeURIComponent(url)}&dapp_id=${dappId}`)
+  openDapp ({ url, dapp_id }) {
+    return invokeNative(`abcwallet://open-dapp?url=${encodeURIComponent(url)}&dapp_id=${dapp_id}`)
   }
 }
 
