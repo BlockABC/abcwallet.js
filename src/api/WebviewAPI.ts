@@ -77,6 +77,13 @@ export class WebviewAPI extends BaseAPI {
       params: {}
     })
   }
+
+  copy (params: { text: string }) {
+    return this._request({
+      method: 'copy',
+      params,
+    })
+  }
 }
 
 export default WebviewAPI

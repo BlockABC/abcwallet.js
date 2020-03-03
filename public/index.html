@@ -233,6 +233,20 @@
                       <button class="btn btn-info" @click.prevent="invokeQRScanner">invokeQRScanner</button>
                     </div>
                   </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">copy</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">text</span>
+                        </div>
+                        <input type="text" class="form-control" v-model="copy.text">
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="onCopy">copy</button>
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>
@@ -260,7 +274,10 @@
           openUrl: {
             url: 'https://abcwallet.com/'
           },
-          qrresult: ''
+          qrresult: '',
+          copy: {
+            text: '',
+          },
         }
       },
       methods: {
@@ -298,6 +315,10 @@
         async invokeQRScanner () {
           this.qrresult = await ABCWallet.webview.invokeQRScanner()
           console.log('QRCode content:', this.qrresult)
+        },
+        onCopy () {
+          ABCWallet.webview.copy({ text: this.copy.text })
+          alert(`You have copied: [${this.copy.text}]`)
         }
       }
     })
