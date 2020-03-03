@@ -2,6 +2,11 @@
 .DS_Store
 thumbs.db
 
+# IDE & Editor
+.idea/*
+!.idea/vcs.xml
+!.idea/runConfigurations/
+
 # Node
 coverage
 node_modules/
@@ -16,13 +21,10 @@ yarn-error.log*
 # gitkeep
 !.gitkeep
 
-# IDE & Editor
-.idea/
-.vscode/
-
-# Application
 # Project
 dist/
-esm/
 cjs/
+esm/
 types/
+yarn.lock
+package-lock.json
