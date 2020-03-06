@@ -26,5 +26,6 @@ dist/
 cjs/
 esm/
 types/
+.env
 yarn.lock
 package-lock.json
