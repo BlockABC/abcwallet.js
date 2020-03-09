@@ -1,4 +1,5 @@
 import BaseAPI from './BaseAPI'
+import { verifyParams } from '../helper'
 
 export class PartnerAPI extends BaseAPI {
   protected _namespace = 'partner'
@@ -24,6 +25,20 @@ export class PartnerAPI extends BaseAPI {
     return this._request({
       method: 'isPartnerCardExist',
       params: {}
+    })
+  }
+
+  /**
+   * 查询合作方卡片是否已添加
+   *
+   * @return {Promise<any>}
+   */
+  addKeypairCard (params: { chainType: string, account?: string, permission?: string, publicKey?: string, privateKey?: string }): Promise<{ id: string }> {
+    verifyParams(params, ['chainType'])
+
+    return this._request({
+      method: 'addKeypairCard',
+      params: params
     })
   }
 }
