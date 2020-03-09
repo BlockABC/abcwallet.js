@@ -77,6 +77,7 @@ module.exports = function (env = {}, argv) {
     // config.watch = true
     config.devServer = {
       host: '0.0.0.0',
+      disableHostCheck: true,
       contentBase: [
         path.resolve(__dirname, 'public'),
         path.resolve(__dirname, 'dist'),
