@@ -481,7 +481,7 @@ function baseGetTag(value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _isSymbol_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _isSymbol_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
 
 
 /** Used as references for various `Number` constants. */
@@ -544,7 +544,7 @@ function toSource(func) {
 
 "use strict";
 /* harmony import */ var _isFunction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
-/* harmony import */ var _isLength_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _isLength_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 
 
 
@@ -852,7 +852,7 @@ ListCache.prototype.set = _listCacheSet;
 var isArray = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isKey.js
-var _isKey = __webpack_require__(19);
+var _isKey = __webpack_require__(20);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_MapCache.js + 14 modules
 var _MapCache = __webpack_require__(15);
@@ -1389,6 +1389,42 @@ MapCache.prototype.set = _mapCacheSet;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var every_1 = __webpack_require__(69);
+var isNil_1 = __webpack_require__(42);
+var error_1 = __webpack_require__(50);
+function isRequest(obj) {
+    var requiredKeys = ['jsonrpc', 'id', 'namespace', 'method', 'params'];
+    return every_1.default(requiredKeys, function (key) {
+        return obj.hasOwnProperty(key);
+    });
+}
+exports.isRequest = isRequest;
+function verifyParams(params, required) {
+    if (isNil_1.default(params)) {
+        throw error_1.ABCWalletError.fromCode(10, "[" + required.toString() + "]");
+    }
+    var missing = [];
+    for (var _i = 0, required_1 = required; _i < required_1.length; _i++) {
+        var key = required_1[_i];
+        if (!params.hasOwnProperty(key) || isNil_1.default(params[key])) {
+            missing.push(key);
+        }
+    }
+    if (missing.length > 0) {
+        throw error_1.ABCWalletError.fromCode(10, "[" + missing.toString() + "]");
+    }
+    return true;
+}
+exports.verifyParams = verifyParams;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 var BaseAPI = /** @class */ (function () {
     function BaseAPI(abcwallet) {
         this._abcwallet = abcwallet;
@@ -1405,7 +1441,7 @@ exports.default = BaseAPI;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1443,7 +1479,7 @@ function isSymbol(value) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1485,12 +1521,12 @@ function isLength(value) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var _isArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _isSymbol_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _isSymbol_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
 
 
 
@@ -1523,7 +1559,7 @@ function isKey(value, object) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1556,7 +1592,7 @@ function baseGet(object, path) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2073,7 +2109,7 @@ var _baseGetAllKeys = __webpack_require__(32);
 var _getSymbols = __webpack_require__(39);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/keys.js + 2 modules
-var keys = __webpack_require__(22);
+var keys = __webpack_require__(23);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_getAllKeys.js
 
@@ -2573,7 +2609,7 @@ function baseMatches(source) {
 /* harmony default export */ var _baseMatches = (baseMatches);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseGet.js
-var _baseGet = __webpack_require__(20);
+var _baseGet = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/get.js
 
@@ -2635,7 +2671,7 @@ var isArguments = __webpack_require__(38);
 var _isIndex = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isLength.js
-var isLength = __webpack_require__(18);
+var isLength = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_toKey.js
 var _toKey = __webpack_require__(7);
@@ -2718,7 +2754,7 @@ function hasIn(object, path) {
 /* harmony default export */ var lodash_es_hasIn = (hasIn);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isKey.js
-var _isKey = __webpack_require__(19);
+var _isKey = __webpack_require__(20);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_baseMatchesProperty.js
 
@@ -2881,7 +2917,7 @@ function baseIteratee(value) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2976,42 +3012,6 @@ function keys(object) {
 }
 
 /* harmony default export */ var lodash_es_keys = __webpack_exports__["a"] = (keys);
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var every_1 = __webpack_require__(69);
-var isNil_1 = __webpack_require__(42);
-var error_1 = __webpack_require__(50);
-function isRequest(obj) {
-    var requiredKeys = ['jsonrpc', 'id', 'namespace', 'method', 'params'];
-    return every_1.default(requiredKeys, function (key) {
-        return obj.hasOwnProperty(key);
-    });
-}
-exports.isRequest = isRequest;
-function verifyParams(params, required) {
-    if (isNil_1.default(params)) {
-        throw error_1.ABCWalletError.fromCode(10, "[" + required.toString() + "]");
-    }
-    var missing = [];
-    for (var _i = 0, required_1 = required; _i < required_1.length; _i++) {
-        var key = required_1[_i];
-        if (!params.hasOwnProperty(key) || isNil_1.default(params[key])) {
-            missing.push(key);
-        }
-    }
-    if (missing.length > 0) {
-        throw error_1.ABCWalletError.fromCode(10, "[" + missing.toString() + "]");
-    }
-    return true;
-}
-exports.verifyParams = verifyParams;
 
 
 /***/ }),
@@ -3181,7 +3181,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __webpack_require__(17);
 var ChainBaseAPI = /** @class */ (function (_super) {
     __extends(ChainBaseAPI, _super);
     function ChainBaseAPI() {
@@ -3400,7 +3400,7 @@ function stubArray() {
 var _baseGetTag = __webpack_require__(6);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isLength.js
-var isLength = __webpack_require__(18);
+var isLength = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObjectLike.js
 var isObjectLike = __webpack_require__(5);
@@ -3532,7 +3532,7 @@ var _arrayMap = __webpack_require__(29);
 var isArray = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isSymbol.js
-var isSymbol = __webpack_require__(17);
+var isSymbol = __webpack_require__(18);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_baseToString.js
 
@@ -4278,7 +4278,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var uniqueId_1 = __webpack_require__(47);
 var isFunction_1 = __webpack_require__(25);
 var EventEmitter = __webpack_require__(49);
-var helper_1 = __webpack_require__(23);
+var helper_1 = __webpack_require__(16);
 var api_1 = __webpack_require__(52);
 var channel_1 = __webpack_require__(65);
 var ABCWallet = /** @class */ (function (_super) {
@@ -5042,8 +5042,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var isNil_1 = __webpack_require__(42);
 var omitBy_1 = __webpack_require__(68);
-var helper_1 = __webpack_require__(23);
-var BaseAPI_1 = __webpack_require__(16);
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __webpack_require__(17);
 var WebviewAPI = /** @class */ (function (_super) {
     __extends(WebviewAPI, _super);
     function WebviewAPI() {
@@ -5142,8 +5142,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var helper_1 = __webpack_require__(23);
-var BaseAPI_1 = __webpack_require__(16);
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __webpack_require__(17);
 var DappAPI = /** @class */ (function (_super) {
     __extends(DappAPI, _super);
     function DappAPI() {
@@ -5214,7 +5214,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __webpack_require__(17);
+var helper_1 = __webpack_require__(16);
 var PartnerAPI = /** @class */ (function (_super) {
     __extends(PartnerAPI, _super);
     function PartnerAPI() {
@@ -5244,6 +5245,18 @@ var PartnerAPI = /** @class */ (function (_super) {
             params: {}
         });
     };
+    /**
+     * 查询合作方卡片是否已添加
+     *
+     * @return {Promise<any>}
+     */
+    PartnerAPI.prototype.addKeypairCard = function (params) {
+        helper_1.verifyParams(params, ['chainType']);
+        return this._request({
+            method: 'addKeypairCard',
+            params: params
+        });
+    };
     return PartnerAPI;
 }(BaseAPI_1.default));
 exports.PartnerAPI = PartnerAPI;
@@ -5270,8 +5283,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var helper_1 = __webpack_require__(23);
-var BaseAPI_1 = __webpack_require__(16);
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __webpack_require__(17);
 var ABCIDAPI = /** @class */ (function (_super) {
     __extends(ABCIDAPI, _super);
     function ABCIDAPI() {
@@ -5332,8 +5345,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var helper_1 = __webpack_require__(23);
-var BaseAPI_1 = __webpack_require__(16);
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __webpack_require__(17);
 var PrivateAPI = /** @class */ (function (_super) {
     __extends(PrivateAPI, _super);
     function PrivateAPI() {
@@ -5731,7 +5744,7 @@ exports.default = NativeChannel;
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseIteratee.js + 39 modules
-var _baseIteratee = __webpack_require__(21);
+var _baseIteratee = __webpack_require__(22);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/negate.js
 /** Error message constants. */
@@ -5779,7 +5792,7 @@ function negate(predicate) {
 var _arrayMap = __webpack_require__(29);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseGet.js
-var _baseGet = __webpack_require__(20);
+var _baseGet = __webpack_require__(21);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_getNative.js + 4 modules
 var _getNative = __webpack_require__(2);
@@ -6269,7 +6282,7 @@ var baseFor = _createBaseFor();
 /* harmony default export */ var _baseFor = (baseFor);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/keys.js + 2 modules
-var keys = __webpack_require__(22);
+var keys = __webpack_require__(23);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_baseForOwn.js
 
@@ -6366,7 +6379,7 @@ function baseEvery(collection, predicate) {
 /* harmony default export */ var _baseEvery = (baseEvery);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseIteratee.js + 39 modules
-var _baseIteratee = __webpack_require__(21);
+var _baseIteratee = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArray.js
 var isArray = __webpack_require__(0);
