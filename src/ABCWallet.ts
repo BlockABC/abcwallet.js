@@ -173,6 +173,37 @@ export class ABCWallet extends EventEmitter {
     return version
   }
 
+  /**
+   * check if clientVersion is greater/smaller/equal to targetVersion
+   * @param targetVersion
+   * @return -1 clientVersion smaller than targetVersion
+   * @return 1 clientVersion greater than targetVersion
+   * @return 0 clientVersion equal to targetVersion
+   * @return null unknown, maybe not in ABCWallet
+   */
+  compareVersion (targetVersion: string): -1 | 1 | 0 | null {
+    const clientVersion = this.clientVersion
+
+    if (!clientVersion) return null
+
+    const clientVersionParts = clientVersion.split('.')
+    const targetVersionParts = targetVersion.split('.')
+
+    for (let i = 0; i < clientVersionParts.length; i++) {
+      const clientVersionPart = parseInt(clientVersionParts[i])
+      const targetVersionPart = parseInt(targetVersionParts[i])
+
+      if (clientVersionPart > targetVersionPart) {
+        return 1
+      }
+      else if (clientVersionPart < targetVersionPart) {
+        return -1
+      }
+    }
+
+    return 0
+  }
+
   get clientLanguage (): string {
     // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
     const matches: any = window.navigator.userAgent.match(/Language\/([a-zA-Z-_]+)/g) // 形如 Language/zh-CN
