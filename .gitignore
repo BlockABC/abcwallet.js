@@ -4,8 +4,6 @@ thumbs.db
 
 # IDE & Editor
 .idea/*
-!.idea/vcs.xml
-!.idea/runConfigurations/
 
 # Node
 coverage

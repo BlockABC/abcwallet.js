@@ -7,6 +7,7 @@ import { IRequest, IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
 import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, BCHAPI, ETHAPI, EOSAPI, ABCIDAPI, PartnerAPI, BrowserAPI } from './api'
 import { NativeChannel, IframeChannel } from './channel'
+const pkg = require('../package.json')
 
 export class ABCWallet extends EventEmitter {
   public log: Logger
@@ -25,7 +26,7 @@ export class ABCWallet extends EventEmitter {
   protected _promises: Map<string, IPromise> = new Map()
   protected _timer: any
 
-  version = '1.1.1'
+  version = pkg.version
 
   constructor (logger: Logger) {
     super()
