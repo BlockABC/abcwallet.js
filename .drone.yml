@@ -33,6 +33,8 @@ pipeline:
     secrets: [ rsync_key ]
     source: ./
     target: /data/code/abcwallet.js
+    prescript:
+      - mkdir -p /data/code/abcwallet.js
     script:
       - cd /data/code/abcwallet.js
       - npm run pm2:reload
