@@ -11,6 +11,7 @@ import { DASHAPI } from './DASHAPI'
 import { ETHAPI } from './ETHAPI'
 import { ETCAPI } from './ETCAPI'
 import { EOSAPI } from './EOSAPI'
+import { BrowserAPI} from './BrowserAPI'
 
 export {
   WebviewAPI,
@@ -26,6 +27,7 @@ export {
   ETHAPI,
   ETCAPI,
   EOSAPI,
+  BrowserAPI,
 }
 
 export default {
@@ -42,4 +44,5 @@ export default {
   eth: ETHAPI,
   etc: ETCAPI,
   eos: EOSAPI,
+  browser: BrowserAPI,
 }
