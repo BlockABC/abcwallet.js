@@ -25,8 +25,8 @@ pipeline:
     volumes:
     - /tmp/cache/drone/abcwallet.js:/cache
 
-  # 部署正式环境，深圳 sz_fe1
-  deploy_sz_fe1:
+  # 部署正式环境，深圳 hk_fe1_b
+  deploy_hk_fe1_b:
     image: drillster/drone-rsync
     hosts: ['47.75.126.140']
     user: root
