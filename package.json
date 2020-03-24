@@ -5,7 +5,7 @@
   "repository": "https://github.com/BlockABC/abcwallet.js",
   "license": "MIT",
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs && npm run build:umd",
+    "build": "concurrently -k -p \"[{name}]\" -c \"bgBlue.bold,bgCyan.bold\" \"npm:build:esm\" \"npm:build:cjs\" && npm run build:umd",
     "build:umd": "webpack --mode=production --config webpack.conf.js",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json",
@@ -16,7 +16,8 @@
     "test": "jest",
     "test:coverage": "jest --collect-coverage",
     "commit": "npx git-cz",
-    "release": "node release.js"
+    "release": "node release.js",
+    "pm2:reload": "pm2 reload ecosystem.config.js --only abcwallet.js"
   },
   "types": "./types/index.d.ts",
   "files": [
@@ -51,9 +52,11 @@
     "babel-eslint": "^10.0.3",
     "chokidar": "^3.0.2",
     "commitizen": "^4.0.3",
+    "concurrently": "^5.1.0",
     "cz-conventional-changelog": "^3.1.0",
     "eslint": "^6.2.2",
     "eslint-config-blockabc": "^0.9.1",
+    "html-webpack-plugin": "^4.0.1",
     "jest": "^24.8.0",
     "semantic-release": "^17.0.4",
     "ts-jest": "^24.0.0",
