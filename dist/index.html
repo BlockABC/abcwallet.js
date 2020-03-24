@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ABCWallet</title>
+
+  <link href="./static/bootstrap.min.css" rel="stylesheet">
+  <script src="./static/vue.js"></script>
+  <script src="./static/v-jsoneditor.min.js"></script>
+
+  <style>
+    body {
+      padding: 0.5rem;
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    .container-fluid>.row+.row {
+      margin-top: 1rem;
+    }
+
+    .form-group .input-group+.input-group {
+      margin-top: 1rem;
+    }
+
+    .form-group .input-group+.form-check {
+      margin-top: 1rem;
+    }
+
+    .form-group .btn.btn-primary {
+      margin-top: 1rem;
+    }
+
+    .menu {
+      top: 0;
+      right: 0;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="abcwallet.umd.min.js"></script>
+  <script>
+    console.log(ABCWallet)
+
+    // ABCWallet.response('{ "jsonrpc": "2.0", "id": "", "namespace": "event", "method": "changeCurrency", "params": { "address": "XXXXXX" } }')
+    ABCWallet.on('notify:changeIdentity', function (params) {
+      console.log('Receive notify:', params)
+    })
+
+    // ABCWallet.response('{ "jsonrpc": "2.0", "id": "", "namespace": "event", "method": "changeCurrency", "params": { "language": "cn" } }')
+    ABCWallet.on('notify:changeLanguage', function (params) {
+      console.log('Receive notify:', params)
+    })
+
+    // ABCWallet.response('{ "jsonrpc": "2.0", "id": "", "namespace": "event", "method": "changeCurrency", "params": { "currency": "CNY" } }')
+    ABCWallet.on('notify:changeCurrency', function (params) {
+      console.log('Receive notify:', params)
+    })
+
+    Vue.component('webview-test', {
+      template: `
+         <div class="row">
+          <div class="col">
+            <div id="webview-test" class="card">
+              <div class="card-header">
+                <h2>Webview</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group row">
+                    <div class="col-sm-2">setOrientation</div>
+                    <div class="col-sm-10">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" @input="setOrientation">
+                        <label class="form-check-label">horizontal</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-sm-2">setFullscreen</div>
+                    <div class="col-sm-10">
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" @input="setFullscreen">
+                        <label class="form-check-label">fullscreen</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">setTitlebar</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">title</span>
+                        </div>
+                        <input type="text" class="form-control" v-model="titlebar.title">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">forecolor</span>
+                        </div>
+                        <input type="text" class="form-control" v-model="titlebar.forecolor">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">bgcolor</span>
+                        </div>
+                        <input type="text" class="form-control" v-model="titlebar.bgcolor">
+                      </div>
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" v-model="titlebar.ghost">
+                        <label class="form-check-label">ghost</label>
+                      </div>
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" v-model="titlebar.left">
+                        <label class="form-check-label">left</label>
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="setTitlebar">setTitlebar</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">home</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="home">home</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">back</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="back">back</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">close</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="close">close</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">share</label>
+                    <div class="col-sm-10">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" value="structured" v-model="share.type">
+                        <label class="form-check-label">structured</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" value="image_data" v-model="share.type">
+                        <label class="form-check-label">image_data</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" value="image_url" v-model="share.type">
+                        <label class="form-check-label">image_url</label>
+                      </div>
+                      <template v-if="share.type === 'structured'">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">title</span>
+                          </div>
+                          <input type="text" class="form-control" v-model="share.title">
+                        </div>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">description</span>
+                          </div>
+                          <input type="text" class="form-control" v-model="share.description">
+                        </div>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">url</span>
+                          </div>
+                          <input type="text" class="form-control" v-model="share.url">
+                        </div>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">logo</span>
+                          </div>
+                          <input type="text" class="form-control" v-model="share.logo">
+                        </div>
+                      </template>
+                      <template v-else-if="share.type === 'image_data'">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">image_data</span>
+                          </div>
+                          <input type="text" class="form-control" v-model="share.image_data">
+                        </div>
+                      </template>
+                      <template v-else="share.type === 'image_url'">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">image_url</span>
+                          </div>
+                          <input type="text" class="form-control" v-model="share.image_url">
+                        </div>
+                      </template>
+
+                      <button class="btn btn-primary" @click.prevent="onShare">share</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">openUrl</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">url</span>
+                        </div>
+                        <input type="text" class="form-control" v-model="openUrl.url">
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="onOpenUrl">openUrl</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">invokeQRScanner</label>
+                    <div class="col-sm-10">
+                      <span class="form-text">QR Result: {{qrresult}}</span>
+                      <button class="btn btn-info" @click.prevent="invokeQRScanner">invokeQRScanner</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">copy</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">text</span>
+                        </div>
+                        <input type="text" class="form-control" v-model="copy.text">
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="onCopy">copy</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          titlebar: {
+            title: 'hello world',
+            ghost: true,
+            forecolor: '#FFFFFFFF',
+            bgcolor: '#000000FF',
+            left: false,
+          },
+          share: {
+            type: 'structured',
+            title: '分享标题',
+            description: '分享描述',
+            url: 'https://abcwallet-lite.com/',
+            logo: 'https://thumbnail.invisionapp.com/resize?location=https%3A%2F%2Fs3%2Einvisionapp%2Dcdn%2Ecom%2Fstorage%2Einvisionapp%2Ecom%2Fboards%2Ffiles%2F193694632%2Epng%3Fx%2Damz%2Dmeta%2Div%3D1%26x%2Damz%2Dmeta%2Dck%3D356bb6cc2851f53d31aa8e8aa64ee616%26AWSAccessKeyId%3DAKIAJFUMDU3L6GTLUDYA%26Expires%3D1577836800%26Signature%3D1stR%252BBpdXovXcpqd3Qn04tiCeS4%253D&width=1800',
+            image_data: 'data:image/jpeg;base64,xxxxx',
+            image_url: 'https://thumbnail.invisionapp.com/resize?location=https%3A%2F%2Fs3%2Einvisionapp%2Dcdn%2Ecom%2Fstorage%2Einvisionapp%2Ecom%2Fboards%2Ffiles%2F193694634%2Epng%3Fx%2Damz%2Dmeta%2Div%3D1%26x%2Damz%2Dmeta%2Dck%3D356bb6cc2851f53d31aa8e8aa64ee616%26AWSAccessKeyId%3DAKIAJFUMDU3L6GTLUDYA%26Expires%3D1577836800%26Signature%3Da2I1QPYq80i4f6mM88plKReFjeE%253D&width=1800',
+          },
+          openUrl: {
+            url: 'https://abcwallet.com/'
+          },
+          qrresult: '',
+          copy: {
+            text: '',
+          },
+        }
+      },
+      methods: {
+        setOrientation (e) {
+          ABCWallet.webview.setOrientation({ horizontal: e.target.value })
+        },
+        setFullscreen (e) {
+          ABCWallet.webview.setFullscreen({ fullscreen: e.target.value })
+        },
+        setTitlebar () {
+          ABCWallet.webview.setTitlebar(this.titlebar)
+        },
+        home: () => ABCWallet.webview.home(),
+        back: () => ABCWallet.webview.back(),
+        close: () => ABCWallet.webview.close(),
+        onShare () {
+          let share
+          if (this.share.type === 'structured') {
+            share = Object.assign({}, this.share)
+            delete share.image_data
+            delete share.image_url
+          }
+          else if (this.share.type === 'image_data') {
+            share = { image_data: this.share.image_data }
+          }
+          else {
+            share = { image_url: this.share.image_url }
+          }
+
+          ABCWallet.webview.share(share)
+        },
+        onOpenUrl () {
+          ABCWallet.webview.openUrl({ url: this.openUrl.url })
+        },
+        async invokeQRScanner () {
+          this.qrresult = await ABCWallet.webview.invokeQRScanner()
+          console.log('QRCode content:', this.qrresult)
+        },
+        onCopy () {
+          ABCWallet.webview.copy({ text: this.copy.text })
+          alert(`You have copied: [${this.copy.text}]`)
+        }
+      }
+    })
+
+    Vue.component('dapp-test', {
+      template: `
+         <div class="row">
+          <div class="col">
+            <div id="dapp-test" class="card">
+              <div class="card-header">
+                <h2>Dapp</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">getDapp</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="getDapp">getDapp</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">isCardExist</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="isCardExist">isCardExist</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">getDapp</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="getDapp">getDapp</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">addCard</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="getDapp">addCard</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">updateCard</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="getDapp">updateCard</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">getCard</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="getDapp">getCard</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">updateCardBalance</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="getDapp">updateCardBalance</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+        }
+      },
+      methods: {
+        getDapp: () => ABCWallet.dapp.getDapp(),
+        isCardExist: () => ABCWallet.dapp.isCardExist({ userId: 1 }),
+        addCard () {
+          ABCWallet.dapp.addCard({
+            userId: '95bbccf0-9968-4050-b106-9495fda0f5c3',
+            name: 'Test Third Party Card',
+            url: 'http://localhost:8080',
+            storage: '{"accessKey":"60fe9fda-5bc9-4e17-84c9-c025805cd5e5","secretKey":"d42bc38e-bf2b-4f20-ad8c-0a5fce6fd3ee","username":"blockabc","password":"ZbZrr*3SxdPj"}',
+            pages: [
+              {
+                name: 'balance',
+                url: 'http://localhost:8080/balance'
+              },
+            ]
+          })
+        },
+        updateCard () {
+          ABCWallet.dapp.updateCard({
+            id: 'a8877c2f-0d13-407a-97df-5e730448223f',
+            dappId: 1,
+            userId: '95bbccf0-9968-4050-b106-9495fda0f5c3',
+            name: 'Test Third Party Card',
+            url: 'http://localhost:8080',
+            storage: '{"accessKey":"60fe9fda-5bc9-4e17-84c9-c025805cd5e5","secretKey":"d42bc38e-bf2b-4f20-ad8c-0a5fce6fd3ee","username":"blockabc","password":"ZbZrr*3SxdPj"}',
+            pages: [
+              {
+                name: 'balance',
+                url: 'http://localhost:8080/balance'
+              },
+            ]
+          })
+        },
+        getCard () {
+          ABCWallet.dapp.getCard({
+            id: 'a8877c2f-0d13-407a-97df-5e730448223f',
+          })
+        },
+        updateCardBalance () {
+          ABCWallet.dapp.updateCardBalance({
+            cardId: 'a8877c2f-0d13-407a-97df-5e730448223f',
+            balance: '1000'
+          })
+        }
+      }
+    })
+
+    Vue.component('partner-test', {
+      template: `
+         <div class="row">
+          <div class="col">
+            <div id="partner-test" class="card">
+              <div class="card-header">
+                <h2>Partner</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">isPartnerCardExist</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="isPartnerCardExist">isPartnerCardExist</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">addPartnerCard</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="addPartnerCard">addPartnerCard</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">addKeypairCard</label>
+                    <div class="col-sm-10">
+                      <v-jsoneditor cache="partner-addKeypairCardParams" v-model="addKeypairCardParams"></v-jsoneditor>
+                      <button class="btn btn-primary" @click.prevent="addKeypairCard">addKeypairCard</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          addKeypairCardParams: {
+            chainType: 'eos',
+            account: '',
+            permission: '',
+            publicKey: '',
+            privateKey: '',
+          }
+        }
+      },
+      methods: {
+        isPartnerCardExist: () => ABCWallet.partner.isPartnerCardExist(),
+        addPartnerCard: () => ABCWallet.partner.addPartnerCard(),
+
+        async addKeypairCard () {
+          const ret = await ABCWallet.partner.addKeypairCard(this.addKeypairCardParams)
+          console.log('Call addKeypairCard succeed, return:', ret)
+        }
+      }
+    })
+
+    Vue.component('abcid-test', {
+      template: `
+         <div class="row">
+          <div class="col">
+            <div id="abcid-test" class="card">
+              <div class="card-header">
+                <h2>ABCID</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">getABCID</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">randomStr</span>
+                        </div>
+                        <input type="text" class="form-control" v-model="randomStr">
+                      </div>
+                      <button class="btn btn-primary" @click.prevent="getABCID">getABCID</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">getIDInfo</label>
+                    <div class="col-sm-10">
+                      <v-jsoneditor cache="getIDInfoParams" v-model="getIDInfoParams"></v-jsoneditor>
+                      <button class="btn btn-primary" @click.prevent="getIDInfo">getIDInfo</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          randomStr: '123456',
+          getIDInfoParams: {
+            "phone": "required",
+            "email": "required",
+            "id_card": "required"
+          }
+        }
+      },
+      methods: {
+        getABCID () {
+          ABCWallet.abcid.getABCID({ randomStr: this.randomStr })
+        },
+        getIDInfo () {
+          ABCWallet.abcid.getIDInfo(this.getIDInfoParams)
+        }
+      }
+    })
+
+    const allChain = {
+      template: `
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">getAddressFromAddressBook</label>
+          <div class="col-sm-10">
+            <button class="btn btn-info" @click.prevent="getAddressFromAddressBook">getAddressFromAddressBook</button>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">getAddressFromCard</label>
+          <div class="col-sm-10">
+            <button class="btn btn-info" @click.prevent="getAddressFromCard">getAddressFromCard</button>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">sendSimpleTransaction</label>
+          <div class="col-sm-10">
+            <v-jsoneditor :cache="chain + '-simpleTx'" v-model="simpleTx"></v-jsoneditor>
+            <button class="btn btn-primary" @click.prevent="sendSimpleTransaction">sendSimpleTransaction</button>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          chain: 'btc',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '',
+            memo: '',
+          }
+        }
+      },
+      methods: {
+        async getAddressFromAddressBook () {
+          const ret = await ABCWallet[this.chain].getAddressFromAddressBook()
+          console.log('Selected account/address:', ret)
+        },
+        async getAddressFromCard () {
+          const ret = await ABCWallet[this.chain].getAddressFromCard()
+          console.log('Selected account/address:', ret)
+        },
+        sendSimpleTransaction () {
+          let params = {}
+          for (let key of Object.keys(this.simpleTx)) {
+            if (this.simpleTx[key]) {
+              params[key] = this.simpleTx[key]
+            }
+          }
+          ABCWallet[this.chain].sendSimpleTransaction(params)
+        }
+      }
+    }
+
+    const btcLike = {
+      template: `
+         <div class="row">
+          <div class="col">
+            <div :id="chain + '-test'" class="card">
+              <div class="card-header">
+                <h2>{{ chain.toUpperCase() }}</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  ${allChain.template}
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">offerIdentity</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="offerIdentity">offerIdentity</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">sign/sendTransaction</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">rawTransaction</span>
+                        </div>
+                        <textarea class="form-control" rows="4" v-model="tx.rawTransaction"></textarea>
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">unspents</span>
+                        </div>
+                        <v-jsoneditor :cache="chain + '-unspents'" v-model="tx.unspents"></v-jsoneditor>
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="sign">sign</button>
+                      <button class="btn btn-primary" @click.prevent="sendTransaction">sendTransaction</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          chain: 'btc',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '',
+            memo: '',
+          },
+          tx: {
+            transaction: '',
+            unspents: JSON.stringify([])
+          }
+        }
+      },
+      methods: {
+        ...allChain.methods,
+        async offerIdentity () {
+          const ret = await ABCWallet[this.chain].offerIdentity()
+          console.log('Selected indentity:', ret)
+        },
+        async sign () {
+          const ret = await ABCWallet[this.chain].sign({
+            rawTransaction: this.tx.rawTransaction,
+            unspents: this.tx.unspents
+          })
+          console.log('Signed transaction:', ret)
+        },
+        async sendTransaction () {
+          const ret = await ABCWallet[this.chain].sendTransaction({
+            rawTransaction: this.tx.rawTransaction,
+            unspents: this.tx.unspents
+          })
+          console.log('Transaction ID:', ret)
+        }
+      }
+    }
+
+    Vue.component('btc-test', {
+      mixins: [btcLike],
+      data () {
+        return {
+          chain: 'btc',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '546',
+            memo: 'test',
+          },
+          tx: {
+            rawTransaction: '0200000001a847cbd85dfa4c3798d5451cad58b10283bc1931c65966d73a376030c9cf58bd0000000000ffffffff0122020000000000001976a914c72abc3c3250d662fe60de5c5cd363830144108f88ac00000000',
+            unspents: [
+              {
+                "txId": "bd58cfc93060373ad76659c63119bc8302b158ad1c45d598374cfa5dd8cb47a8",
+                "address": "1AD658tBqWUGGPL7YNoQZ9iRKnYaegCRLC",
+                "vout": 0,
+                "value": 789
+              }
+            ]
+          }
+        }
+      },
+    })
+
+    Vue.component('bch-test', {
+      mixins: [btcLike],
+      data () {
+        return {
+          chain: 'bch',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '546',
+            memo: 'test',
+          },
+          tx: {
+            rawTransaction: '010000000109e08668f0ae2e67d841731b91d83a4b51f9ce0b135dbbc161af700b5865864c0100000000ffffffff0222020000000000001976a9141e1e33f09a69b8afd067c98e9737a4afedefb9bb88ac39190000000000001976a914dace780cee9a46223e39858c5351b54a13102a3c88ac00000000',
+            unspents: [
+              {
+                "txId": "4c8665580b70af61c1bb5d130bcef9514b3ad8911b7341d8672eaef06886e009",
+                "address": "bitcoincash:qrdvu7qva6dyvg378xzcc563k49pxyp28s7j5j4le7",
+                "vout": 1,
+                "value": 7204
+              }
+            ]
+          }
+        }
+      },
+    })
+
+    Vue.component('bsv-test', {
+      mixins: [btcLike],
+      data () {
+        return {
+          chain: 'bsv',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '546',
+            memo: 'test',
+          },
+          tx: {
+            rawTransaction: '01000000017bebaae08eed1aa31c1e24a87bfdf287c5a77f035a833c6363e690f8432033e70100000000ffffffff0222020000000000001976a9146e7e7a95bb5053c6a4585b49a0bff9138e568c6888ace3606300000000001976a914c8a88c31ebd5e51017232b7f5aaa27e6d765e91f88ac00000000',
+            unspents: [
+              {
+                "txId":"e7332043f890e663633c835a037fa7c587f2fd7ba8241e1ca31aed8ee0aaeb7b",
+                "address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY",
+                "vout":1,
+                "value":6513605
+              },
+              {
+                "txId":"d7182e6a86b4b3ef10f6bc02bb7892f99a332ae21cd8b79f0b0905b11bdc8217",
+                "address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"99c9ee5ad44e4f9af06717880860801cf8d3c5c218aaf1bacc24ea49262dc4ed",
+                "address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"425ce5046689c186102bcbc56cebefcbf932d241892f7f9a92584394d9b21d10",
+                "address":"1KHz4G9eMFUBLPQbHbrAqLwm5c4o4bnPKY",
+                "vout":0,
+                "value":546
+              }
+            ]
+          }
+        }
+      },
+    })
+
+    Vue.component('ltc-test', {
+      mixins: [btcLike],
+      data () {
+        return {
+          chain: 'ltc',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '546',
+            memo: 'test',
+          },
+          tx: {
+            rawTransaction: '0200000002d7d74208ff509f24547609d79e56c09ca6d1360025e47f923b05c313ca9d9ff50000000000ffffffff2e4553c0cf77194054f5072deef76df0278f733cae03799de12d8ceea6152deb0000000000ffffffff0122020000000000001976a914e9dee225b19fca8964a0701bcaffbb81505aa96688ac00000000',
+            unspents: [
+              {
+                "txId":"f59f9dca13c3053b927fe4250036d1a69cc0569ed7097654249f50ff0842d7d7",
+                "address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"eb2d15a6ee8c2de19d7903ae3c738f27f06df7ee2d07f554401977cfc053452e",
+                "address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"de3dba104a27d27c686a37dc5b06be504280ab860b7ef19f811df56999112604",
+                "address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ",
+                "vout":0,
+                "value":546
+              },
+              {
+                "txId":"b5e39ac107cea67fe0e3892ac0e795e1b247ad1b094adfbc37817366af5f6b8c",
+                "address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ",
+                "vout":0,
+                "value":546
+              },{"txId":"b04dc6284689d7de102622fe2865483cab2279238752cd24258aaf748bae3c39","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"192ff003f1c17b069c53c9dc5177e8fa94b1f9fc1e32f66052d60463492eaba1","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546},{"txId":"0db7a5394bfacf5416cfcca2ccd805a3773629cbc0e346ceaa7d51001869fd3a","address":"LfvRA3kBzKsvCVuQuuqHVLFjRgWUAgtvKJ","vout":0,"value":546}]
+          }
+        }
+      },
+    })
+
+    Vue.component('dash-test', {
+      mixins: [btcLike],
+      data () {
+        return {
+          chain: 'dash',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '546',
+            memo: 'test',
+          },
+          tx: {
+            rawTransaction: '0200000002e512a577611aad427ed437acea84934c6f04997e8439502c0f4069b2bcddfaa60000000000ffffffff3864ada7f1861e5752a49f6b1f4e66f69849cfa4344ec1ecc59a5c50b44060f80000000000ffffffff0122020000000000001976a914d6ddf3bc1c434849118ae9ccd49e5c6cff732ad288ac00000000',
+            unspents: [{"txId":"f86040b4505c9ac5ecc14e34a4cf4998f6664e1f6b9fa452571e86f1a7ad6438","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"ea8731a7ff319ef64f924c1b4d3e2a6385b48e8c24128cc85e5650a7e014c269","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"e27b1dc0ca628dbdd50b2a0416249c3e83ece0e4d9a516a2ff5806219d2767a5","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"d011de7eed16af2402e41f9d33c51dc74e4796ebe5d8d4428cd28214fb62d46e","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"cf6a7a733f35a631ffffc5813820a8e7396c4e51732321d288603eb1e598cfde","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"b937173f232f0e489e902fb800820f2d96845ca9fa2141315e5cbf12c90871d1","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"ad12efc09a9ed5b2d7cae50991530001379ac1965394a9314b66f0ba35263fb2","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"a6faddbcb269400f2c5039847e99046f4c9384eaac37d47e42ad1a6177a512e5","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"a3c054244046504018ad50c0afb79d7c79bcb8d3381186bfdaeb72eab00408b6","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"7b153cbf228efbd433a840297b6f0efcc9556dadc6b6e46d6c38b5db3a4e551e","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"703a466833e51be1cc5390f5cd2c75029766d3d67e4da54d851b79db0a47d8a6","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"5d679e6f3d7b5619ba7cad586664674a8cb985cabe768e1f9dbb628a54c01b2c","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"2ab825fd21e7de10e92e12cc333647211a031b4e1419a792f97039927a305451","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"262e983b25ade02b3e29fa9b53bba7ad46b71455bcf52c655bff9ae3554d8399","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546},{"txId":"15e45394de5c42880c4583689d47ab30694d572221e9151dee4f0e16daeed813","address":"XsiZ4MUtP7wraej257kYP47tGf8M1uLUVn","vout":0,"value":546}]
+          }
+        }
+      },
+    })
+
+    Vue.component('eth-test', {
+      template: `
+         <div class="row">
+          <div class="col">
+            <div id="eth-test" class="card">
+              <div class="card-header">
+                <h2>{{ chain.toUpperCase() }}</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  ${allChain.template}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          chain: 'eth',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '',
+            memo: '',
+          }
+        }
+      },
+      methods: {
+        ...allChain.methods,
+      },
+    })
+
+    Vue.component('eos-test', {
+      template: `
+         <div class="row">
+          <div class="col">
+            <div id="eos-test" class="card">
+              <div class="card-header">
+                <h2>{{ chain.toUpperCase() }}</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  ${allChain.template}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          chain: 'eos',
+          simpleTx: {
+            from: '',
+            to: '',
+            value: '',
+            memo: '',
+          }
+        }
+      },
+      methods: {
+        ...allChain.methods,
+      },
+    })
+
+    const chainOptions = `
+      <option>btc</option>
+      <option>bch</option>
+      <option>bsv</option>
+      <option>ltc</option>
+      <option>dash</option>
+      <option>eth</option>
+      <option>etc</option>
+      <option>eos</option>
+    `
+
+    Vue.component('private-test', {
+      template: `
+         <div class="row">
+          <div class="col">
+            <div id="private-test" class="card">
+              <div class="card-header">
+                <h2>Private</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">ensureHasCard</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">chainType</span>
+                        </div>
+                        <select class="form-control" v-model="chainType">${chainOptions}</select>
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="ensureHasCard">ensureHasCard</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">buildGiftTransaction</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">chainType</span>
+                        </div>
+                        <select class="form-control" v-model="giftParams.chainType">${chainOptions}</select>
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">toAddress</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="giftParams.toAddress">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">toPrivateKey</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="giftParams.toPrivateKey">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">value</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="giftParams.value">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">skin</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="giftParams.skin">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">message</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="giftParams.message">
+                      </div>
+                      <span class="form-text">Signed transaction: {{giftResult}}</span>
+
+
+                      <button class="btn btn-primary" @click.prevent="buildGiftTransaction">buildGiftTransaction</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">encryptDataWithPrivateKey</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">chainType</span>
+                        </div>
+                        <select class="form-control" v-model="encryptParams.chainType">${chainOptions}</select>
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">data</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="encryptParams.data">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">publicKey</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="encryptParams.publicKey">
+                      </div>
+                      <span class="form-text">Encrypted data: {{encryptResult}}</span>
+
+                      <button class="btn btn-primary" @click.prevent="encryptDataWithPrivateKey">encryptDataWithPrivateKey</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">decryptDataWithPrivateKey</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">chainType</span>
+                        </div>
+                        <select class="form-control" v-model="decryptParams.chainType">${chainOptions}</select>
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">cipher</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="decryptParams.cipher">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">publicKey</span>
+                        </div>
+                        <input class="form-control" type="text" v-model="decryptParams.publicKey">
+                      </div>
+                      <span class="form-text">Decrypted data: {{decryptResult}}</span>
+
+                      <button class="btn btn-primary" @click.prevent="decryptDataWithPrivateKey">decryptDataWithPrivateKey</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          chainType: 'btc',
+          giftParams: {
+            chainType: 'etc',
+            toAddress: '0xbA70b3269Ee6C358CfC75eA56C2C3e53c28207CE',
+            toPrivateKey: '0x20932d1966b7ddeeeb79bfb446bc2f3dcd96e963c5f0bcce7bae32d2519b244e',
+            value: '1000000000',
+            skin: '1',
+            message: 'hello world',
+          },
+          giftResult: '',
+          encryptParams: {
+            chainType: 'etc',
+            data: 'hello world',
+            publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9',
+          },
+          encryptResult: '',
+          decryptParams: {
+            chainType: 'eth',
+            cipher: '09398B01BDEAFC59F87573EF761F773D',
+            publicKey: '0xA201a071a6A86EdB9adea077165B72F33Eb17Fd9',
+          },
+          decryptResult: '',
+        }
+      },
+      methods: {
+        ensureHasCard () {
+          ABCWallet.private.ensureHasCard({ chainType: this.chainType.toLowerCase() })
+        },
+        async buildGiftTransaction () {
+          this.giftResult = await ABCWallet.private.buildGiftTransaction(this.giftParams)
+        },
+        async encryptDataWithPrivateKey () {
+          this.encryptResult = await ABCWallet.private.encryptDataWithPrivateKey(this.encryptParams)
+        },
+        async decryptDataWithPrivateKey () {
+          this.decryptResult = await ABCWallet.private.decryptDataWithPrivateKey(this.decryptParams)
+        }
+      },
+    })
+
+    const app = new Vue({
+      el: '#app',
+      template: `
+        <div id="app" class="container-fluid">
+          <div class="alert alert-primary" role="alert">
+            ⚠️ 浏览器请打开控制台查看调试信息，移动端请打开 Safari/Chrome 的远程调试面板。
+          </div>
+
+          <webview-test></webview-test>
+          <dapp-test></dapp-test>
+          <partner-test></partner-test>
+          <abcid-test></abcid-test>
+          <btc-test></btc-test>
+          <bch-test></bch-test>
+          <bsv-test></bsv-test>
+          <ltc-test></ltc-test>
+          <dash-test></dash-test>
+          <eth-test></eth-test>
+          <eos-test></eos-test>
+          <private-test></private-test>
+
+          <div class="menu position-fixed">
+            <ul>
+              <li><a href="#webview-test">webview-test</a></li>
+              <li><a href="#dapp-test">dapp-test</a></li>
+              <li><a href="#partner-test">partner-test</a></li>
+              <li><a href="#abcid-test">abcid-test</a></li>
+              <li><a href="#btc-test">btc-test</a></li>
+              <li><a href="#bch-test">bch-test</a></li>
+              <li><a href="#bsv-test">bsv-test</a></li>
+              <li><a href="#ltc-test">ltc-test</a></li>
+              <li><a href="#dash-test">dash-test</a></li>
+              <li><a href="#eth-test">eth-test</a></li>
+              <li><a href="#eos-test">eos-test</a></li>
+              <li><a href="#private-test">private-test</a></li>
+            </ul>
+          </div>
+        </div>
+      `,
+    })
+  </script>
+</body>
+</html>

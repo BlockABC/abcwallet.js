@@ -11,7 +11,8 @@ import { DASHAPI } from './DASHAPI';
 import { ETHAPI } from './ETHAPI';
 import { ETCAPI } from './ETCAPI';
 import { EOSAPI } from './EOSAPI';
-export { WebviewAPI, DappAPI, PartnerAPI, ABCIDAPI, PrivateAPI, BTCAPI, BCHAPI, BSVAPI, LTCAPI, DASHAPI, ETHAPI, ETCAPI, EOSAPI, };
+import { BrowserAPI } from './BrowserAPI';
+export { WebviewAPI, DappAPI, PartnerAPI, ABCIDAPI, PrivateAPI, BTCAPI, BCHAPI, BSVAPI, LTCAPI, DASHAPI, ETHAPI, ETCAPI, EOSAPI, BrowserAPI, };
 declare const _default: {
     webview: typeof WebviewAPI;
     dapp: typeof DappAPI;
@@ -26,5 +27,6 @@ declare const _default: {
     eth: typeof ETHAPI;
     etc: typeof ETCAPI;
     eos: typeof EOSAPI;
+    browser: typeof BrowserAPI;
 };
 export default _default;

@@ -855,7 +855,7 @@ var isArray = __webpack_require__(0);
 var _isKey = __webpack_require__(20);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_MapCache.js + 14 modules
-var _MapCache = __webpack_require__(15);
+var _MapCache = __webpack_require__(17);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/memoize.js
 
@@ -1034,6 +1034,107 @@ var Map = Object(_getNative_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(
 
 /***/ }),
 /* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var every_1 = __webpack_require__(71);
+var isNil_1 = __webpack_require__(42);
+var error_1 = __webpack_require__(50);
+function isRequest(obj) {
+    var requiredKeys = ['jsonrpc', 'id', 'namespace', 'method', 'params'];
+    return every_1.default(requiredKeys, function (key) {
+        return obj.hasOwnProperty(key);
+    });
+}
+exports.isRequest = isRequest;
+function verifyParams(params, required) {
+    if (isNil_1.default(params)) {
+        throw error_1.ABCWalletError.fromCode(10, "[" + required.toString() + "]");
+    }
+    var missing = [];
+    for (var _i = 0, required_1 = required; _i < required_1.length; _i++) {
+        var key = required_1[_i];
+        if (!params.hasOwnProperty(key) || isNil_1.default(params[key])) {
+            missing.push(key);
+        }
+    }
+    if (missing.length > 0) {
+        throw error_1.ABCWalletError.fromCode(10, "[" + missing.toString() + "]");
+    }
+    return true;
+}
+exports.verifyParams = verifyParams;
+/**
+ * 判断当前页面是否被隐藏了
+ */
+function isDocumentHidden() {
+    return document.hidden || document.visibilityState === 'hidden';
+}
+exports.isDocumentHidden = isDocumentHidden;
+/**
+ * 唤起 native
+ * @param schema {string|Function} string 的时候是一个要唤起的 schema；Function 时是一个要执行的动作
+ * @param timeout
+ */
+function invokeNative(schema, timeout) {
+    if (timeout === void 0) { timeout = 5000; }
+    var hidden = false;
+    var startTime = Date.now();
+    var visibilityChangeHandler = function () {
+        if (isDocumentHidden()) {
+            hidden = true;
+        }
+    };
+    document.addEventListener('visibilitychange', visibilityChangeHandler);
+    return new Promise(function (resolve, reject) {
+        if (typeof schema === 'string') {
+            window.location.href = schema;
+        }
+        if (typeof schema === 'function') {
+            schema();
+        }
+        setTimeout(function () {
+            document.removeEventListener('visibilitychange', visibilityChangeHandler);
+            var endTime = Date.now();
+            var delayed = endTime - startTime > timeout + 1000; // timeout 的执行是否被延迟了
+            if (isDocumentHidden() || hidden || delayed) {
+                resolve();
+            }
+            else {
+                reject(new Error('open failed'));
+            }
+        }, timeout);
+    });
+}
+exports.invokeNative = invokeNative;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var BaseAPI = /** @class */ (function () {
+    function BaseAPI(abcwallet) {
+        this._abcwallet = abcwallet;
+    }
+    BaseAPI.prototype._request = function (payload, isNotify) {
+        if (isNotify === void 0) { isNotify = false; }
+        payload.namespace = this._namespace;
+        return this._abcwallet.request(payload, isNotify);
+    };
+    return BaseAPI;
+}());
+exports.BaseAPI = BaseAPI;
+exports.default = BaseAPI;
+
+
+/***/ }),
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1383,64 +1484,6 @@ MapCache.prototype.set = _mapCacheSet;
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var every_1 = __webpack_require__(69);
-var isNil_1 = __webpack_require__(42);
-var error_1 = __webpack_require__(50);
-function isRequest(obj) {
-    var requiredKeys = ['jsonrpc', 'id', 'namespace', 'method', 'params'];
-    return every_1.default(requiredKeys, function (key) {
-        return obj.hasOwnProperty(key);
-    });
-}
-exports.isRequest = isRequest;
-function verifyParams(params, required) {
-    if (isNil_1.default(params)) {
-        throw error_1.ABCWalletError.fromCode(10, "[" + required.toString() + "]");
-    }
-    var missing = [];
-    for (var _i = 0, required_1 = required; _i < required_1.length; _i++) {
-        var key = required_1[_i];
-        if (!params.hasOwnProperty(key) || isNil_1.default(params[key])) {
-            missing.push(key);
-        }
-    }
-    if (missing.length > 0) {
-        throw error_1.ABCWalletError.fromCode(10, "[" + missing.toString() + "]");
-    }
-    return true;
-}
-exports.verifyParams = verifyParams;
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var BaseAPI = /** @class */ (function () {
-    function BaseAPI(abcwallet) {
-        this._abcwallet = abcwallet;
-    }
-    BaseAPI.prototype._request = function (payload, isNotify) {
-        if (isNotify === void 0) { isNotify = false; }
-        payload.namespace = this._namespace;
-        return this._abcwallet.request(payload, isNotify);
-    };
-    return BaseAPI;
-}());
-exports.BaseAPI = BaseAPI;
-exports.default = BaseAPI;
-
-
-/***/ }),
 /* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1673,7 +1716,7 @@ function stackHas(key) {
 var _Map = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_MapCache.js + 14 modules
-var _MapCache = __webpack_require__(15);
+var _MapCache = __webpack_require__(17);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_stackSet.js
 
@@ -3181,7 +3224,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseAPI_1 = __webpack_require__(17);
+var BaseAPI_1 = __webpack_require__(16);
 var ChainBaseAPI = /** @class */ (function (_super) {
     __extends(ChainBaseAPI, _super);
     function ChainBaseAPI() {
@@ -4278,14 +4321,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var uniqueId_1 = __webpack_require__(47);
 var isFunction_1 = __webpack_require__(25);
 var EventEmitter = __webpack_require__(49);
-var helper_1 = __webpack_require__(16);
+var helper_1 = __webpack_require__(15);
 var api_1 = __webpack_require__(52);
-var channel_1 = __webpack_require__(65);
+var channel_1 = __webpack_require__(66);
+var pkg = __webpack_require__(69);
 var ABCWallet = /** @class */ (function (_super) {
     __extends(ABCWallet, _super);
     function ABCWallet(logger) {
         var _this = _super.call(this) || this;
         _this._promises = new Map();
+        _this.version = pkg.version;
         window.ABCWallet = _this;
         _this.log = logger;
         if (window.self !== window.top) {
@@ -4352,7 +4397,7 @@ var ABCWallet = /** @class */ (function (_super) {
             // provider 中对应的 promise 取出并 resolve
             var promise = this._promises.get(id);
             if (!promise) {
-                this.log.error("ABCWallet.response can not find promise for message:", id);
+                this.log.error('ABCWallet.response can not find promise for message:', id);
                 return;
             }
             var duration = (new Date()).getTime() - promise.createdAt.getTime();
@@ -4403,6 +4448,73 @@ var ABCWallet = /** @class */ (function (_super) {
             this._channel.postMessage({ jsonrpc: '2.0', id: id, result: ret });
         }
     };
+    Object.defineProperty(ABCWallet.prototype, "isABCWallet", {
+        get: function () {
+            var UA = window.navigator.userAgent;
+            return /ABCWallet/i.test(UA);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ABCWallet.prototype, "clientVersion", {
+        get: function () {
+            // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+            var matches = window.navigator.userAgent.match(/ABCWallet\/([a-zA-Z-_]+)/g); // 形如 Language/zh-CN
+            var splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/');
+            var version = splitParts && splitParts[1];
+            return version;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * check if clientVersion is greater/smaller/equal to targetVersion
+     * @param targetVersion
+     * @return -1 clientVersion smaller than targetVersion
+     * @return 1 clientVersion greater than targetVersion
+     * @return 0 clientVersion equal to targetVersion
+     * @return null unknown, maybe not in ABCWallet
+     */
+    ABCWallet.prototype.compareVersion = function (targetVersion) {
+        var clientVersion = this.clientVersion;
+        if (!clientVersion)
+            return null;
+        var clientVersionParts = clientVersion.split('.');
+        var targetVersionParts = targetVersion.split('.');
+        for (var i = 0; i < clientVersionParts.length; i++) {
+            var clientVersionPart = parseInt(clientVersionParts[i]);
+            var targetVersionPart = parseInt(targetVersionParts[i]);
+            if (clientVersionPart > targetVersionPart) {
+                return 1;
+            }
+            else if (clientVersionPart < targetVersionPart) {
+                return -1;
+            }
+        }
+        return 0;
+    };
+    Object.defineProperty(ABCWallet.prototype, "clientLanguage", {
+        get: function () {
+            // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+            var matches = window.navigator.userAgent.match(/Language\/([a-zA-Z-_]+)/g); // 形如 Language/zh-CN
+            var splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/');
+            var language = splitParts && splitParts[1];
+            return language;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ABCWallet.prototype, "clientFiat", {
+        get: function () {
+            // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+            var matches = window.navigator.userAgent.match(/Fiat\/([a-zA-Z-_]+)/g);
+            var splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/');
+            var fiat = splitParts && splitParts[1];
+            return fiat;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ABCWallet;
 }(EventEmitter));
 exports.ABCWallet = ABCWallet;
@@ -5003,6 +5115,8 @@ var ETCAPI_1 = __webpack_require__(63);
 exports.ETCAPI = ETCAPI_1.ETCAPI;
 var EOSAPI_1 = __webpack_require__(64);
 exports.EOSAPI = EOSAPI_1.EOSAPI;
+var BrowserAPI_1 = __webpack_require__(65);
+exports.BrowserAPI = BrowserAPI_1.BrowserAPI;
 exports.default = {
     webview: WebviewAPI_1.WebviewAPI,
     dapp: DappAPI_1.DappAPI,
@@ -5017,6 +5131,7 @@ exports.default = {
     eth: ETHAPI_1.ETHAPI,
     etc: ETCAPI_1.ETCAPI,
     eos: EOSAPI_1.EOSAPI,
+    browser: BrowserAPI_1.BrowserAPI,
 };
 
 
@@ -5041,9 +5156,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var isNil_1 = __webpack_require__(42);
-var omitBy_1 = __webpack_require__(68);
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __webpack_require__(17);
+var omitBy_1 = __webpack_require__(70);
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __webpack_require__(16);
 var WebviewAPI = /** @class */ (function (_super) {
     __extends(WebviewAPI, _super);
     function WebviewAPI() {
@@ -5142,8 +5257,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __webpack_require__(17);
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __webpack_require__(16);
 var DappAPI = /** @class */ (function (_super) {
     __extends(DappAPI, _super);
     function DappAPI() {
@@ -5214,8 +5329,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var BaseAPI_1 = __webpack_require__(17);
-var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __webpack_require__(16);
+var helper_1 = __webpack_require__(15);
 var PartnerAPI = /** @class */ (function (_super) {
     __extends(PartnerAPI, _super);
     function PartnerAPI() {
@@ -5283,8 +5398,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __webpack_require__(17);
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __webpack_require__(16);
 var ABCIDAPI = /** @class */ (function (_super) {
     __extends(ABCIDAPI, _super);
     function ABCIDAPI() {
@@ -5345,8 +5460,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __webpack_require__(17);
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __webpack_require__(16);
 var PrivateAPI = /** @class */ (function (_super) {
     __extends(PrivateAPI, _super);
     function PrivateAPI() {
@@ -5639,16 +5754,58 @@ exports.default = EOSAPI;
 
 "use strict";
 
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(66));
-__export(__webpack_require__(67));
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __webpack_require__(16);
+var BrowserAPI = /** @class */ (function (_super) {
+    __extends(BrowserAPI, _super);
+    function BrowserAPI() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._namespace = 'dapp';
+        return _this;
+    }
+    /**
+     * invoker and open dapp in abcwallet client
+     */
+    BrowserAPI.prototype.openDapp = function (_a) {
+        var url = _a.url, dapp_id = _a.dapp_id;
+        return helper_1.invokeNative("abcwallet://open-dapp?url=" + encodeURIComponent(url) + "&dapp_id=" + dapp_id);
+    };
+    return BrowserAPI;
+}(BaseAPI_1.default));
+exports.BrowserAPI = BrowserAPI;
+exports.default = BrowserAPI;
 
 
 /***/ }),
 /* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(67));
+__export(__webpack_require__(68));
+
+
+/***/ }),
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5667,7 +5824,7 @@ exports.default = IframeChannel;
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5736,7 +5893,13 @@ exports.default = NativeChannel;
 
 
 /***/ }),
-/* 68 */
+/* 69 */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.4.0\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/ test/\",\"lint:nofix\":\"eslint --ext .ts src/ test/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.0\",\"lodash-es\":\"^4.17.15\",\"loglevel\":\"^1.6.3\",\"ts-custom-error\":\"^3.0.0\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.0.4\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^3.0.0\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
+
+/***/ }),
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6204,7 +6367,7 @@ function omitBy(object, predicate) {
 
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
