@@ -2,6 +2,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const pkg = require('./package.json')
@@ -43,15 +44,33 @@ module.exports = function (env = {}, argv) {
             onlyCompileBundledFiles: true
           }
         }
-      } ]
+      }]
     },
     plugins: [
       new webpack.DefinePlugin({
         NODE_RUNTIME: JSON.stringify(false),
         WEB_RUNTIME: JSON.stringify(true)
       }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, 'public', 'index.html'),
+        inject: false,
+        minify: false,
+      })
     ],
-    devtool: false
+    devtool: false,
+    devServer: {
+      host: '0.0.0.0',
+      disableHostCheck: true,
+      contentBase: [
+        path.resolve(__dirname, 'public'),
+        path.resolve(__dirname, 'dist'),
+      ],
+    }
+  }
+
+  // 不直接定义 port ，这样在本地开发时会自动挑选合适的 port
+  if (process.env.PORT) {
+    config.devServer.port = process.env.PORT
   }
 
   if (PROD) {
@@ -74,16 +93,6 @@ module.exports = function (env = {}, argv) {
     return [config, minifiedConfig]
   }
   else {
-    // config.watch = true
-    config.devServer = {
-      host: '0.0.0.0',
-      disableHostCheck: true,
-      contentBase: [
-        path.resolve(__dirname, 'public'),
-        path.resolve(__dirname, 'dist'),
-      ],
-    }
-
     return config
   }
 }
