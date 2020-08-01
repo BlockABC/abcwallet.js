@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/BlockABC/abcwallet.js/compare/v1.4.0...v1.4.1) (2020-08-01)
+
+
+### Bug Fixes
+
+* update dependencies, fix some type problems ([1476d20](https://github.com/BlockABC/abcwallet.js/commit/1476d20bc224e109644e75387bd33d6b352a19e3))
+
 # [1.4.0](https://github.com/BlockABC/abcwallet.js/compare/v1.3.0...v1.4.0) (2020-03-24)
 
 
