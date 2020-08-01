@@ -3,7 +3,7 @@ import isFunction from 'lodash-es/isFunction'
 import { Logger } from 'loglevel'
 import * as EventEmitter from 'eventemitter3'
 
-import { IRequest, IPromise, IChannel } from './interface'
+import { IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
 import api, { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, BCHAPI, ETHAPI, EOSAPI, ABCIDAPI, PartnerAPI, BrowserAPI } from './api'
 import { NativeChannel, IframeChannel } from './channel'
@@ -51,12 +51,12 @@ export class ABCWallet extends EventEmitter {
 
     this._timer = setInterval((): void => {
       const now = (new Date()).getTime()
-      for (const [, promise] of this._promises) {
+      this._promises.forEach((promise) => {
         const duration = now - promise.createdAt.getTime()
         if (duration > 3600 * 1000) {
           this.log.warn('ABCWallet.response take too long(more than 5000ms):', promise.path)
         }
-      }
+      })
     }, 1000)
   }
 
@@ -166,11 +166,41 @@ export class ABCWallet extends EventEmitter {
 
   get clientVersion (): string {
     // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
-    const matches: any = window.navigator.userAgent.match(/ABCWallet\/([a-zA-Z-_]+)/g) // 形如 Language/zh-CN
-    const splitParts: any = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
-    const version = splitParts && splitParts[1]
+    const matches = window.navigator.userAgent.match(/ABCWallet\/([a-zA-Z-_]+)/g) // 形如 Language/zh-CN
+    const splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
+
+    let version = ''
+    if (splitParts[1]) {
+      version = splitParts[1]
+    }
 
     return version
+  }
+
+  get clientLanguage (): string {
+    // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+    const matches: any = window.navigator.userAgent.match(/Language\/([a-zA-Z-_]+)/g) // 形如 Language/zh-CN
+    const splitParts: any = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
+
+    let language = ''
+    if (splitParts[1]) {
+      language = splitParts[1]
+    }
+
+    return language
+  }
+
+  get clientFiat (): string {
+    // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+    const matches: any = window.navigator.userAgent.match(/Fiat\/([a-zA-Z-_]+)/g)
+    const splitParts: any = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
+
+    let fiat = ''
+    if (splitParts[1]) {
+      fiat = splitParts[1]
+    }
+
+    return fiat
   }
 
   /**
@@ -202,23 +232,6 @@ export class ABCWallet extends EventEmitter {
     }
 
     return 0
-  }
-
-  get clientLanguage (): string {
-    // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
-    const matches: any = window.navigator.userAgent.match(/Language\/([a-zA-Z-_]+)/g) // 形如 Language/zh-CN
-    const splitParts: any = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
-    const language = splitParts && splitParts[1]
-
-    return language
-  }
-
-  get clientFiat (): string {
-    // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
-    const matches: any = window.navigator.userAgent.match(/Fiat\/([a-zA-Z-_]+)/g)
-    const splitParts: any = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/')
-    const fiat = splitParts && splitParts[1]
-    return fiat
   }
 }
 

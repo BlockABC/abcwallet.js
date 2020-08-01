@@ -1,6 +1,6 @@
 {
   "name": "abcwallet",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "The only and best SDK for ABCWallet application development.",
   "repository": "https://github.com/BlockABC/abcwallet.js",
   "license": "MIT",
@@ -38,10 +38,10 @@
   "module": "./esm/index.js",
   "browser": "./dist/abcwallet.umd.min.js",
   "dependencies": {
-    "eventemitter3": "^4.0.0",
+    "eventemitter3": "^4.0.4",
     "lodash-es": "^4.17.15",
-    "loglevel": "^1.6.3",
-    "ts-custom-error": "^3.0.0"
+    "loglevel": "^1.6.8",
+    "ts-custom-error": "^3.1.1"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.0",
@@ -60,7 +60,7 @@
     "semantic-release": "^17.0.4",
     "ts-jest": "^24.0.0",
     "ts-loader": "^5.0.0",
-    "typescript": "^3.0.0",
+    "typescript": "^3.9.7",
     "webpack": "^4.29.6",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.0",
