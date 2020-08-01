@@ -1039,6 +1039,7 @@ var Map = Object(_getNative_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.invokeNative = exports.isDocumentHidden = exports.verifyParams = exports.isRequest = void 0;
 var every_1 = __webpack_require__(71);
 var isNil_1 = __webpack_require__(42);
 var error_1 = __webpack_require__(50);
@@ -1118,6 +1119,7 @@ exports.invokeNative = invokeNative;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseAPI = void 0;
 var BaseAPI = /** @class */ (function () {
     function BaseAPI(abcwallet) {
         this._abcwallet = abcwallet;
@@ -3077,6 +3079,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BTCAPI = void 0;
 var ChainBaseAPI_1 = __webpack_require__(27);
 var BTCAPI = /** @class */ (function (_super) {
     __extends(BTCAPI, _super);
@@ -3224,6 +3227,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ChainBaseAPI = void 0;
 var BaseAPI_1 = __webpack_require__(16);
 var ChainBaseAPI = /** @class */ (function (_super) {
     __extends(ChainBaseAPI, _super);
@@ -4318,6 +4322,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ABCWallet = void 0;
 var uniqueId_1 = __webpack_require__(47);
 var isFunction_1 = __webpack_require__(25);
 var EventEmitter = __webpack_require__(49);
@@ -4350,13 +4355,12 @@ var ABCWallet = /** @class */ (function (_super) {
         }
         _this._timer = setInterval(function () {
             var now = (new Date()).getTime();
-            for (var _i = 0, _a = _this._promises; _i < _a.length; _i++) {
-                var _b = _a[_i], promise = _b[1];
+            _this._promises.forEach(function (promise) {
                 var duration = now - promise.createdAt.getTime();
                 if (duration > 3600 * 1000) {
                     _this.log.warn('ABCWallet.response take too long(more than 5000ms):', promise.path);
                 }
-            }
+            });
         }, 1000);
         return _this;
     }
@@ -4453,7 +4457,7 @@ var ABCWallet = /** @class */ (function (_super) {
             var UA = window.navigator.userAgent;
             return /ABCWallet/i.test(UA);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(ABCWallet.prototype, "clientVersion", {
@@ -4461,10 +4465,41 @@ var ABCWallet = /** @class */ (function (_super) {
             // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
             var matches = window.navigator.userAgent.match(/ABCWallet\/([a-zA-Z-_]+)/g); // 形如 Language/zh-CN
             var splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/');
-            var version = splitParts && splitParts[1];
+            var version = '';
+            if (splitParts[1]) {
+                version = splitParts[1];
+            }
             return version;
         },
-        enumerable: true,
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ABCWallet.prototype, "clientLanguage", {
+        get: function () {
+            // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+            var matches = window.navigator.userAgent.match(/Language\/([a-zA-Z-_]+)/g); // 形如 Language/zh-CN
+            var splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/');
+            var language = '';
+            if (splitParts[1]) {
+                language = splitParts[1];
+            }
+            return language;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ABCWallet.prototype, "clientFiat", {
+        get: function () {
+            // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
+            var matches = window.navigator.userAgent.match(/Fiat\/([a-zA-Z-_]+)/g);
+            var splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/');
+            var fiat = '';
+            if (splitParts[1]) {
+                fiat = splitParts[1];
+            }
+            return fiat;
+        },
+        enumerable: false,
         configurable: true
     });
     /**
@@ -4493,28 +4528,6 @@ var ABCWallet = /** @class */ (function (_super) {
         }
         return 0;
     };
-    Object.defineProperty(ABCWallet.prototype, "clientLanguage", {
-        get: function () {
-            // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
-            var matches = window.navigator.userAgent.match(/Language\/([a-zA-Z-_]+)/g); // 形如 Language/zh-CN
-            var splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/');
-            var language = splitParts && splitParts[1];
-            return language;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ABCWallet.prototype, "clientFiat", {
-        get: function () {
-            // todo 某个版本的 iOS 的 UA 设置了两次，后面一次是对的，所以这里做了一下兼容，后面择机去掉兼容
-            var matches = window.navigator.userAgent.match(/Fiat\/([a-zA-Z-_]+)/g);
-            var splitParts = matches && matches[matches.length - 1] && matches[matches.length - 1].split('/');
-            var fiat = splitParts && splitParts[1];
-            return fiat;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return ABCWallet;
 }(EventEmitter));
 exports.ABCWallet = ABCWallet;
@@ -4947,6 +4960,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ABCWalletError = void 0;
 var ts_custom_error_1 = __webpack_require__(51);
 var ABCWalletError = /** @class */ (function (_super) {
     __extends(ABCWalletError, _super);
@@ -5089,34 +5103,35 @@ exports.ABCWalletError = ABCWalletError;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BrowserAPI = exports.EOSAPI = exports.ETCAPI = exports.ETHAPI = exports.DASHAPI = exports.LTCAPI = exports.BSVAPI = exports.BCHAPI = exports.BTCAPI = exports.PrivateAPI = exports.ABCIDAPI = exports.PartnerAPI = exports.DappAPI = exports.WebviewAPI = void 0;
 var WebviewAPI_1 = __webpack_require__(53);
-exports.WebviewAPI = WebviewAPI_1.WebviewAPI;
+Object.defineProperty(exports, "WebviewAPI", { enumerable: true, get: function () { return WebviewAPI_1.WebviewAPI; } });
 var DappAPI_1 = __webpack_require__(54);
-exports.DappAPI = DappAPI_1.DappAPI;
+Object.defineProperty(exports, "DappAPI", { enumerable: true, get: function () { return DappAPI_1.DappAPI; } });
 var PartnerAPI_1 = __webpack_require__(55);
-exports.PartnerAPI = PartnerAPI_1.PartnerAPI;
+Object.defineProperty(exports, "PartnerAPI", { enumerable: true, get: function () { return PartnerAPI_1.PartnerAPI; } });
 var ABCIDAPI_1 = __webpack_require__(56);
-exports.ABCIDAPI = ABCIDAPI_1.ABCIDAPI;
+Object.defineProperty(exports, "ABCIDAPI", { enumerable: true, get: function () { return ABCIDAPI_1.ABCIDAPI; } });
 var PrivateAPI_1 = __webpack_require__(57);
-exports.PrivateAPI = PrivateAPI_1.PrivateAPI;
+Object.defineProperty(exports, "PrivateAPI", { enumerable: true, get: function () { return PrivateAPI_1.PrivateAPI; } });
 var BTCAPI_1 = __webpack_require__(24);
-exports.BTCAPI = BTCAPI_1.BTCAPI;
+Object.defineProperty(exports, "BTCAPI", { enumerable: true, get: function () { return BTCAPI_1.BTCAPI; } });
 var BCHAPI_1 = __webpack_require__(58);
-exports.BCHAPI = BCHAPI_1.BCHAPI;
+Object.defineProperty(exports, "BCHAPI", { enumerable: true, get: function () { return BCHAPI_1.BCHAPI; } });
 var BSVAPI_1 = __webpack_require__(59);
-exports.BSVAPI = BSVAPI_1.BSVAPI;
+Object.defineProperty(exports, "BSVAPI", { enumerable: true, get: function () { return BSVAPI_1.BSVAPI; } });
 var LTCAPI_1 = __webpack_require__(60);
-exports.LTCAPI = LTCAPI_1.LTCAPI;
+Object.defineProperty(exports, "LTCAPI", { enumerable: true, get: function () { return LTCAPI_1.LTCAPI; } });
 var DASHAPI_1 = __webpack_require__(61);
-exports.DASHAPI = DASHAPI_1.DASHAPI;
+Object.defineProperty(exports, "DASHAPI", { enumerable: true, get: function () { return DASHAPI_1.DASHAPI; } });
 var ETHAPI_1 = __webpack_require__(62);
-exports.ETHAPI = ETHAPI_1.ETHAPI;
+Object.defineProperty(exports, "ETHAPI", { enumerable: true, get: function () { return ETHAPI_1.ETHAPI; } });
 var ETCAPI_1 = __webpack_require__(63);
-exports.ETCAPI = ETCAPI_1.ETCAPI;
+Object.defineProperty(exports, "ETCAPI", { enumerable: true, get: function () { return ETCAPI_1.ETCAPI; } });
 var EOSAPI_1 = __webpack_require__(64);
-exports.EOSAPI = EOSAPI_1.EOSAPI;
+Object.defineProperty(exports, "EOSAPI", { enumerable: true, get: function () { return EOSAPI_1.EOSAPI; } });
 var BrowserAPI_1 = __webpack_require__(65);
-exports.BrowserAPI = BrowserAPI_1.BrowserAPI;
+Object.defineProperty(exports, "BrowserAPI", { enumerable: true, get: function () { return BrowserAPI_1.BrowserAPI; } });
 exports.default = {
     webview: WebviewAPI_1.WebviewAPI,
     dapp: DappAPI_1.DappAPI,
@@ -5155,6 +5170,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebviewAPI = void 0;
 var isNil_1 = __webpack_require__(42);
 var omitBy_1 = __webpack_require__(70);
 var helper_1 = __webpack_require__(15);
@@ -5257,6 +5273,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DappAPI = void 0;
 var helper_1 = __webpack_require__(15);
 var BaseAPI_1 = __webpack_require__(16);
 var DappAPI = /** @class */ (function (_super) {
@@ -5329,6 +5346,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PartnerAPI = void 0;
 var BaseAPI_1 = __webpack_require__(16);
 var helper_1 = __webpack_require__(15);
 var PartnerAPI = /** @class */ (function (_super) {
@@ -5398,6 +5416,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ABCIDAPI = void 0;
 var helper_1 = __webpack_require__(15);
 var BaseAPI_1 = __webpack_require__(16);
 var ABCIDAPI = /** @class */ (function (_super) {
@@ -5460,6 +5479,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PrivateAPI = void 0;
 var helper_1 = __webpack_require__(15);
 var BaseAPI_1 = __webpack_require__(16);
 var PrivateAPI = /** @class */ (function (_super) {
@@ -5530,6 +5550,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BCHAPI = void 0;
 var BTCAPI_1 = __webpack_require__(24);
 var BCHAPI = /** @class */ (function (_super) {
     __extends(BCHAPI, _super);
@@ -5564,6 +5585,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BSVAPI = void 0;
 var BTCAPI_1 = __webpack_require__(24);
 var BSVAPI = /** @class */ (function (_super) {
     __extends(BSVAPI, _super);
@@ -5598,6 +5620,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LTCAPI = void 0;
 var BTCAPI_1 = __webpack_require__(24);
 var LTCAPI = /** @class */ (function (_super) {
     __extends(LTCAPI, _super);
@@ -5632,6 +5655,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DASHAPI = void 0;
 var BTCAPI_1 = __webpack_require__(24);
 var DASHAPI = /** @class */ (function (_super) {
     __extends(DASHAPI, _super);
@@ -5666,6 +5690,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ETHAPI = void 0;
 var ChainBaseAPI_1 = __webpack_require__(27);
 var ETHAPI = /** @class */ (function (_super) {
     __extends(ETHAPI, _super);
@@ -5700,6 +5725,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ETCAPI = void 0;
 var ChainBaseAPI_1 = __webpack_require__(27);
 var ETCAPI = /** @class */ (function (_super) {
     __extends(ETCAPI, _super);
@@ -5734,6 +5760,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EOSAPI = void 0;
 var ChainBaseAPI_1 = __webpack_require__(27);
 var EOSAPI = /** @class */ (function (_super) {
     __extends(EOSAPI, _super);
@@ -5768,6 +5795,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BrowserAPI = void 0;
 var helper_1 = __webpack_require__(15);
 var BaseAPI_1 = __webpack_require__(16);
 var BrowserAPI = /** @class */ (function (_super) {
@@ -5796,12 +5824,19 @@ exports.default = BrowserAPI;
 
 "use strict";
 
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(67));
-__export(__webpack_require__(68));
+__exportStar(__webpack_require__(67), exports);
+__exportStar(__webpack_require__(68), exports);
 
 
 /***/ }),
@@ -5811,6 +5846,7 @@ __export(__webpack_require__(68));
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.IframeChannel = void 0;
 var IframeChannel = /** @class */ (function () {
     function IframeChannel() {
     }
@@ -5830,6 +5866,7 @@ exports.default = IframeChannel;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.NativeChannel = void 0;
 /**
  * Native Channel
  */
@@ -5896,7 +5933,7 @@ exports.default = NativeChannel;
 /* 69 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.4.0\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/ test/\",\"lint:nofix\":\"eslint --ext .ts src/ test/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.0\",\"lodash-es\":\"^4.17.15\",\"loglevel\":\"^1.6.3\",\"ts-custom-error\":\"^3.0.0\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.0.4\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^3.0.0\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
+module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.4.1\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/ test/\",\"lint:nofix\":\"eslint --ext .ts src/ test/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.4\",\"lodash-es\":\"^4.17.15\",\"loglevel\":\"^1.6.8\",\"ts-custom-error\":\"^3.1.1\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.0.4\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^3.9.7\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
 
 /***/ }),
 /* 70 */

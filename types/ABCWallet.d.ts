@@ -24,6 +24,8 @@ export declare class ABCWallet extends EventEmitter {
     call(msg: any): void;
     get isABCWallet(): boolean;
     get clientVersion(): string;
+    get clientLanguage(): string;
+    get clientFiat(): string;
     /**
      * check if clientVersion is greater/smaller/equal to targetVersion
      * @param targetVersion
@@ -33,7 +35,5 @@ export declare class ABCWallet extends EventEmitter {
      * @return null unknown, maybe not in ABCWallet
      */
     compareVersion(targetVersion: string): -1 | 1 | 0 | null;
-    get clientLanguage(): string;
-    get clientFiat(): string;
 }
 export default ABCWallet;
