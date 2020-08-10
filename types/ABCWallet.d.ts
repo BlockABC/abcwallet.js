@@ -1,5 +1,5 @@
 import { Logger } from 'loglevel';
-import * as EventEmitter from 'eventemitter3';
+import EventEmitter from 'eventemitter3';
 import { IPromise, IChannel } from './interface';
 import { WebviewAPI, DappAPI, PrivateAPI, BTCAPI, BCHAPI, ETHAPI, EOSAPI, ABCIDAPI, PartnerAPI, BrowserAPI } from './api';
 export declare class ABCWallet extends EventEmitter {

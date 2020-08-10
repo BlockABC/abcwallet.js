@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/BlockABC/abcwallet.js/compare/v1.4.1...v1.4.2) (2020-08-10)
+
+
+### Bug Fixes
+
+* add `esModuleInterop` to support commonjs default export ([c598c74](https://github.com/BlockABC/abcwallet.js/commit/c598c7405e9db006b64c037fb5d70dbc58d91c33))
+
 ## [1.4.1](https://github.com/BlockABC/abcwallet.js/compare/v1.4.0...v1.4.1) (2020-08-01)
 
 

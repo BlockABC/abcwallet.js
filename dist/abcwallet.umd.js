@@ -1038,10 +1038,13 @@ var Map = Object(_getNative_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.invokeNative = exports.isDocumentHidden = exports.verifyParams = exports.isRequest = void 0;
-var every_1 = __webpack_require__(71);
-var isNil_1 = __webpack_require__(42);
+var every_1 = __importDefault(__webpack_require__(71));
+var isNil_1 = __importDefault(__webpack_require__(42));
 var error_1 = __webpack_require__(50);
 function isRequest(obj) {
     var requiredKeys = ['jsonrpc', 'id', 'namespace', 'method', 'params'];
@@ -3078,9 +3081,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BTCAPI = void 0;
-var ChainBaseAPI_1 = __webpack_require__(27);
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(27));
 var BTCAPI = /** @class */ (function (_super) {
     __extends(BTCAPI, _super);
     function BTCAPI() {
@@ -3226,9 +3232,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChainBaseAPI = void 0;
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var ChainBaseAPI = /** @class */ (function (_super) {
     __extends(ChainBaseAPI, _super);
     function ChainBaseAPI() {
@@ -4019,10 +4028,13 @@ function stubFalse() {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var loglevel = __webpack_require__(45);
+var loglevel_1 = __importDefault(__webpack_require__(45));
 var ABCWallet_1 = __webpack_require__(46);
-var log = loglevel.getLogger('ABCWallet');
+var log = loglevel_1.default.getLogger('ABCWallet');
 log.setLevel('debug');
 var abcwallet = new ABCWallet_1.ABCWallet(log);
 exports.default = abcwallet;
@@ -4321,13 +4333,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ABCWallet = void 0;
-var uniqueId_1 = __webpack_require__(47);
-var isFunction_1 = __webpack_require__(25);
-var EventEmitter = __webpack_require__(49);
+var uniqueId_1 = __importDefault(__webpack_require__(47));
+var isFunction_1 = __importDefault(__webpack_require__(25));
+var eventemitter3_1 = __importDefault(__webpack_require__(49));
 var helper_1 = __webpack_require__(15);
-var api_1 = __webpack_require__(52);
+var api_1 = __importDefault(__webpack_require__(52));
 var channel_1 = __webpack_require__(66);
 var pkg = __webpack_require__(69);
 var ABCWallet = /** @class */ (function (_super) {
@@ -4529,7 +4544,7 @@ var ABCWallet = /** @class */ (function (_super) {
         return 0;
     };
     return ABCWallet;
-}(EventEmitter));
+}(eventemitter3_1.default));
 exports.ABCWallet = ABCWallet;
 exports.default = ABCWallet;
 
@@ -5169,12 +5184,15 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WebviewAPI = void 0;
-var isNil_1 = __webpack_require__(42);
-var omitBy_1 = __webpack_require__(70);
+var isNil_1 = __importDefault(__webpack_require__(42));
+var omitBy_1 = __importDefault(__webpack_require__(70));
 var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var WebviewAPI = /** @class */ (function (_super) {
     __extends(WebviewAPI, _super);
     function WebviewAPI() {
@@ -5272,10 +5290,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DappAPI = void 0;
 var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var DappAPI = /** @class */ (function (_super) {
     __extends(DappAPI, _super);
     function DappAPI() {
@@ -5345,9 +5366,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PartnerAPI = void 0;
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var helper_1 = __webpack_require__(15);
 var PartnerAPI = /** @class */ (function (_super) {
     __extends(PartnerAPI, _super);
@@ -5415,10 +5439,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ABCIDAPI = void 0;
 var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var ABCIDAPI = /** @class */ (function (_super) {
     __extends(ABCIDAPI, _super);
     function ABCIDAPI() {
@@ -5478,10 +5505,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrivateAPI = void 0;
 var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var PrivateAPI = /** @class */ (function (_super) {
     __extends(PrivateAPI, _super);
     function PrivateAPI() {
@@ -5549,9 +5579,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BCHAPI = void 0;
-var BTCAPI_1 = __webpack_require__(24);
+var BTCAPI_1 = __importDefault(__webpack_require__(24));
 var BCHAPI = /** @class */ (function (_super) {
     __extends(BCHAPI, _super);
     function BCHAPI() {
@@ -5584,9 +5617,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BSVAPI = void 0;
-var BTCAPI_1 = __webpack_require__(24);
+var BTCAPI_1 = __importDefault(__webpack_require__(24));
 var BSVAPI = /** @class */ (function (_super) {
     __extends(BSVAPI, _super);
     function BSVAPI() {
@@ -5619,9 +5655,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LTCAPI = void 0;
-var BTCAPI_1 = __webpack_require__(24);
+var BTCAPI_1 = __importDefault(__webpack_require__(24));
 var LTCAPI = /** @class */ (function (_super) {
     __extends(LTCAPI, _super);
     function LTCAPI() {
@@ -5654,9 +5693,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DASHAPI = void 0;
-var BTCAPI_1 = __webpack_require__(24);
+var BTCAPI_1 = __importDefault(__webpack_require__(24));
 var DASHAPI = /** @class */ (function (_super) {
     __extends(DASHAPI, _super);
     function DASHAPI() {
@@ -5689,9 +5731,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ETHAPI = void 0;
-var ChainBaseAPI_1 = __webpack_require__(27);
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(27));
 var ETHAPI = /** @class */ (function (_super) {
     __extends(ETHAPI, _super);
     function ETHAPI() {
@@ -5724,9 +5769,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ETCAPI = void 0;
-var ChainBaseAPI_1 = __webpack_require__(27);
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(27));
 var ETCAPI = /** @class */ (function (_super) {
     __extends(ETCAPI, _super);
     function ETCAPI() {
@@ -5759,9 +5807,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EOSAPI = void 0;
-var ChainBaseAPI_1 = __webpack_require__(27);
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(27));
 var EOSAPI = /** @class */ (function (_super) {
     __extends(EOSAPI, _super);
     function EOSAPI() {
@@ -5794,10 +5845,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BrowserAPI = void 0;
 var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var BrowserAPI = /** @class */ (function (_super) {
     __extends(BrowserAPI, _super);
     function BrowserAPI() {
@@ -5933,7 +5987,7 @@ exports.default = NativeChannel;
 /* 69 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.4.1\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/ test/\",\"lint:nofix\":\"eslint --ext .ts src/ test/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.4\",\"lodash-es\":\"^4.17.15\",\"loglevel\":\"^1.6.8\",\"ts-custom-error\":\"^3.1.1\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.0.4\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^3.9.7\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
+module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.4.2\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/ test/\",\"lint:nofix\":\"eslint --ext .ts src/ test/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.4\",\"lodash-es\":\"^4.17.15\",\"loglevel\":\"^1.6.8\",\"ts-custom-error\":\"^3.1.1\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.0.4\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^3.9.7\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
 
 /***/ }),
 /* 70 */
