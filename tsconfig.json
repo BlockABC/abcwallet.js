@@ -5,6 +5,7 @@
     "resolveJsonModule": true, // 解析 JSON 模块
     "noImplicitThis": true, // 除非人为指定，否则 this 的类型不能为 any
     "allowSyntheticDefaultImports": true, // 即使没有 export default 的模块，也能导入 default
+    "esModuleInterop": true,// 增强导入默认模块的兼容性
     "experimentalDecorators": true, // 启用装饰器语法
     "emitDecoratorMetadata": true, // 启用类型元数据
     "baseUrl": "./",

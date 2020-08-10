@@ -1,6 +1,7 @@
-#branches: [master, feature/*, fix/*, hotfix/*]
+# This drone config file is working with BlockABC drone service. Because we installed some extra plugins, it is no suit
+# for any other environment.
 pipeline:
-  # 从缓存同步node_modules
+  # Recall node_modules from cache
   restore-cache:
     image: drillster/drone-volume-cache
     restore: true
@@ -16,7 +17,7 @@ pipeline:
     - npm install
     - npm run build
 
-  # 将 node_modules 同步回缓存
+  # Memorize node_modules
   rebuild-cache:
     image: drillster/drone-volume-cache
     rebuild: true
@@ -25,7 +26,7 @@ pipeline:
     volumes:
     - /tmp/cache/drone/abcwallet.js:/cache
 
-  # 部署正式环境，深圳 hk_fe1_b
+  # Depoly example page to one of our server
   deploy_hk_fe1_b:
     image: drillster/drone-rsync
     hosts: ['47.75.126.140']
@@ -41,13 +42,14 @@ pipeline:
     when:
       branch: [master]
 
+  # Use drone wechat plugin to send notification
   wechat_success:
     image: lizheming/drone-wechat
     secrets: [plugin_corpid, plugin_corp_secret, plugin_agent_id]
     title: '${DRONE_REPO_NAME} ${DRONE_COMMIT_BRANCH} 构建成功✅'
     message: "分支: ${DRONE_COMMIT_BRANCH} 序列: ${DRONE_BUILD_NUMBER}. 提交人: ${DRONE_COMMIT_AUTHOR}. 查看详情: ${DRONE_BUILD_LINK} "
     to_user: 'jeff'
-    to_party: 2 # 前端组
+    to_party: 2
     msg_url: ${DRONE_BUILD_LINK}
     btn_txt: 详情
     when:

@@ -1,4 +1,4 @@
-import * as loglevel from 'loglevel'
+import loglevel from 'loglevel'
 import { ABCWallet } from './ABCWallet'
 
 const log = loglevel.getLogger('ABCWallet')

@@ -1,7 +1,7 @@
 import uniqueId from 'lodash-es/uniqueId'
 import isFunction from 'lodash-es/isFunction'
 import { Logger } from 'loglevel'
-import * as EventEmitter from 'eventemitter3'
+import EventEmitter from 'eventemitter3'
 
 import { IPromise, IChannel } from './interface'
 import { isRequest } from './helper'
