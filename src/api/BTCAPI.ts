@@ -10,14 +10,14 @@ export class BTCAPI extends ChainBaseAPI {
     })
   }
 
-  sign (params: { rawTransaction: string; unspents: string }): Promise<void> {
+  sign (params: { rawTransaction: string, unspents: string }): Promise<void> {
     return this._request({
       method: 'sign',
       params
     })
   }
 
-  sendTransaction (params: { rawTransaction: string; unspents: string }): Promise<void> {
+  sendTransaction (params: { rawTransaction: string, unspents: string }): Promise<void> {
     return this._request({
       method: 'sendTransaction',
       params

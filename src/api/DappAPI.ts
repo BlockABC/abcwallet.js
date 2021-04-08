@@ -21,14 +21,14 @@ export class DappAPI extends BaseAPI {
     })
   }
 
-  addCard (params: { userId: string; name: string; url: string; storage: string; pages: IDappPage[] }): Promise<IDappCard> {
+  addCard (params: { userId: string, name: string, url: string, storage: string, pages: IDappPage[] }): Promise<IDappCard> {
     return this._request({
       method: 'addCard',
       params
     })
   }
 
-  updateCard (params: { id: string; dappId: string; userId: string; name: string; url: string; storage: string; pages: IDappPage[] }): Promise<IDappCard> {
+  updateCard (params: { id: string, dappId: string, userId: string, name: string, url: string, storage: string, pages: IDappPage[] }): Promise<IDappCard> {
     return this._request({
       method: 'updateCard',
       params
@@ -42,7 +42,7 @@ export class DappAPI extends BaseAPI {
     })
   }
 
-  updateCardBalance (params: { cardId: string; balance: string }): Promise<void> {
+  updateCardBalance (params: { cardId: string, balance: string }): Promise<void> {
     return this._request({
       method: 'updateCardBalance',
       params

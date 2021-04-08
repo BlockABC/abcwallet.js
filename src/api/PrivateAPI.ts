@@ -30,7 +30,7 @@ export class PrivateAPI extends BaseAPI {
     })
   }
 
-  encryptDataWithPrivateKey (params: { chainType: string; data: string; publicKey: string }): Promise<string> {
+  encryptDataWithPrivateKey (params: { chainType: string, data: string, publicKey: string }): Promise<string> {
     verifyParams(params, ['chainType', 'data', 'publicKey'])
 
     return this._request({
@@ -39,7 +39,7 @@ export class PrivateAPI extends BaseAPI {
     })
   }
 
-  decryptDataWithPrivateKey (params: { chainType: string; cipher: string; publicKey: string }): Promise<string> {
+  decryptDataWithPrivateKey (params: { chainType: string, cipher: string, publicKey: string }): Promise<string> {
     verifyParams(params, ['chainType', 'cipher', 'publicKey'])
 
     return this._request({
@@ -48,7 +48,7 @@ export class PrivateAPI extends BaseAPI {
     })
   }
 
-  forward (params: { dapp: IDapp; method: string; params: any }): Promise<any> {
+  forward (params: { dapp: IDapp, method: string, params: any }): Promise<any> {
     verifyParams(params, ['dapp', 'method', 'params'])
 
     return this._request({

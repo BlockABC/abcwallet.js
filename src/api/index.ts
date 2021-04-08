@@ -11,7 +11,7 @@ import { DASHAPI } from './DASHAPI'
 import { ETHAPI } from './ETHAPI'
 import { ETCAPI } from './ETCAPI'
 import { EOSAPI } from './EOSAPI'
-import { BrowserAPI} from './BrowserAPI'
+import { BrowserAPI } from './BrowserAPI'
 
 export {
   WebviewAPI,
