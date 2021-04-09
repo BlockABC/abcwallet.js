@@ -25,7 +25,7 @@ export class WebviewAPI extends BaseAPI {
     }, true)
   }
 
-  setTitlebar (params: { title?: string; ghost?: boolean; forecolor?: string; bgcolor?: string; left?: boolean }) {
+  setTitlebar (params: { title?: string, ghost?: boolean, forecolor?: string, bgcolor?: string, left?: boolean }) {
     params = omitBy(params, isNil)
 
     return this._request({

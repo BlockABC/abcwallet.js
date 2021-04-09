@@ -26,7 +26,7 @@ export interface IPromise {
 }
 
 export interface IChannel {
-  postMessage(data: string | any): void
+  postMessage(data: string | any): void,
 }
 
 export interface IDapp {

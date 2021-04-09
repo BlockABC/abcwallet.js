@@ -22,7 +22,7 @@ export class ChainBaseAPI extends BaseAPI {
     })
   }
 
-  sendSimpleTransaction (params: { from?: string, to?:string, value?:string, memo?: string }): Promise<void> {
+  sendSimpleTransaction (params: { from?: string, to?: string, value?: string, memo?: string }): Promise<void> {
     return this._request({
       method: 'sendSimpleTransaction',
       params,
