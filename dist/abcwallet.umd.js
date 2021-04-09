@@ -3116,6 +3116,18 @@ var BTCAPI = /** @class */ (function (_super) {
             params: params
         });
     };
+    BTCAPI.prototype.signMessage = function (params) {
+        return this._request({
+            method: 'signMessage',
+            params: params
+        });
+    };
+    BTCAPI.prototype.verifyMessage = function (params) {
+        return this._request({
+            method: 'verifyMessage',
+            params: params
+        });
+    };
     return BTCAPI;
 }(ChainBaseAPI_1.default));
 exports.BTCAPI = BTCAPI;
@@ -6088,7 +6100,7 @@ exports.default = NativeChannel;
 /* 70 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.5.0\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/\",\"lint:nofix\":\"eslint --ext .ts src/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.0\",\"lodash-es\":\"^4.0.0\",\"loglevel\":\"^1.0.0\",\"ts-custom-error\":\"^3.0.0\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.4.0\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^4.0.0\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\",\"dotenv\":\"^8.2.0\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
+module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.6.0\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/\",\"lint:nofix\":\"eslint --ext .ts src/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.0\",\"lodash-es\":\"^4.0.0\",\"loglevel\":\"^1.0.0\",\"ts-custom-error\":\"^3.0.0\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.4.0\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^4.0.0\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\",\"dotenv\":\"^8.2.0\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
 
 /***/ }),
 /* 71 */

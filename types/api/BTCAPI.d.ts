@@ -10,5 +10,14 @@ export declare class BTCAPI extends ChainBaseAPI {
         rawTransaction: string;
         unspents: string;
     }): Promise<void>;
+    signMessage(params: {
+        address: string;
+        message: string;
+    }): Promise<void>;
+    verifyMessage(params: {
+        address: string;
+        message: string;
+        signature: string;
+    }): Promise<void>;
 }
 export default BTCAPI;

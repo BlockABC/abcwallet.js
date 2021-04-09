@@ -683,6 +683,77 @@
 
     Vue.component('btc-test', {
       mixins: [btcLike],
+      template: `
+         <div class="row">
+          <div class="col">
+            <div :id="chain + '-test'" class="card">
+              <div class="card-header">
+                <h2>{{ chain.toUpperCase() }}</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  ${allChain.template}
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">offerIdentity</label>
+                    <div class="col-sm-10">
+                      <button class="btn btn-info" @click.prevent="offerIdentity">offerIdentity</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">sign/sendTransaction</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">rawTransaction</span>
+                        </div>
+                        <textarea class="form-control" rows="4" v-model="tx.rawTransaction"></textarea>
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">unspents</span>
+                        </div>
+                        <v-jsoneditor :cache="chain + '-unspents'" v-model="tx.unspents"></v-jsoneditor>
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="sign">sign</button>
+                      <button class="btn btn-primary" @click.prevent="sendTransaction">sendTransaction</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">signMessage</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">params</span>
+                        </div>
+                        <v-jsoneditor :cache="chain + '-signMessageParams'" v-model="signMessageParams"></v-jsoneditor>
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="signMessage">signMessage</button>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">verifyMessage</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">params</span>
+                        </div>
+                        <v-jsoneditor :cache="chain + '-verifyMessageParams'" v-model="verifyMessageParams"></v-jsoneditor>
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="verifyMessage">verifyMessage</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
       data () {
         return {
           chain: 'btc',
@@ -702,9 +773,37 @@
                 "value": 789
               }
             ]
+          },
+          signMessageParams: {
+            address: '',
+            message: 'hello world',
+          },
+          verifyMessageParams: {
+            address: '',
+            message: 'hello world',
+            signature: '',
           }
         }
       },
+      methods: {
+        async signMessage () {
+          const ret = await ABCWallet[this.chain].signMessage({
+            address: '',
+            message: '',
+          })
+
+          console.log('Transaction ID:', ret)
+        },
+        async verifyMessage () {
+          const ret = await ABCWallet[this.chain].verifyMessage({
+            address: '',
+            message: '',
+            signature: '',
+          })
+
+          console.log('Transaction ID:', ret)
+        }
+      }
     })
 
     Vue.component('bch-test', {

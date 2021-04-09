@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/BlockABC/abcwallet.js/compare/v1.5.0...v1.6.0) (2021-04-09)
+
+
+### Features
+
+* add new API for btc ([c5592e9](https://github.com/BlockABC/abcwallet.js/commit/c5592e99e441707e3be6a0256692750ba7bf84bf))
+
 # [1.5.0](https://github.com/BlockABC/abcwallet.js/compare/v1.4.2...v1.5.0) (2021-04-09)
 
 
