@@ -8,6 +8,7 @@ import { BCHAPI } from './BCHAPI'
 import { BSVAPI } from './BSVAPI'
 import { LTCAPI } from './LTCAPI'
 import { DASHAPI } from './DASHAPI'
+import { CKBAPI } from './CKBAPI'
 import { ETHAPI } from './ETHAPI'
 import { ETCAPI } from './ETCAPI'
 import { EOSAPI } from './EOSAPI'
@@ -24,6 +25,7 @@ export {
   BSVAPI,
   LTCAPI,
   DASHAPI,
+  CKBAPI,
   ETHAPI,
   ETCAPI,
   EOSAPI,
@@ -41,6 +43,7 @@ export default {
   bsv: BSVAPI,
   ltc: LTCAPI,
   dash: DASHAPI,
+  ckb: CKBAPI,
   eth: ETHAPI,
   etc: ETCAPI,
   eos: EOSAPI,

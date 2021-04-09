@@ -839,6 +839,201 @@
       },
     })
 
+    Vue.component('ckb-test', {
+      mixins: [btcLike],
+      template: `
+         <div class="row">
+          <div class="col">
+            <div :id="chain + '-test'" class="card">
+              <div class="card-header">
+                <h2>{{ chain.toUpperCase() }}</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">sign/sendTransaction</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">rawTransaction</span>
+                        </div>
+                        <v-jsoneditor :cache="chain + '-rawTransaction'" v-model="tx.rawTransaction"></v-jsoneditor>
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">unspents</span>
+                        </div>
+                        <v-jsoneditor :cache="chain + '-unspents'" v-model="tx.unspents"></v-jsoneditor>
+                      </div>
+
+                      <button class="btn btn-primary" @click.prevent="sign">sign</button>
+                      <button class="btn btn-primary" @click.prevent="sendTransaction">sendTransaction</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      data () {
+        return {
+          chain: 'ckb',
+          tx: {
+            rawTransaction: {
+              "cell_deps": [
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x0",
+                    "tx_hash": "0xb4353dd3ada2b41b8932edbd853a853e81d50b4c8648c1afd93384b946425d15"
+                  }
+                },
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x0",
+                    "tx_hash": "0xbc4dec1c2a3b1a9bf76df3a66357c62ec4b543abb595b3ed10fe64e126efc509"
+                  }
+                },
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x0",
+                    "tx_hash": "0x81dcb5613ceb37c77e107e4efbfb1511d10d4be032d7d115f8174440b3f3caa4"
+                  }
+                },
+                {
+                  "dep_type": "dep_group",
+                  "out_point": {
+                    "index": "0x0",
+                    "tx_hash": "0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37"
+                  }
+                },
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x0",
+                    "tx_hash": "0x86b2cf4f5ab1e9c1da48a50f3e7a1d4ea563ec083a3a4e47d65342fb1aaaa158"
+                  }
+                },
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x0",
+                    "tx_hash": "0x88462008b19c9ac86fb9fef7150c4f6ef7305d457d6b200c8852852012923bf1"
+                  }
+                },
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x1",
+                    "tx_hash": "0x5c9831fe3c0da1ae3ae8037f4344e364c5e2ac7784b1c869b1e1eb326341ca00"
+                  }
+                },
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x1",
+                    "tx_hash": "0xb856324168a3b9d3ed0495594dd5630cbd18004c929c9a0ecdd8a051bff4d384"
+                  }
+                },
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x0",
+                    "tx_hash": "0x6f7cee79786c117e3438acc36466749fad31f19d0eae7118640903c336b4c1e8"
+                  }
+                },
+                {
+                  "dep_type": "code",
+                  "out_point": {
+                    "index": "0x0",
+                    "tx_hash": "0xe807eaca4be452cf5e00980a36fbafa73e5164852cf7e9b06726833fc8fa427d"
+                  }
+                }
+              ],
+              "header_deps": [],
+              "inputs": [
+                {
+                  "previous_output": {
+                    "index": "0x0",
+                    "tx_hash": "0xd96700ea938476e2741f729dd0d6277a15980dc0286c2d5f63642c07d165a755"
+                  },
+                  "since": "0x0"
+                },
+                {
+                  "previous_output": {
+                    "index": "0x1",
+                    "tx_hash": "0x02a8f3ee64f6f466335bb5bbe6eade3f782d78f464da829bcfe738351a01c7e6"
+                  },
+                  "since": "0x0"
+                }
+              ],
+              "outputs": [
+                {
+                  "capacity": "0x90a267c400",
+                  "lock": {
+                    "args": "0x",
+                    "code_hash": "0xf1ef61b6977508d9ec56fe43399a01e576086a76cf0f7c687d1418335e8c401f",
+                    "hash_type": "type"
+                  },
+                  "type": {
+                    "args": "0x",
+                    "code_hash": "0x92d6a9525b9a054222982ab4740be6fe4281e65fff52ab252e7daf9306e12e3f",
+                    "hash_type": "type"
+                  }
+                },
+                {
+                  "capacity": "0x13db8ddf7ec0",
+                  "lock": {
+                    "args": "0x5eb00c0e51afb537fc8071810034ce92f98c3259",
+                    "code_hash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                    "hash_type": "type"
+                  },
+                  "type": null
+                }
+              ],
+              "outputs_data": [
+                "0x46e374a86f739a30c96afd285a895be59cf3b30d031c1e3efb4b05ee72ee1320504ca4adb5e4c446d525",
+                "0x"
+              ],
+              "version": "0x0",
+              "witnesses": [
+                "0x",
+                "0x",
+                "0x64617300000000200000000c0000001c0000000c0000007072655f726567697374657200000000",
+                "0x6461730700000060010000100000001400000018000000008d27002c0100004801000028000000480000006800000088000000a8000000c8000000e80000000801000028010000a2c3a2b18da897bd24391a921956e45d245b46169d6acc9a0663316d15b51cb192d6a9525b9a054222982ab4740be6fe4281e65fff52ab252e7daf9306e12e3f4154b5f9114b8d2dd8323eead5d5e71d0959a2dc73f0672e829ae4dabffdb2d8e79953f024552e6130220a03d2497dc7c2f784f4297c69ba21d0c423915350e5274775e475c1252b5333c20e1512b7b1296c4c5b52a25aa2ebd6e41f5894c41f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009878b226df9465c215fd3c94dc9f9bf6648d5bea48a24579cf83274fe13801d2",
+                "0x646173080000005b04000034000000380000003c00000040000000ec02000018040000190400001a0400001b0400001f040000230400004f0400000100000080160000e8030000ac020000100000004c000000bf0000003c00000010000000140000001500000000000000012700000010000000180000002000000004000000f09f988204000000f09f918d03000000e29ca87300000010000000140000001500000001000000015e0000002c00000031000000360000003b00000040000000450000004a0000004f00000054000000590000000100000030010000003101000000320100000033010000003401000000350100000036010000003701000000380100000039ed0100001000000014000000150000000200000000d8010000d4000000d9000000de000000e3000000e8000000ed000000f2000000f7000000fc00000001010000060100000b01000010010000150100001a0100001f01000024010000290100002e01000033010000380100003d01000042010000470100004c01000051010000560100005b01000060010000650100006a0100006f01000074010000790100007e01000083010000880100008d01000092010000970100009c010000a1010000a6010000ab010000b0010000b5010000ba010000bf010000c4010000c9010000ce010000d3010000010000006101000000620100000063010000006401000000650100000066010000006701000000680100000069010000006a010000006b010000006c010000006d010000006e010000006f0100000070010000007101000000720100000073010000007401000000750100000076010000007701000000780100000079010000007a010000004101000000420100000043010000004401000000450100000046010000004701000000480100000049010000004a010000004b010000004c010000004d010000004e010000004f0100000050010000005101000000520100000053010000005401000000550100000056010000005701000000580100000059010000005a2c01000024000000450000006600000087000000a8000000c9000000ea0000000b0100002100000010000000110000001900000001001bb70000000000804f1200000000002100000010000000110000001900000002c0d8a70000000000e0c81000000000002100000010000000110000001900000003809698000000000040420f000000000021000000100000001100000019000000044054890000000000a0bb0d0000000000210000001000000011000000190000000500127a000000000000350c00000000002100000010000000110000001900000006c0cf6a000000000060ae0a00000000002100000010000000110000001900000007808d5b0000000000c0270900000000002100000010000000110000001900000008404b4c000000000020a107000000000002010432000000320000002c000000180000001c000000200000002400000028000000e8030000e8030000401f000090010000640000000c00000008000000f4010000",
+                "0x64617309000000b8000000080000400000000000012004008200000001080000400208000400820100010000003000001200000000002000140a000008000400000800003202004090000200000000010110000000040000100400100080a14001a00110000000000400000000000000402000007042008000202000000080008050120000001000000800200100000002100000000000010001000600010800800000008a4000300020000000000000100081000000400600000080000020",
+                "0x6461730600000003020000100000001000000010000000f30100001000000014000000180000000000000001000000d7010000d701000028000000f40000003d0100008601000094010000a2010000c3010000cb010000cf010000cc00000024000000390000004e00000063000000780000008d000000a2000000b7000000150000000c00000010000000010000000100000030150000000c00000010000000010000000100000030150000000c00000010000000010000000100000030150000000c00000010000000010000000100000030150000000c00000010000000010000000100000030150000000c00000010000000010000000100000030150000000c00000010000000010000000100000030150000000c000000100000000100000001000000304900000010000000300000003100000058c5f491aba6d61678b7cf7edf4910b1f5e00ec0cde2f42e0abb4fd9aff25a6301140000003a3b2c61fab39841f472ad5489d9b727426a45784900000010000000300000003100000058c5f491aba6d61678b7cf7edf4910b1f5e00ec0cde2f42e0abb4fd9aff25a6301140000003a3b2c61fab39841f472ad5489d9b727426a45780a000000606f15d9fea831af64840a000000606f15d9fea831af64842100000010000000110000001900000008404b4c000000000020a1070000000000e8030000000000000000000059646d6000000000"
+              ]
+            },
+            unspents: [
+              {
+                txId: '0xd96700ea938476e2741f729dd0d6277a15980dc0286c2d5f63642c07d165a755',
+                vout: 0,
+                address: 'ckb1qyq9avqvpeg6ldfhljq8rqgqxn8f97vvxfvs8x0ahu',
+                value: 16600000000,
+              },
+              {
+                txId: '0x02a8f3ee64f6f466335bb5bbe6eade3f782d78f464da829bcfe738351a01c7e6',
+                vout: 1,
+                address: 'ckb1qyq9avqvpeg6ldfhljq8rqgqxn8f97vvxfvs8x0ahu',
+                value: 22438399000000,
+              }
+            ]
+          }
+        }
+      },
+      methods: {
+        async sendTransaction () {
+          const ret = await ABCWallet[this.chain].sendTransaction({ rawTransaction: this.tx.rawTransaction })
+          console.log('Transaction ID:', ret)
+        }
+      }
+    })
+
     Vue.component('eth-test', {
       template: `
          <div class="row">
@@ -1104,6 +1299,7 @@
           <bsv-test></bsv-test>
           <ltc-test></ltc-test>
           <dash-test></dash-test>
+          <ckb-test></ckb-test>
           <eth-test></eth-test>
           <eos-test></eos-test>
           <private-test></private-test>
@@ -1119,6 +1315,7 @@
               <li><a href="#bsv-test">bsv-test</a></li>
               <li><a href="#ltc-test">ltc-test</a></li>
               <li><a href="#dash-test">dash-test</a></li>
+              <li><a href="#ckb-test">ckb-test</a></li>
               <li><a href="#eth-test">eth-test</a></li>
               <li><a href="#eos-test">eos-test</a></li>
               <li><a href="#private-test">private-test</a></li>
