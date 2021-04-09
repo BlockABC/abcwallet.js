@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/BlockABC/abcwallet.js/compare/v1.4.2...v1.5.0) (2021-04-09)
+
+
+### Features
+
+* add new API for ckb ([1b3d6bd](https://github.com/BlockABC/abcwallet.js/commit/1b3d6bd892c4bb31b930b1ddaf13e1bfc73e32aa))
+
 ## [1.4.2](https://github.com/BlockABC/abcwallet.js/compare/v1.4.1...v1.4.2) (2020-08-10)
 
 

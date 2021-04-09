@@ -540,6 +540,29 @@ function toSource(func) {
 
 /***/ }),
 /* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseAPI = void 0;
+var BaseAPI = /** @class */ (function () {
+    function BaseAPI(abcwallet) {
+        this._abcwallet = abcwallet;
+    }
+    BaseAPI.prototype._request = function (payload, isNotify) {
+        if (isNotify === void 0) { isNotify = false; }
+        payload.namespace = this._namespace;
+        return this._abcwallet.request(payload, isNotify);
+    };
+    return BaseAPI;
+}());
+exports.BaseAPI = BaseAPI;
+exports.default = BaseAPI;
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -581,7 +604,7 @@ function isArrayLike(value) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -613,7 +636,7 @@ function isIndex(value, length) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -657,7 +680,7 @@ function eq(value, other) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -678,7 +701,7 @@ function listCacheClear() {
 /* harmony default export */ var _listCacheClear = (listCacheClear);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
-var eq = __webpack_require__(11);
+var eq = __webpack_require__(12);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_assocIndexOf.js
 
@@ -843,7 +866,7 @@ ListCache.prototype.set = _listCacheSet;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1017,7 +1040,7 @@ function castPath(value, object) {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1033,7 +1056,7 @@ var Map = Object(_getNative_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1043,7 +1066,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.invokeNative = exports.isDocumentHidden = exports.verifyParams = exports.isRequest = void 0;
-var every_1 = __importDefault(__webpack_require__(71));
+var every_1 = __importDefault(__webpack_require__(72));
 var isNil_1 = __importDefault(__webpack_require__(42));
 var error_1 = __webpack_require__(50);
 function isRequest(obj) {
@@ -1113,29 +1136,6 @@ function invokeNative(schema, timeout) {
     });
 }
 exports.invokeNative = invokeNative;
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseAPI = void 0;
-var BaseAPI = /** @class */ (function () {
-    function BaseAPI(abcwallet) {
-        this._abcwallet = abcwallet;
-    }
-    BaseAPI.prototype._request = function (payload, isNotify) {
-        if (isNotify === void 0) { isNotify = false; }
-        payload.namespace = this._namespace;
-        return this._abcwallet.request(payload, isNotify);
-    };
-    return BaseAPI;
-}());
-exports.BaseAPI = BaseAPI;
-exports.default = BaseAPI;
 
 
 /***/ }),
@@ -1308,10 +1308,10 @@ Hash.prototype.set = _hashSet;
 /* harmony default export */ var _Hash = (Hash);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_ListCache.js + 6 modules
-var _ListCache = __webpack_require__(12);
+var _ListCache = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_Map.js
-var _Map = __webpack_require__(14);
+var _Map = __webpack_require__(15);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_mapCacheClear.js
 
@@ -1611,7 +1611,7 @@ function isKey(value, object) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _castPath_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _castPath_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
 /* harmony import */ var _toKey_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
@@ -1646,7 +1646,7 @@ function baseGet(object, path) {
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_ListCache.js + 6 modules
-var _ListCache = __webpack_require__(12);
+var _ListCache = __webpack_require__(13);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_stackClear.js
 
@@ -1718,7 +1718,7 @@ function stackHas(key) {
 /* harmony default export */ var _stackHas = (stackHas);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_Map.js
-var _Map = __webpack_require__(14);
+var _Map = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_MapCache.js + 14 modules
 var _MapCache = __webpack_require__(17);
@@ -1924,10 +1924,11 @@ function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
   if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
     return false;
   }
-  // Assume cyclic values are equal.
-  var stacked = stack.get(array);
-  if (stacked && stack.get(other)) {
-    return stacked == other;
+  // Check that cyclic values are equal.
+  var arrStacked = stack.get(array);
+  var othStacked = stack.get(other);
+  if (arrStacked && othStacked) {
+    return arrStacked == other && othStacked == array;
   }
   var index = -1,
       result = true,
@@ -1994,7 +1995,7 @@ var Uint8Array = _root["a" /* default */].Uint8Array;
 /* harmony default export */ var _Uint8Array = (Uint8Array);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
-var eq = __webpack_require__(11);
+var eq = __webpack_require__(12);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_mapToArray.js
 /**
@@ -2219,10 +2220,11 @@ function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
       return false;
     }
   }
-  // Assume cyclic values are equal.
-  var stacked = stack.get(object);
-  if (stacked && stack.get(other)) {
-    return stacked == other;
+  // Check that cyclic values are equal.
+  var objStacked = stack.get(object);
+  var othStacked = stack.get(other);
+  if (objStacked && othStacked) {
+    return objStacked == other && othStacked == object;
   }
   var result = true;
   stack.set(object, other);
@@ -2710,13 +2712,13 @@ function baseHasIn(object, key) {
 /* harmony default export */ var _baseHasIn = (baseHasIn);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_castPath.js + 3 modules
-var _castPath = __webpack_require__(13);
+var _castPath = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArguments.js + 1 modules
 var isArguments = __webpack_require__(38);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIndex.js
-var _isIndex = __webpack_require__(10);
+var _isIndex = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isLength.js
 var isLength = __webpack_require__(19);
@@ -3020,7 +3022,7 @@ function baseKeys(object) {
 /* harmony default export */ var _baseKeys = (baseKeys);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArrayLike.js
-var isArrayLike = __webpack_require__(9);
+var isArrayLike = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/keys.js
 
@@ -3072,10 +3074,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -3223,10 +3227,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -3237,7 +3243,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChainBaseAPI = void 0;
-var BaseAPI_1 = __importDefault(__webpack_require__(16));
+var BaseAPI_1 = __importDefault(__webpack_require__(9));
 var ChainBaseAPI = /** @class */ (function (_super) {
     __extends(ChainBaseAPI, _super);
     function ChainBaseAPI() {
@@ -3698,7 +3704,7 @@ var isArray = __webpack_require__(0);
 var isBuffer = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIndex.js
-var _isIndex = __webpack_require__(10);
+var _isIndex = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isTypedArray.js + 2 modules
 var isTypedArray = __webpack_require__(35);
@@ -4164,15 +4170,18 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
     function Logger(name, defaultLevel, factory) {
       var self = this;
       var currentLevel;
+
       var storageKey = "loglevel";
-      if (name) {
+      if (typeof name === "string") {
         storageKey += ":" + name;
+      } else if (typeof name === "symbol") {
+        storageKey = undefined;
       }
 
       function persistLevelIfPossible(levelNum) {
           var levelName = (logMethods[levelNum] || 'silent').toUpperCase();
 
-          if (typeof window === undefinedType) return;
+          if (typeof window === undefinedType || !storageKey) return;
 
           // Use localStorage if available
           try {
@@ -4190,7 +4199,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
       function getPersistedLevel() {
           var storedLevel;
 
-          if (typeof window === undefinedType) return;
+          if (typeof window === undefinedType || !storageKey) return;
 
           try {
               storedLevel = window.localStorage[storageKey];
@@ -4283,7 +4292,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
 
     var _loggersByName = {};
     defaultLogger.getLogger = function getLogger(name) {
-        if (typeof name !== "string" || name === "") {
+        if ((typeof name !== "symbol" && typeof name !== "string") || name === "") {
           throw new TypeError("You must supply a name when creating a logger.");
         }
 
@@ -4310,6 +4319,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
         return _loggersByName;
     };
 
+    // ES6 default export, for compatibility
+    defaultLogger['default'] = defaultLogger;
+
     return defaultLogger;
 }));
 
@@ -4324,10 +4336,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -4341,10 +4355,10 @@ exports.ABCWallet = void 0;
 var uniqueId_1 = __importDefault(__webpack_require__(47));
 var isFunction_1 = __importDefault(__webpack_require__(25));
 var eventemitter3_1 = __importDefault(__webpack_require__(49));
-var helper_1 = __webpack_require__(15);
+var helper_1 = __webpack_require__(16);
 var api_1 = __importDefault(__webpack_require__(52));
-var channel_1 = __webpack_require__(66);
-var pkg = __webpack_require__(69);
+var channel_1 = __webpack_require__(67);
+var pkg = __webpack_require__(70);
 var ABCWallet = /** @class */ (function (_super) {
     __extends(ABCWallet, _super);
     function ABCWallet(logger) {
@@ -4965,10 +4979,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -4999,116 +5015,119 @@ exports.ABCWalletError = ABCWalletError;
 
 /***/ }),
 /* 51 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
 
-(function (global, factory) {
-     true ? factory(exports) :
-    undefined;
-}(this, (function (exports) {
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-    this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CustomError", function() { return CustomError; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "customErrorFactory", function() { return customErrorFactory; });
+function fixProto(target, prototype) {
+  var setPrototypeOf = Object.setPrototypeOf;
+  setPrototypeOf ? setPrototypeOf(target, prototype) : target.__proto__ = prototype;
+}
+function fixStack(target, fn) {
+  if (fn === void 0) {
+    fn = target.constructor;
+  }
 
-    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-    MERCHANTABLITY OR NON-INFRINGEMENT.
+  var captureStackTrace = Error.captureStackTrace;
+  captureStackTrace && captureStackTrace(target, fn);
+}
 
-    See the Apache Version 2.0 License for specific language governing permissions
-    and limitations under the License.
-    ***************************************************************************** */
-    /* global Reflect, Promise */
+var __extends = undefined && undefined.__extends || function () {
+  var extendStatics = function (d, b) {
+    extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) { if (b.hasOwnProperty(p)) { d[p] = b[p]; } }
+    };
 
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+  };
 
-    function __extends(d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  return function (d, b) {
+    extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
     }
 
-    function fixProto(target, prototype) {
-        var setPrototypeOf = Object.setPrototypeOf;
-        setPrototypeOf ? setPrototypeOf(target, prototype) : (target.__proto__ = prototype);
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var CustomError = function (_super) {
+  __extends(CustomError, _super);
+
+  function CustomError(message) {
+    var _newTarget = this.constructor;
+
+    var _this = _super.call(this, message) || this;
+
+    Object.defineProperty(_this, 'name', {
+      value: _newTarget.name,
+      enumerable: false,
+      configurable: true
+    });
+    fixProto(_this, _newTarget.prototype);
+    fixStack(_this);
+    return _this;
+  }
+
+  return CustomError;
+}(Error);
+
+var __spreadArrays = undefined && undefined.__spreadArrays || function () {
+  var arguments$1 = arguments;
+
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) { s += arguments$1[i].length; }
+
+  for (var r = Array(s), k = 0, i = 0; i < il; i++) { for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++) { r[k] = a[j]; } }
+
+  return r;
+};
+function customErrorFactory(fn, parent) {
+  if (parent === void 0) {
+    parent = Error;
+  }
+
+  function CustomError() {
+    var arguments$1 = arguments;
+
+    var args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments$1[_i];
     }
 
-    function fixStack(target, fn) {
-        if (fn === void 0) {
-            fn = target.constructor;
+    if (!(this instanceof CustomError)) { return new (CustomError.bind.apply(CustomError, __spreadArrays([void 0], args)))(); }
+    parent.apply(this, args);
+    Object.defineProperty(this, 'name', {
+      value: fn.name || parent.name,
+      enumerable: false,
+      configurable: true
+    });
+    fn.apply(this, args);
+    fixStack(this, CustomError);
+  }
+
+  return Object.defineProperties(CustomError, {
+    prototype: {
+      value: Object.create(parent.prototype, {
+        constructor: {
+          value: CustomError,
+          writable: true,
+          configurable: true
         }
-        var captureStackTrace = Error.captureStackTrace;
-        captureStackTrace && captureStackTrace(target, fn);
+      })
     }
+  });
+}
 
 
-
-    //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInV0aWxzLnRzKG9yaWdpbmFsKSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLFNBQVMsU0FBUyxNQUFRLEVBQUEsV0FBVztJQUN4QyxHQUFBLENBQUksaUJBQWlCLE1BQUEsQ0FBTztJQUM1QixjQUFBLEdBQ00sY0FBQSxDQUFlLFFBQVEsY0FDdEIsTUFBQSxDQUFPLFNBQVAsQ0FBQSxDQUFBLENBQW1CO0FBQzlCOztBQUNBLE9BQU8sU0FBUyxTQUFTLE1BQVEsRUFBQSxJQUFJO0lBQ2pDLElBQUksRUFBQSxDQUFBLEdBQUEsQ0FBTyxJQUFBLENBQUssR0FBRztRQUFFLEVBQUEsQ0FBQSxDQUFBLENBQUssTUFBQSxDQUFPO0lBQXJDO0lBQ0ksR0FBQSxDQUFJLG9CQUFvQixLQUFBLENBQU07SUFDOUIsaUJBQUEsQ0FBQSxFQUFBLENBQXFCLGlCQUFBLENBQWtCLFFBQVE7QUFDbkQ7O0FBVkEiLCJmaWxlIjoidXRpbHMudHMob3JpZ2luYWwpIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGZ1bmN0aW9uIGZpeFByb3RvKHRhcmdldCwgcHJvdG90eXBlKSB7XHJcbiAgICB2YXIgc2V0UHJvdG90eXBlT2YgPSBPYmplY3Quc2V0UHJvdG90eXBlT2Y7XHJcbiAgICBzZXRQcm90b3R5cGVPZlxyXG4gICAgICAgID8gc2V0UHJvdG90eXBlT2YodGFyZ2V0LCBwcm90b3R5cGUpXHJcbiAgICAgICAgOiAodGFyZ2V0Ll9fcHJvdG9fXyA9IHByb3RvdHlwZSk7XHJcbn1cclxuZXhwb3J0IGZ1bmN0aW9uIGZpeFN0YWNrKHRhcmdldCwgZm4pIHtcclxuICAgIGlmIChmbiA9PT0gdm9pZCAwKSB7IGZuID0gdGFyZ2V0LmNvbnN0cnVjdG9yOyB9XHJcbiAgICB2YXIgY2FwdHVyZVN0YWNrVHJhY2UgPSBFcnJvci5jYXB0dXJlU3RhY2tUcmFjZTtcclxuICAgIGNhcHR1cmVTdGFja1RyYWNlICYmIGNhcHR1cmVTdGFja1RyYWNlKHRhcmdldCwgZm4pO1xyXG59XHJcbi8vIyBzb3VyY2VNYXBwaW5nVVJMPXV0aWxzLmpzLm1hcCJdfQ==
-
-    var CustomError = (function (_super) {
-        __extends(CustomError, _super);
-        function CustomError(message) {
-            var _newTarget = this.constructor;
-            var _this = _super.call(this, message) || this;
-            Object.defineProperty(_this, 'name', {
-                value: _newTarget.name,
-                enumerable: false
-            });
-            fixProto(_this, _newTarget.prototype);
-            fixStack(_this);
-            return _this;
-        }
-        
-        return CustomError;
-    })(Error);
-
-
-    //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImN1c3RvbS1lcnJvci50cyhvcmlnaW5hbCkiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsWUFBWSxhQUFhO0FBQ3pCLFFBQVMsVUFBVSxlQUFnQjtBQUNuQyxHQUFBLENBQUksZUFBZSxVQUFVLFFBQVE7SUFDakMsT0FBQSxDQUFRLFNBQVIsQ0FBa0IsYUFBYTtJQUMvQixTQUFTLFlBQVksU0FBUztRQUMxQixHQUFBLENBQUksYUFBYSxJQUFBLENBQUs7UUFDdEIsR0FBQSxDQUFJLFFBQVEsTUFBQSxDQUFPLElBQVAsQ0FBWSxNQUFNLFFBQWxCLENBQUEsRUFBQSxDQUE4QjtRQUMxQyxNQUFBLENBQU8sY0FBUCxDQUFzQixPQUFPLFFBQVE7WUFDakMsT0FBTyxVQUFBLENBQVcsSUFEZSxDQUFBO1lBRWpDLFlBQVk7O1FBRWhCLFFBQUEsQ0FBUyxPQUFPLFVBQUEsQ0FBVztRQUMzQixRQUFBLENBQVM7UUFDVCxPQUFPO0lBQ2Y7O0lBQ0ksT0FBTztBQUNYLEVBZG1CLENBY2pCO0FBQ0YsT0FBQSxDQUFTO0FBakJUIiwiZmlsZSI6ImN1c3RvbS1lcnJvci50cyhvcmlnaW5hbCkiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyB0c2xpYl8xIGZyb20gXCJ0c2xpYlwiO1xyXG5pbXBvcnQgeyBmaXhQcm90bywgZml4U3RhY2sgfSBmcm9tICcuL3V0aWxzJztcclxudmFyIEN1c3RvbUVycm9yID0gKGZ1bmN0aW9uIChfc3VwZXIpIHtcclxuICAgIHRzbGliXzEuX19leHRlbmRzKEN1c3RvbUVycm9yLCBfc3VwZXIpO1xyXG4gICAgZnVuY3Rpb24gQ3VzdG9tRXJyb3IobWVzc2FnZSkge1xyXG4gICAgICAgIHZhciBfbmV3VGFyZ2V0ID0gdGhpcy5jb25zdHJ1Y3RvcjtcclxuICAgICAgICB2YXIgX3RoaXMgPSBfc3VwZXIuY2FsbCh0aGlzLCBtZXNzYWdlKSB8fCB0aGlzO1xyXG4gICAgICAgIE9iamVjdC5kZWZpbmVQcm9wZXJ0eShfdGhpcywgJ25hbWUnLCB7XHJcbiAgICAgICAgICAgIHZhbHVlOiBfbmV3VGFyZ2V0Lm5hbWUsXHJcbiAgICAgICAgICAgIGVudW1lcmFibGU6IGZhbHNlLFxyXG4gICAgICAgIH0pO1xyXG4gICAgICAgIGZpeFByb3RvKF90aGlzLCBfbmV3VGFyZ2V0LnByb3RvdHlwZSk7XHJcbiAgICAgICAgZml4U3RhY2soX3RoaXMpO1xyXG4gICAgICAgIHJldHVybiBfdGhpcztcclxuICAgIH1cclxuICAgIHJldHVybiBDdXN0b21FcnJvcjtcclxufShFcnJvcikpO1xyXG5leHBvcnQgeyBDdXN0b21FcnJvciB9O1xyXG4vLyMgc291cmNlTWFwcGluZ1VSTD1jdXN0b20tZXJyb3IuanMubWFwIl19
-
-    function customErrorFactory(fn, parent) {
-        if (parent === void 0) {
-            parent = Error;
-        }
-        function CustomError() {
-            var args = [];
-            for (var _i = 0;_i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            if (!(this instanceof CustomError)) 
-                return new (CustomError.bind.apply(CustomError, [void 0].concat(args)))();
-            parent.apply(this, args);
-            fn.apply(this, args);
-            this.name = fn.name || parent.name;
-            fixStack(this, CustomError);
-        }
-        
-        return Object.defineProperties(CustomError, {
-            prototype: {
-                value: Object.create(parent.prototype, {
-                    constructor: {
-                        value: CustomError,
-                        writable: true,
-                        configurable: true
-                    }
-                })
-            }
-        });
-    }
-
-
-
-    //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZhY3RvcnkudHMob3JpZ2luYWwpIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLFFBQVMsZUFBZ0I7QUFDekIsT0FBTyxTQUFTLG1CQUFtQixFQUFJLEVBQUEsUUFBUTtJQUMzQyxJQUFJLE1BQUEsQ0FBQSxHQUFBLENBQVcsSUFBQSxDQUFLLEdBQUc7UUFBRSxNQUFBLENBQUEsQ0FBQSxDQUFTO0lBQXRDO0lBQ0ksU0FBUyxjQUFjO1FBQ25CLEdBQUEsQ0FBSSxPQUFPO1FBQ1gsS0FBSyxHQUFBLENBQUksS0FBSyxFQUFHLEVBQUEsQ0FBQSxDQUFBLENBQUssU0FBQSxDQUFVLFFBQVEsRUFBQSxJQUFNO1lBQzFDLElBQUEsQ0FBSyxHQUFMLENBQUEsQ0FBQSxDQUFXLFNBQUEsQ0FBVTtRQUNqQztRQUNRLElBQUksRUFBRSxJQUFBLENBQUEsVUFBQSxDQUFnQjtZQUNsQixPQUFPLEtBQUssV0FBQSxDQUFZLElBQVosQ0FBaUIsS0FBakIsQ0FBdUIsYUFBYSxDQUFDLElBQUEsQ0FBSyxFQUFOLENBQVMsTUFBVCxDQUFnQixPQUF6RDtRQUNYLE1BQUEsQ0FBTyxLQUFQLENBQWEsTUFBTTtRQUNuQixFQUFBLENBQUcsS0FBSCxDQUFTLE1BQU07UUFDZixJQUFBLENBQUssSUFBTCxDQUFBLENBQUEsQ0FBWSxFQUFBLENBQUcsSUFBSCxDQUFBLEVBQUEsQ0FBVyxNQUFBLENBQU87UUFDOUIsUUFBQSxDQUFTLE1BQU07SUFDdkI7O0lBQ0ksT0FBTyxNQUFBLENBQU8sZ0JBQVAsQ0FBd0IsYUFBYTtRQUN4QyxXQUFXO1lBQ1AsT0FBTyxNQUFBLENBQU8sTUFBUCxDQUFjLE1BQUEsQ0FBTyxXQUFXO2dCQUNuQyxhQUFhO29CQUNULE9BQU8sV0FERSxDQUFBO29CQUVULFVBQVUsSUFGRCxDQUFBO29CQUdULGNBQWM7Ozs7O0FBS2xDOztBQTFCQSIsImZpbGUiOiJmYWN0b3J5LnRzKG9yaWdpbmFsKSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGZpeFN0YWNrIH0gZnJvbSAnLi91dGlscyc7XHJcbmV4cG9ydCBmdW5jdGlvbiBjdXN0b21FcnJvckZhY3RvcnkoZm4sIHBhcmVudCkge1xyXG4gICAgaWYgKHBhcmVudCA9PT0gdm9pZCAwKSB7IHBhcmVudCA9IEVycm9yOyB9XHJcbiAgICBmdW5jdGlvbiBDdXN0b21FcnJvcigpIHtcclxuICAgICAgICB2YXIgYXJncyA9IFtdO1xyXG4gICAgICAgIGZvciAodmFyIF9pID0gMDsgX2kgPCBhcmd1bWVudHMubGVuZ3RoOyBfaSsrKSB7XHJcbiAgICAgICAgICAgIGFyZ3NbX2ldID0gYXJndW1lbnRzW19pXTtcclxuICAgICAgICB9XHJcbiAgICAgICAgaWYgKCEodGhpcyBpbnN0YW5jZW9mIEN1c3RvbUVycm9yKSlcclxuICAgICAgICAgICAgcmV0dXJuIG5ldyAoQ3VzdG9tRXJyb3IuYmluZC5hcHBseShDdXN0b21FcnJvciwgW3ZvaWQgMF0uY29uY2F0KGFyZ3MpKSkoKTtcclxuICAgICAgICBwYXJlbnQuYXBwbHkodGhpcywgYXJncyk7XHJcbiAgICAgICAgZm4uYXBwbHkodGhpcywgYXJncyk7XHJcbiAgICAgICAgdGhpcy5uYW1lID0gZm4ubmFtZSB8fCBwYXJlbnQubmFtZTtcclxuICAgICAgICBmaXhTdGFjayh0aGlzLCBDdXN0b21FcnJvcik7XHJcbiAgICB9XHJcbiAgICByZXR1cm4gT2JqZWN0LmRlZmluZVByb3BlcnRpZXMoQ3VzdG9tRXJyb3IsIHtcclxuICAgICAgICBwcm90b3R5cGU6IHtcclxuICAgICAgICAgICAgdmFsdWU6IE9iamVjdC5jcmVhdGUocGFyZW50LnByb3RvdHlwZSwge1xyXG4gICAgICAgICAgICAgICAgY29uc3RydWN0b3I6IHtcclxuICAgICAgICAgICAgICAgICAgICB2YWx1ZTogQ3VzdG9tRXJyb3IsXHJcbiAgICAgICAgICAgICAgICAgICAgd3JpdGFibGU6IHRydWUsXHJcbiAgICAgICAgICAgICAgICAgICAgY29uZmlndXJhYmxlOiB0cnVlLFxyXG4gICAgICAgICAgICAgICAgfSxcclxuICAgICAgICAgICAgfSksXHJcbiAgICAgICAgfSxcclxuICAgIH0pO1xyXG59XHJcbi8vIyBzb3VyY2VNYXBwaW5nVVJMPWZhY3RvcnkuanMubWFwIl19
-
-    //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LnRzKG9yaWdpbmFsKSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxjQUFjLGdCQUFBO0FBQ2QsY0FBYyxXQUFBO0FBRGQiLCJmaWxlIjoiaW5kZXgudHMob3JpZ2luYWwpIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0ICogZnJvbSAnLi9jdXN0b20tZXJyb3InO1xyXG5leHBvcnQgKiBmcm9tICcuL2ZhY3RvcnknO1xyXG4vLyMgc291cmNlTWFwcGluZ1VSTD1pbmRleC5qcy5tYXAiXX0=
-
-    exports.CustomError = CustomError;
-    exports.customErrorFactory = customErrorFactory;
-
-})));
-//# sourceMappingURL=custom-error.umd.js.map
+//# sourceMappingURL=custom-error.mjs.map
 
 
 /***/ }),
@@ -5118,7 +5137,7 @@ exports.ABCWalletError = ABCWalletError;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BrowserAPI = exports.EOSAPI = exports.ETCAPI = exports.ETHAPI = exports.DASHAPI = exports.LTCAPI = exports.BSVAPI = exports.BCHAPI = exports.BTCAPI = exports.PrivateAPI = exports.ABCIDAPI = exports.PartnerAPI = exports.DappAPI = exports.WebviewAPI = void 0;
+exports.BrowserAPI = exports.EOSAPI = exports.ETCAPI = exports.ETHAPI = exports.CKBAPI = exports.DASHAPI = exports.LTCAPI = exports.BSVAPI = exports.BCHAPI = exports.BTCAPI = exports.PrivateAPI = exports.ABCIDAPI = exports.PartnerAPI = exports.DappAPI = exports.WebviewAPI = void 0;
 var WebviewAPI_1 = __webpack_require__(53);
 Object.defineProperty(exports, "WebviewAPI", { enumerable: true, get: function () { return WebviewAPI_1.WebviewAPI; } });
 var DappAPI_1 = __webpack_require__(54);
@@ -5139,13 +5158,15 @@ var LTCAPI_1 = __webpack_require__(60);
 Object.defineProperty(exports, "LTCAPI", { enumerable: true, get: function () { return LTCAPI_1.LTCAPI; } });
 var DASHAPI_1 = __webpack_require__(61);
 Object.defineProperty(exports, "DASHAPI", { enumerable: true, get: function () { return DASHAPI_1.DASHAPI; } });
-var ETHAPI_1 = __webpack_require__(62);
+var CKBAPI_1 = __webpack_require__(62);
+Object.defineProperty(exports, "CKBAPI", { enumerable: true, get: function () { return CKBAPI_1.CKBAPI; } });
+var ETHAPI_1 = __webpack_require__(63);
 Object.defineProperty(exports, "ETHAPI", { enumerable: true, get: function () { return ETHAPI_1.ETHAPI; } });
-var ETCAPI_1 = __webpack_require__(63);
+var ETCAPI_1 = __webpack_require__(64);
 Object.defineProperty(exports, "ETCAPI", { enumerable: true, get: function () { return ETCAPI_1.ETCAPI; } });
-var EOSAPI_1 = __webpack_require__(64);
+var EOSAPI_1 = __webpack_require__(65);
 Object.defineProperty(exports, "EOSAPI", { enumerable: true, get: function () { return EOSAPI_1.EOSAPI; } });
-var BrowserAPI_1 = __webpack_require__(65);
+var BrowserAPI_1 = __webpack_require__(66);
 Object.defineProperty(exports, "BrowserAPI", { enumerable: true, get: function () { return BrowserAPI_1.BrowserAPI; } });
 exports.default = {
     webview: WebviewAPI_1.WebviewAPI,
@@ -5158,6 +5179,7 @@ exports.default = {
     bsv: BSVAPI_1.BSVAPI,
     ltc: LTCAPI_1.LTCAPI,
     dash: DASHAPI_1.DASHAPI,
+    ckb: CKBAPI_1.CKBAPI,
     eth: ETHAPI_1.ETHAPI,
     etc: ETCAPI_1.ETCAPI,
     eos: EOSAPI_1.EOSAPI,
@@ -5175,10 +5197,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5190,9 +5214,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WebviewAPI = void 0;
 var isNil_1 = __importDefault(__webpack_require__(42));
-var omitBy_1 = __importDefault(__webpack_require__(70));
-var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __importDefault(__webpack_require__(16));
+var omitBy_1 = __importDefault(__webpack_require__(71));
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(9));
 var WebviewAPI = /** @class */ (function (_super) {
     __extends(WebviewAPI, _super);
     function WebviewAPI() {
@@ -5281,10 +5305,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5295,8 +5321,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DappAPI = void 0;
-var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __importDefault(__webpack_require__(16));
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(9));
 var DappAPI = /** @class */ (function (_super) {
     __extends(DappAPI, _super);
     function DappAPI() {
@@ -5357,10 +5383,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5371,8 +5399,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PartnerAPI = void 0;
-var BaseAPI_1 = __importDefault(__webpack_require__(16));
-var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __importDefault(__webpack_require__(9));
+var helper_1 = __webpack_require__(16);
 var PartnerAPI = /** @class */ (function (_super) {
     __extends(PartnerAPI, _super);
     function PartnerAPI() {
@@ -5430,10 +5458,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5444,8 +5474,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ABCIDAPI = void 0;
-var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __importDefault(__webpack_require__(16));
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(9));
 var ABCIDAPI = /** @class */ (function (_super) {
     __extends(ABCIDAPI, _super);
     function ABCIDAPI() {
@@ -5496,10 +5526,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5510,8 +5542,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrivateAPI = void 0;
-var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __importDefault(__webpack_require__(16));
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(9));
 var PrivateAPI = /** @class */ (function (_super) {
     __extends(PrivateAPI, _super);
     function PrivateAPI() {
@@ -5570,10 +5602,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5608,10 +5642,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5646,10 +5682,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5684,10 +5722,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5722,10 +5762,65 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CKBAPI = void 0;
+var BaseAPI_1 = __importDefault(__webpack_require__(9));
+var CKBAPI = /** @class */ (function (_super) {
+    __extends(CKBAPI, _super);
+    function CKBAPI() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._namespace = 'ckb';
+        return _this;
+    }
+    CKBAPI.prototype.sign = function (params) {
+        console.log(params);
+        return this._request({
+            method: 'sign',
+            params: params
+        });
+    };
+    CKBAPI.prototype.sendTransaction = function (params) {
+        return this._request({
+            method: 'sendTransaction',
+            params: params
+        });
+    };
+    return CKBAPI;
+}(BaseAPI_1.default));
+exports.CKBAPI = CKBAPI;
+exports.default = CKBAPI;
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5751,7 +5846,7 @@ exports.default = ETHAPI;
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5760,10 +5855,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5789,7 +5886,7 @@ exports.default = ETCAPI;
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5798,10 +5895,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5827,7 +5926,7 @@ exports.default = EOSAPI;
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5836,10 +5935,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5850,8 +5951,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BrowserAPI = void 0;
-var helper_1 = __webpack_require__(15);
-var BaseAPI_1 = __importDefault(__webpack_require__(16));
+var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(9));
 var BrowserAPI = /** @class */ (function (_super) {
     __extends(BrowserAPI, _super);
     function BrowserAPI() {
@@ -5873,7 +5974,7 @@ exports.default = BrowserAPI;
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5886,15 +5987,15 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     o[k2] = m[k];
 }));
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(67), exports);
 __exportStar(__webpack_require__(68), exports);
+__exportStar(__webpack_require__(69), exports);
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5914,7 +6015,7 @@ exports.default = IframeChannel;
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5984,13 +6085,13 @@ exports.default = NativeChannel;
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.4.2\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/ test/\",\"lint:nofix\":\"eslint --ext .ts src/ test/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.4\",\"lodash-es\":\"^4.17.15\",\"loglevel\":\"^1.6.8\",\"ts-custom-error\":\"^3.1.1\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.0.4\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^3.9.7\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
+module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.5.0\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/\",\"lint:nofix\":\"eslint --ext .ts src/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.0\",\"lodash-es\":\"^4.0.0\",\"loglevel\":\"^1.0.0\",\"ts-custom-error\":\"^3.0.0\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.4.0\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^4.0.0\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\",\"dotenv\":\"^8.2.0\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6092,7 +6193,7 @@ function baseAssignValue(object, key, value) {
 /* harmony default export */ var _baseAssignValue = (baseAssignValue);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
-var eq = __webpack_require__(11);
+var eq = __webpack_require__(12);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_assignValue.js
 
@@ -6125,10 +6226,10 @@ function assignValue(object, key, value) {
 /* harmony default export */ var _assignValue = (assignValue);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_castPath.js + 3 modules
-var _castPath = __webpack_require__(13);
+var _castPath = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIndex.js
-var _isIndex = __webpack_require__(10);
+var _isIndex = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObject.js
 var isObject = __webpack_require__(3);
@@ -6167,6 +6268,10 @@ function baseSet(object, path, value, customizer) {
   while (nested != null && ++index < length) {
     var key = Object(_toKey["a" /* default */])(path[index]),
         newValue = value;
+
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      return object;
+    }
 
     if (index != lastIndex) {
       var objValue = nested[key];
@@ -6331,7 +6436,7 @@ function baseKeysIn(object) {
 /* harmony default export */ var _baseKeysIn = (baseKeysIn);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArrayLike.js
-var isArrayLike = __webpack_require__(9);
+var isArrayLike = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/keysIn.js
 
@@ -6458,7 +6563,7 @@ function omitBy(object, predicate) {
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6557,7 +6662,7 @@ function baseForOwn(object, iteratee) {
 /* harmony default export */ var _baseForOwn = (baseForOwn);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArrayLike.js
-var isArrayLike = __webpack_require__(9);
+var isArrayLike = __webpack_require__(10);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_createBaseEach.js
 
@@ -6639,10 +6744,10 @@ var _baseIteratee = __webpack_require__(22);
 var isArray = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
-var eq = __webpack_require__(11);
+var eq = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIndex.js
-var _isIndex = __webpack_require__(10);
+var _isIndex = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObject.js
 var isObject = __webpack_require__(3);

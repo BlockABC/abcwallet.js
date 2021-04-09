@@ -8,11 +8,12 @@ import { BCHAPI } from './BCHAPI';
 import { BSVAPI } from './BSVAPI';
 import { LTCAPI } from './LTCAPI';
 import { DASHAPI } from './DASHAPI';
+import { CKBAPI } from './CKBAPI';
 import { ETHAPI } from './ETHAPI';
 import { ETCAPI } from './ETCAPI';
 import { EOSAPI } from './EOSAPI';
 import { BrowserAPI } from './BrowserAPI';
-export { WebviewAPI, DappAPI, PartnerAPI, ABCIDAPI, PrivateAPI, BTCAPI, BCHAPI, BSVAPI, LTCAPI, DASHAPI, ETHAPI, ETCAPI, EOSAPI, BrowserAPI, };
+export { WebviewAPI, DappAPI, PartnerAPI, ABCIDAPI, PrivateAPI, BTCAPI, BCHAPI, BSVAPI, LTCAPI, DASHAPI, CKBAPI, ETHAPI, ETCAPI, EOSAPI, BrowserAPI, };
 declare const _default: {
     webview: typeof WebviewAPI;
     dapp: typeof DappAPI;
@@ -24,6 +25,7 @@ declare const _default: {
     bsv: typeof BSVAPI;
     ltc: typeof LTCAPI;
     dash: typeof DASHAPI;
+    ckb: typeof CKBAPI;
     eth: typeof ETHAPI;
     etc: typeof ETCAPI;
     eos: typeof EOSAPI;
