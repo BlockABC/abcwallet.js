@@ -23,6 +23,20 @@ export class BTCAPI extends ChainBaseAPI {
       params
     })
   }
+
+  signMessage (params: { address: string, message: string }): Promise<void> {
+    return this._request({
+      method: 'signMessage',
+      params
+    })
+  }
+
+  verifyMessage (params: { address: string, message: string, signature: string }): Promise<void> {
+    return this._request({
+      method: 'verifyMessage',
+      params
+    })
+  }
 }
 
 export default BTCAPI
