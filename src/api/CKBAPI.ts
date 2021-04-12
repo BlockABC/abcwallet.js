@@ -1,6 +1,6 @@
-import BaseAPI from './BaseAPI'
+import ChainBaseAPI from './ChainBaseAPI'
 
-export class CKBAPI extends BaseAPI {
+export class CKBAPI extends ChainBaseAPI {
   protected _namespace = 'ckb'
 
   sign (params: { rawTransaction: any, unspents: any[] }): Promise<void> {
