@@ -1,6 +1,6 @@
 {
   "name": "abcwallet",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "The only and best SDK for ABCWallet application development.",
   "repository": "https://github.com/BlockABC/abcwallet.js",
   "license": "MIT",

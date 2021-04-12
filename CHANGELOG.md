@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/BlockABC/abcwallet.js/compare/v1.6.0...v1.7.0) (2021-04-12)
+
+
+### Features
+
+* add sendSimpleTransaction API for ckb ([9bffba2](https://github.com/BlockABC/abcwallet.js/commit/9bffba2f28428cda7035ff9b696f93fd5edb52d8))
+
 # [1.6.0](https://github.com/BlockABC/abcwallet.js/compare/v1.5.0...v1.6.0) (2021-04-09)
 
 

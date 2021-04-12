@@ -151,7 +151,7 @@ var root = _freeGlobal_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] || fre
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isFunction.js
-var isFunction = __webpack_require__(25);
+var isFunction = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_root.js
 var _root = __webpack_require__(1);
@@ -540,33 +540,10 @@ function toSource(func) {
 
 /***/ }),
 /* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseAPI = void 0;
-var BaseAPI = /** @class */ (function () {
-    function BaseAPI(abcwallet) {
-        this._abcwallet = abcwallet;
-    }
-    BaseAPI.prototype._request = function (payload, isNotify) {
-        if (isNotify === void 0) { isNotify = false; }
-        payload.namespace = this._namespace;
-        return this._abcwallet.request(payload, isNotify);
-    };
-    return BaseAPI;
-}());
-exports.BaseAPI = BaseAPI;
-exports.default = BaseAPI;
-
-
-/***/ }),
-/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _isFunction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _isFunction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
 /* harmony import */ var _isLength_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 
 
@@ -604,7 +581,7 @@ function isArrayLike(value) {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -636,7 +613,7 @@ function isIndex(value, length) {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -680,7 +657,7 @@ function eq(value, other) {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -701,7 +678,7 @@ function listCacheClear() {
 /* harmony default export */ var _listCacheClear = (listCacheClear);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
-var eq = __webpack_require__(12);
+var eq = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_assocIndexOf.js
 
@@ -866,7 +843,7 @@ ListCache.prototype.set = _listCacheSet;
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1040,7 +1017,7 @@ function castPath(value, object) {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1056,7 +1033,7 @@ var Map = Object(_getNative_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1136,6 +1113,29 @@ function invokeNative(schema, timeout) {
     });
 }
 exports.invokeNative = invokeNative;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseAPI = void 0;
+var BaseAPI = /** @class */ (function () {
+    function BaseAPI(abcwallet) {
+        this._abcwallet = abcwallet;
+    }
+    BaseAPI.prototype._request = function (payload, isNotify) {
+        if (isNotify === void 0) { isNotify = false; }
+        payload.namespace = this._namespace;
+        return this._abcwallet.request(payload, isNotify);
+    };
+    return BaseAPI;
+}());
+exports.BaseAPI = BaseAPI;
+exports.default = BaseAPI;
 
 
 /***/ }),
@@ -1308,10 +1308,10 @@ Hash.prototype.set = _hashSet;
 /* harmony default export */ var _Hash = (Hash);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_ListCache.js + 6 modules
-var _ListCache = __webpack_require__(13);
+var _ListCache = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_Map.js
-var _Map = __webpack_require__(15);
+var _Map = __webpack_require__(14);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_mapCacheClear.js
 
@@ -1611,7 +1611,7 @@ function isKey(value, object) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _castPath_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+/* harmony import */ var _castPath_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var _toKey_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 
 
@@ -1646,7 +1646,7 @@ function baseGet(object, path) {
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_ListCache.js + 6 modules
-var _ListCache = __webpack_require__(13);
+var _ListCache = __webpack_require__(12);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_stackClear.js
 
@@ -1718,7 +1718,7 @@ function stackHas(key) {
 /* harmony default export */ var _stackHas = (stackHas);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_Map.js
-var _Map = __webpack_require__(15);
+var _Map = __webpack_require__(14);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_MapCache.js + 14 modules
 var _MapCache = __webpack_require__(17);
@@ -1995,7 +1995,7 @@ var Uint8Array = _root["a" /* default */].Uint8Array;
 /* harmony default export */ var _Uint8Array = (Uint8Array);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
-var eq = __webpack_require__(12);
+var eq = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_mapToArray.js
 /**
@@ -2379,7 +2379,7 @@ if ((_DataView && getTag(new _DataView(new ArrayBuffer(1))) != _getTag_dataViewT
 var isArray = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isBuffer.js
-var isBuffer = __webpack_require__(26);
+var isBuffer = __webpack_require__(27);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isTypedArray.js + 2 modules
 var isTypedArray = __webpack_require__(35);
@@ -2712,13 +2712,13 @@ function baseHasIn(object, key) {
 /* harmony default export */ var _baseHasIn = (baseHasIn);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_castPath.js + 3 modules
-var _castPath = __webpack_require__(14);
+var _castPath = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArguments.js + 1 modules
 var isArguments = __webpack_require__(38);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIndex.js
-var _isIndex = __webpack_require__(11);
+var _isIndex = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isLength.js
 var isLength = __webpack_require__(19);
@@ -3022,7 +3022,7 @@ function baseKeys(object) {
 /* harmony default export */ var _baseKeys = (baseKeys);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArrayLike.js
-var isArrayLike = __webpack_require__(10);
+var isArrayLike = __webpack_require__(9);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/keys.js
 
@@ -3090,7 +3090,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BTCAPI = void 0;
-var ChainBaseAPI_1 = __importDefault(__webpack_require__(27));
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(25));
 var BTCAPI = /** @class */ (function (_super) {
     __extends(BTCAPI, _super);
     function BTCAPI() {
@@ -3136,6 +3136,68 @@ exports.default = BTCAPI;
 
 /***/ }),
 /* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ChainBaseAPI = void 0;
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
+var ChainBaseAPI = /** @class */ (function (_super) {
+    __extends(ChainBaseAPI, _super);
+    function ChainBaseAPI() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ChainBaseAPI.prototype.pushSimpleTransaction = function (params) {
+        return this._request({
+            method: 'pushSimpleTransaction',
+            params: {}
+        });
+    };
+    ChainBaseAPI.prototype.getAddressFromAddressBook = function () {
+        return this._request({
+            method: 'getAddressFromAddressBook',
+            params: {}
+        });
+    };
+    ChainBaseAPI.prototype.getAddressFromCard = function () {
+        return this._request({
+            method: 'getAddressFromCard',
+            params: {}
+        });
+    };
+    ChainBaseAPI.prototype.sendSimpleTransaction = function (params) {
+        return this._request({
+            method: 'sendSimpleTransaction',
+            params: params,
+        });
+    };
+    return ChainBaseAPI;
+}(BaseAPI_1.default));
+exports.ChainBaseAPI = ChainBaseAPI;
+exports.default = ChainBaseAPI;
+
+
+/***/ }),
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3182,7 +3244,7 @@ function isFunction(value) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3228,68 +3290,6 @@ var isBuffer = nativeIsBuffer || _stubFalse_js__WEBPACK_IMPORTED_MODULE_1__[/* d
 /* harmony default export */ __webpack_exports__["a"] = (isBuffer);
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(41)(module)))
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChainBaseAPI = void 0;
-var BaseAPI_1 = __importDefault(__webpack_require__(9));
-var ChainBaseAPI = /** @class */ (function (_super) {
-    __extends(ChainBaseAPI, _super);
-    function ChainBaseAPI() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ChainBaseAPI.prototype.pushSimpleTransaction = function (params) {
-        return this._request({
-            method: 'pushSimpleTransaction',
-            params: {}
-        });
-    };
-    ChainBaseAPI.prototype.getAddressFromAddressBook = function () {
-        return this._request({
-            method: 'getAddressFromAddressBook',
-            params: {}
-        });
-    };
-    ChainBaseAPI.prototype.getAddressFromCard = function () {
-        return this._request({
-            method: 'getAddressFromCard',
-            params: {}
-        });
-    };
-    ChainBaseAPI.prototype.sendSimpleTransaction = function (params) {
-        return this._request({
-            method: 'sendSimpleTransaction',
-            params: params,
-        });
-    };
-    return ChainBaseAPI;
-}(BaseAPI_1.default));
-exports.ChainBaseAPI = ChainBaseAPI;
-exports.default = ChainBaseAPI;
-
 
 /***/ }),
 /* 28 */
@@ -3713,10 +3713,10 @@ var isArguments = __webpack_require__(38);
 var isArray = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isBuffer.js
-var isBuffer = __webpack_require__(26);
+var isBuffer = __webpack_require__(27);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIndex.js
-var _isIndex = __webpack_require__(11);
+var _isIndex = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isTypedArray.js + 2 modules
 var isTypedArray = __webpack_require__(35);
@@ -4365,9 +4365,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ABCWallet = void 0;
 var uniqueId_1 = __importDefault(__webpack_require__(47));
-var isFunction_1 = __importDefault(__webpack_require__(25));
+var isFunction_1 = __importDefault(__webpack_require__(26));
 var eventemitter3_1 = __importDefault(__webpack_require__(49));
-var helper_1 = __webpack_require__(16);
+var helper_1 = __webpack_require__(15);
 var api_1 = __importDefault(__webpack_require__(52));
 var channel_1 = __webpack_require__(67);
 var pkg = __webpack_require__(70);
@@ -5227,8 +5227,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WebviewAPI = void 0;
 var isNil_1 = __importDefault(__webpack_require__(42));
 var omitBy_1 = __importDefault(__webpack_require__(71));
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __importDefault(__webpack_require__(9));
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var WebviewAPI = /** @class */ (function (_super) {
     __extends(WebviewAPI, _super);
     function WebviewAPI() {
@@ -5333,8 +5333,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DappAPI = void 0;
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __importDefault(__webpack_require__(9));
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var DappAPI = /** @class */ (function (_super) {
     __extends(DappAPI, _super);
     function DappAPI() {
@@ -5411,8 +5411,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PartnerAPI = void 0;
-var BaseAPI_1 = __importDefault(__webpack_require__(9));
-var helper_1 = __webpack_require__(16);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
+var helper_1 = __webpack_require__(15);
 var PartnerAPI = /** @class */ (function (_super) {
     __extends(PartnerAPI, _super);
     function PartnerAPI() {
@@ -5486,8 +5486,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ABCIDAPI = void 0;
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __importDefault(__webpack_require__(9));
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var ABCIDAPI = /** @class */ (function (_super) {
     __extends(ABCIDAPI, _super);
     function ABCIDAPI() {
@@ -5554,8 +5554,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrivateAPI = void 0;
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __importDefault(__webpack_require__(9));
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var PrivateAPI = /** @class */ (function (_super) {
     __extends(PrivateAPI, _super);
     function PrivateAPI() {
@@ -5790,7 +5790,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CKBAPI = void 0;
-var BaseAPI_1 = __importDefault(__webpack_require__(9));
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(25));
 var CKBAPI = /** @class */ (function (_super) {
     __extends(CKBAPI, _super);
     function CKBAPI() {
@@ -5812,7 +5812,7 @@ var CKBAPI = /** @class */ (function (_super) {
         });
     };
     return CKBAPI;
-}(BaseAPI_1.default));
+}(ChainBaseAPI_1.default));
 exports.CKBAPI = CKBAPI;
 exports.default = CKBAPI;
 
@@ -5843,7 +5843,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ETHAPI = void 0;
-var ChainBaseAPI_1 = __importDefault(__webpack_require__(27));
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(25));
 var ETHAPI = /** @class */ (function (_super) {
     __extends(ETHAPI, _super);
     function ETHAPI() {
@@ -5883,7 +5883,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ETCAPI = void 0;
-var ChainBaseAPI_1 = __importDefault(__webpack_require__(27));
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(25));
 var ETCAPI = /** @class */ (function (_super) {
     __extends(ETCAPI, _super);
     function ETCAPI() {
@@ -5923,7 +5923,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EOSAPI = void 0;
-var ChainBaseAPI_1 = __importDefault(__webpack_require__(27));
+var ChainBaseAPI_1 = __importDefault(__webpack_require__(25));
 var EOSAPI = /** @class */ (function (_super) {
     __extends(EOSAPI, _super);
     function EOSAPI() {
@@ -5963,8 +5963,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BrowserAPI = void 0;
-var helper_1 = __webpack_require__(16);
-var BaseAPI_1 = __importDefault(__webpack_require__(9));
+var helper_1 = __webpack_require__(15);
+var BaseAPI_1 = __importDefault(__webpack_require__(16));
 var BrowserAPI = /** @class */ (function (_super) {
     __extends(BrowserAPI, _super);
     function BrowserAPI() {
@@ -6100,7 +6100,7 @@ exports.default = NativeChannel;
 /* 70 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.6.0\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/\",\"lint:nofix\":\"eslint --ext .ts src/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.0\",\"lodash-es\":\"^4.0.0\",\"loglevel\":\"^1.0.0\",\"ts-custom-error\":\"^3.0.0\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.4.0\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^4.0.0\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\",\"dotenv\":\"^8.2.0\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
+module.exports = JSON.parse("{\"name\":\"abcwallet\",\"version\":\"1.7.0\",\"description\":\"The only and best SDK for ABCWallet application development.\",\"repository\":\"https://github.com/BlockABC/abcwallet.js\",\"license\":\"MIT\",\"scripts\":{\"build\":\"npm run build:esm && npm run build:cjs && npm run build:umd\",\"build:umd\":\"webpack --mode=production --config webpack.conf.js\",\"build:esm\":\"tsc -p tsconfig.esm.json\",\"build:cjs\":\"tsc -p tsconfig.cjs.json\",\"build:analysis\":\"webpack --mode=production --env.analysis --config webpack.conf.js\",\"dev\":\"webpack-dev-server --mode=development --config webpack.conf.js\",\"lint\":\"eslint --ext .ts --fix src/\",\"lint:nofix\":\"eslint --ext .ts src/\",\"test\":\"jest\",\"test:coverage\":\"jest --collect-coverage\",\"commit\":\"npx git-cz\",\"release\":\"node release.js\",\"pm2:reload\":\"pm2 reload ecosystem.config.js --only abcwallet.js\"},\"types\":\"./types/index.d.ts\",\"files\":[\"src/\",\"cjs/\",\"esm/\",\"dist/\",\"types/\",\"public/\"],\"keywords\":[\"eospark\",\"api\",\"service\"],\"author\":\"BlockABC FE Team\",\"main\":\"./cjs/index.js\",\"module\":\"./esm/index.js\",\"browser\":\"./dist/abcwallet.umd.min.js\",\"dependencies\":{\"eventemitter3\":\"^4.0.0\",\"lodash-es\":\"^4.0.0\",\"loglevel\":\"^1.0.0\",\"ts-custom-error\":\"^3.0.0\"},\"devDependencies\":{\"@semantic-release/changelog\":\"^5.0.0\",\"@semantic-release/exec\":\"^5.0.0\",\"@semantic-release/git\":\"^9.0.0\",\"@types/jest\":\"^24.0.11\",\"@types/node\":\"^11.13.4\",\"babel-eslint\":\"^10.0.3\",\"chokidar\":\"^3.0.2\",\"commitizen\":\"^4.0.3\",\"cz-conventional-changelog\":\"^3.1.0\",\"eslint\":\"^6.2.2\",\"eslint-config-blockabc\":\"^0.9.1\",\"html-webpack-plugin\":\"^4.0.1\",\"jest\":\"^24.8.0\",\"semantic-release\":\"^17.4.0\",\"ts-jest\":\"^24.0.0\",\"ts-loader\":\"^5.0.0\",\"typescript\":\"^4.0.0\",\"webpack\":\"^4.29.6\",\"webpack-bundle-analyzer\":\"^3.3.2\",\"webpack-cli\":\"^3.3.0\",\"webpack-dev-server\":\"^3.7.2\",\"webpack-merge\":\"^4.2.1\",\"dotenv\":\"^8.2.0\"},\"config\":{\"commitizen\":{\"path\":\"./node_modules/cz-conventional-changelog\"}}}");
 
 /***/ }),
 /* 71 */
@@ -6205,7 +6205,7 @@ function baseAssignValue(object, key, value) {
 /* harmony default export */ var _baseAssignValue = (baseAssignValue);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
-var eq = __webpack_require__(12);
+var eq = __webpack_require__(11);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_assignValue.js
 
@@ -6238,10 +6238,10 @@ function assignValue(object, key, value) {
 /* harmony default export */ var _assignValue = (assignValue);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_castPath.js + 3 modules
-var _castPath = __webpack_require__(14);
+var _castPath = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIndex.js
-var _isIndex = __webpack_require__(11);
+var _isIndex = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObject.js
 var isObject = __webpack_require__(3);
@@ -6448,7 +6448,7 @@ function baseKeysIn(object) {
 /* harmony default export */ var _baseKeysIn = (baseKeysIn);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArrayLike.js
-var isArrayLike = __webpack_require__(10);
+var isArrayLike = __webpack_require__(9);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/keysIn.js
 
@@ -6674,7 +6674,7 @@ function baseForOwn(object, iteratee) {
 /* harmony default export */ var _baseForOwn = (baseForOwn);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArrayLike.js
-var isArrayLike = __webpack_require__(10);
+var isArrayLike = __webpack_require__(9);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_createBaseEach.js
 
@@ -6756,10 +6756,10 @@ var _baseIteratee = __webpack_require__(22);
 var isArray = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
-var eq = __webpack_require__(12);
+var eq = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIndex.js
-var _isIndex = __webpack_require__(11);
+var _isIndex = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObject.js
 var isObject = __webpack_require__(3);

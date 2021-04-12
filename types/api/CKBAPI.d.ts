@@ -1,5 +1,5 @@
-import BaseAPI from './BaseAPI';
-export declare class CKBAPI extends BaseAPI {
+import ChainBaseAPI from './ChainBaseAPI';
+export declare class CKBAPI extends ChainBaseAPI {
     protected _namespace: string;
     sign(params: {
         rawTransaction: any;
